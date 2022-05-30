@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import { GlobalStyle } from './style/reset'
+import { IconStyle } from './style/iconfont'
+import { HashRouter } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+
+import MyNavLink from './components/MyNavLink'
+import Home from './pages/Home';
+import Recommend from './pages/Recommend'
+import Singers from './pages/Singers';
+import Rank from './pages/Rank';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HashRouter>
+        {/* {renderRoutes(routes)} */}
+        <GlobalStyle></GlobalStyle>
+        <header className="App-header">
+          <IconStyle></IconStyle>
+          <i className="iconfont">&#xe62b;</i>
+
+          <MyNavLink key="recommend" to={'/recommend'}>recommand</MyNavLink>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/recommend' element={<Recommend />} />
+            <Route path='/singers' element={<Singers />} />
+            <Route path='/rank' element={<Rank />} />
+          </Routes>
+        </header>
+      </HashRouter>
     </div>
   );
 }
