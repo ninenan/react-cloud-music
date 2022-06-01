@@ -1,10 +1,21 @@
 import React from 'react';
-import { NavLink, Routes, Route, HashRouter } from 'react-router-dom'
+import { Outlet, NavLink } from 'react-router-dom'
 import { Top, Tab, TabItem } from './style'
 
-import Recommend from '../Recommend'
-import Singers from '../Singers';
-import Rank from '../Rank';
+const linkList = [
+  {
+    to: "/recommend",
+    title: "推荐"
+  },
+  {
+    to: "/singers",
+    title: "歌手"
+  },
+  {
+    to: "/rank",
+    title: "排行榜"
+  },
+]
 
 function Home() {
   return (
@@ -15,27 +26,17 @@ function Home() {
         <span className='iconfont search'>&#xe62b;</span>
       </Top>
       <Tab>
-        <NavLink to="/recommend">
-          <TabItem>
-            <span>推荐</span>
-          </TabItem>
-        </NavLink>
-        <NavLink to="/singers">
-          <TabItem>
-            <span>歌手</span>
-          </TabItem>
-        </NavLink>
-        <NavLink to="/rank">
-          <TabItem>
-            <span>排行榜</span>
-          </TabItem>
-        </NavLink>
+        {linkList.map(link => {
+          return (
+            <NavLink key={link.to} to={link.to}>
+              <TabItem>
+                <span>{link.title}</span>
+              </TabItem>
+            </NavLink>
+          )
+        })}
       </Tab>
-      <Routes>
-        <Route path="/recommend" element={<Recommend />} />
-        <Route path="/rank" element={<Rank />} />
-        <Route path="/singers" element={<Singers />} />
-      </Routes>
+      <Outlet />
     </>
   )
 }
