@@ -20,10 +20,10 @@ const noWrap = () => {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  'theme-color': '#d44439',
+  'theme-color': '#40a9ff',
   'theme-color-shadow': 'rgba (212, 68, 57, .5)',
   'font-color-light': '#f1f1f1',
-  'font-color-desc': '#2E3030',
+  'font-color-desc': 'rgba(255, 255, 255, 0.3)',
   'font-color-desc-v2': '#bba8a8',// 略淡
   'font-size-ss': '10px',
   'font-size-s': '12px',
@@ -31,9 +31,10 @@ export default {
   'font-size-l': '16px',
   'font-size-ll': '18px',
   "border-color": '#e4e4e4',
-  'background-color': '#f2f3f4',
+  'background-color': '#222',
   'background-color-shadow': 'rgba (0, 0, 0, 0.3)',
-  'highlight-background-color': '#fff',
+  "text-color": 'rgba(255, 255, 255, 0.5)',
+  'highlight-background-color': '#333',
   extendClick,
   noWrap
 }

@@ -6,11 +6,12 @@ export const Top = styled.div`
   flex-direction: row;
   justify-content: space-between;
   padding: 5px 10px;
-  background: ${style["theme-color"]};
+  background: ${style["background-color"]};
   &>span {
     line-height: 40px;
     color: #f1f1f1;
     font-size: 20px;
+    color: ${style['text-color']};
     &.iconfont {
       font-size: 25px;
     }
@@ -22,18 +23,18 @@ export const Tab = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  background-color: ${style['theme-color']};
+  background-color: ${style['background-color']};
   a {
     flex: 1;
     padding: 2px 0;
     font-size: 14px;
-    color: #e4e4e4;
+    color: ${style['text-color']};
     &.avtive {
       span {
         padding: 3px 0;
         font-weight: 600;
-        color: #f1f1f1;
-        border-bottom: 1px solid #f1f1f1;
+        color: ${style['theme-color']};
+        border-bottom: 1px solid ${style['theme-color']};
       }
     }
   }
