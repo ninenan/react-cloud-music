@@ -1,5 +1,11 @@
 import { NavLink } from 'react-router-dom'
 
 export default function MyNavLink(props) {
-  return <NavLink style={({ isActive }) => isActive ? { color: 'red' } : null} {...props}></NavLink>
+  const { customactivename } = props
+
+  return <NavLink
+    className={({ isActive }) => isActive ? customactivename : undefined}
+    {...props}
+  >
+  </NavLink>
 }

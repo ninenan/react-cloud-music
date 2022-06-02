@@ -29,17 +29,16 @@ export const Tab = styled.div`
     padding: 2px 0;
     font-size: 14px;
     color: ${style['text-color']};
-    &.avtive {
+    &.active {
       span {
-        padding: 3px 0;
+        padding: 10px 0;
         font-weight: 600;
         color: ${style['theme-color']};
-        border-bottom: 1px solid ${style['theme-color']};
+        border-bottom: 2px solid ${style['theme-color']};
       }
     }
   }
 `;
-
 
 export const TabItem = styled.div`
   height: 100%;

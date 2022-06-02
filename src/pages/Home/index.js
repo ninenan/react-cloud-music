@@ -1,6 +1,7 @@
 import React from 'react';
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { Top, Tab, TabItem } from './style'
+import MyNavLink from '../../components/MyNavLink'
 
 const linkList = [
   {
@@ -28,11 +29,12 @@ function Home() {
       <Tab>
         {linkList.map(link => {
           return (
-            <NavLink key={link.to} to={link.to}>
+            // 如果是自定义的属性的话 需要小写
+            <MyNavLink key={link.to} to={link.to} customactivename="active">
               <TabItem>
                 <span>{link.title}</span>
               </TabItem>
-            </NavLink>
+            </MyNavLink>
           )
         })}
       </Tab>
