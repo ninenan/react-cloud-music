@@ -1,5 +1,7 @@
 import Slider from "../../components/Slider";
 import RecommendList from "../../components/RecommendList";
+import Scroll from '../../baseUI/Scroll'
+import { Content } from './style'
 
 export default function Recommend() {
   //mock 数据
@@ -17,9 +19,13 @@ export default function Recommend() {
   })
 
   return (
-    <>
-      <Slider bannerList={bannerList} />
-      <RecommendList recommendList={recommendList} />
-    </>
+    <Content>
+      <Scroll className="list">
+        <div>
+          <Slider bannerList={bannerList} />
+          <RecommendList recommendList={recommendList} />
+        </div>
+      </Scroll>
+    </Content>
   )
 }
