@@ -4,7 +4,7 @@ import Scroll from '../../baseUI/Scroll'
 import { Content } from './style'
 
 export default function Recommend() {
-  //mock 数据
+  // mock 数据
   const bannerList = [1, 2, 3, 4].map(() => {
     return { imgUrl: "https://y.gtimg.cn/music/common/upload/MUSIC_FOCUS/4347386.jpg" }
   });

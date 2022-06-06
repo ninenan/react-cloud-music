@@ -14,6 +14,7 @@ const Scroll = forwardRef((props, ref) => {
   const scrollContainerRef = useRef();
   const { direction, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll } = props;
 
+  // 创建 scroll 实例
   useEffect(() => {
     const scroll = new BetterScroll(scrollContainerRef.current, {
       scrollX: direction === 'horizental',
@@ -25,17 +26,19 @@ const Scroll = forwardRef((props, ref) => {
         bounceBottom: bounceBottom
       }
     });
+
     setBScroll(scroll);
 
     return () => setBScroll(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 滚动事件
   useEffect(() => {
     if (!BScroll || !onScroll) return;
 
-    BScroll.on("scroll", (scroll) => {
-      onScroll(scroll);
+    BScroll.on("scroll", (position) => {
+      onScroll(position);
     })
 
     return () => BScroll.off('scroll');
@@ -58,8 +61,8 @@ const Scroll = forwardRef((props, ref) => {
   useEffect(() => {
     if (!BScroll || !pullDown) return;
 
-    BScroll.on('touchEnd', (pops) => {
-      if (pops.y > 50) {
+    BScroll.on('touchEnd', (position) => {
+      if (position.y > 50) {
         pullDown();
       }
     })
@@ -67,13 +70,15 @@ const Scroll = forwardRef((props, ref) => {
     return () => BScroll.off('touchEnd');
   }, [pullDown, BScroll]);
 
+  // BScroll 自刷新
   useEffect(() => {
     if (refresh && BScroll) {
-      console.log(BScroll)
-      // BScroll.refresh()
+      BScroll.refresh()
     }
   })
 
+  // https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle
+  // refresh 和 getScroll 方法 可以被父组件调用
   useImperativeHandle(ref, () => ({
     refresh() {
       if (BScroll) {
@@ -95,6 +100,7 @@ const Scroll = forwardRef((props, ref) => {
   )
 })
 
+// props 的默认参数
 Scroll.defaultProps = {
   direction: "vertical",
   click: true,
@@ -108,6 +114,7 @@ Scroll.defaultProps = {
   bounceBottom: true
 }
 
+// 规定 prop 的 type 类型
 Scroll.propTypes = {
   direction: PropTypes.oneOf(['vertical', 'horizental']),
   refresh: PropTypes.bool,
