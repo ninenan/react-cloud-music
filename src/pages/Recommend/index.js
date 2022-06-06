@@ -1,7 +1,10 @@
 import Slider from "../../components/Slider";
 import RecommendList from "../../components/RecommendList";
-import Scroll from '../../baseUI/Scroll'
-import { Content } from './style'
+import Scroll from '../../baseUI/Scroll';
+import { Content } from './style';
+import api from '../../api/index';
+
+console.log('api', api);
 
 export default function Recommend() {
   // mock 数据
