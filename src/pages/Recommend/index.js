@@ -1,4 +1,4 @@
-import { useSelector, useDispatch, connect } from 'react-redux'
+import { connect } from 'react-redux'
 import React, { useEffect } from 'react';
 
 import Slider from "../../components/Slider";
@@ -11,22 +11,20 @@ function Recommend(props) {
   const { bannerList, recommendList, getBannerList, getRecommendList } = props;
 
   useEffect(() => {
-    (async () => {
-      await getBannerList();
-      await getRecommendList();
-    })()
+    getBannerList();
+    getRecommendList();
     //eslint-disable-next-line
   }, []);
 
-  const bannerListJS = bannerList ? bannerList.toJS() : [];
-  const recommendListJS = recommendList ? recommendList.toJS() : [];
+  const bannerListRes = bannerList ? bannerList.toJS() : [];
+  const recommendListRes = recommendList ? recommendList.toJS() : [];
 
   return (
     <Content>
       <Scroll className="list">
         <div>
-          <Slider bannerList={bannerListJS} />
-          <RecommendList recommendList={recommendListJS} />
+          <Slider bannerList={bannerListRes} />
+          <RecommendList recommendList={recommendListRes} />
         </div>
       </Scroll>
     </Content>
@@ -34,8 +32,8 @@ function Recommend(props) {
 }
 
 const mapStateToProps = (state) => ({
-  bannerList: state.getIn(['recommendList', 'bannerList']),
-  recommendList: state.getIn(['recommendList', 'bannerList'])
+  bannerList: state.getIn(['recommend', 'bannerList']),
+  recommendList: state.getIn(['recommend', 'recommendList'])
 })
 
 const mapDispatchToProps = (dispatch) => {

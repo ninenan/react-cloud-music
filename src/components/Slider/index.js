@@ -17,7 +17,7 @@ export default function Slider(props) {
       {bannerList.map((slider, index) => {
         return <SwiperSlide key={index}>
           <img
-            src={slider.imgUrl}
+            src={slider.imageUrl}
             width="100%"
             height="100%"
             alt="推荐"
