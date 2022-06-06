@@ -15,7 +15,6 @@ export const changeRecommendList = data => ({
 export const getBannerList = () => {
   return (dispatch) => {
     api.recommend.getBannerListRequest().then((data) => {
-      console.log('data', data)
       dispatch(changeBannerList(data.banners));
     }).catch(() => console.log('getBannerList: err'))
   }

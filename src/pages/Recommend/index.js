@@ -5,29 +5,28 @@ import Slider from "../../components/Slider";
 import RecommendList from "../../components/RecommendList";
 import Scroll from '../../baseUI/Scroll';
 import { Content } from './style';
-import * as actions from "./store/actionCreators";
+import * as action from "./store/actionCreators";
 
 function Recommend(props) {
   const { bannerList, recommendList, getBannerList, getRecommendList } = props;
 
   useEffect(() => {
-    getBannerList();
-    getRecommendList();
+    (async () => {
+      await getBannerList();
+      await getRecommendList();
+    })()
     //eslint-disable-next-line
   }, []);
 
-  // const bannerListJS = bannerList ? bannerList.toJS() : [];
-  // const recommendListJS = recommendList ? recommendList.toJS() : [];
-
-  console.log('bannerList', bannerList)
-  console.log('recommendList', recommendList)
+  const bannerListJS = bannerList ? bannerList.toJS() : [];
+  const recommendListJS = recommendList ? recommendList.toJS() : [];
 
   return (
     <Content>
       <Scroll className="list">
         <div>
-          {/* <Slider bannerList={bannerList} /> */}
-          {/* <RecommendList recommendList={recommendList} /> */}
+          <Slider bannerList={bannerListJS} />
+          <RecommendList recommendList={recommendListJS} />
         </div>
       </Scroll>
     </Content>
@@ -42,10 +41,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     getBannerList() {
-      dispatch(actions.getBannerList())
+      dispatch(action.getBannerList())
     },
     getRecommendList() {
-      dispatch(actions.getRecommendList())
+      dispatch(action.getRecommendList())
     }
   }
 }
