@@ -12,13 +12,13 @@ const ScrollContainer = styled.div`
 const Scroll = forwardRef((props, ref) => {
   const [BScroll, setBScroll] = useState();
   const scrollContainerRef = useRef();
-  const { direction, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll } = props;
+  const { scrollY, scrollX, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll } = props;
 
   // 创建 scroll 实例
   useEffect(() => {
     const scroll = new BetterScroll(scrollContainerRef.current, {
-      scrollX: direction === 'horizental',
-      startY: direction === 'vertical',
+      scrollX,
+      scrollY,
       probeType: 3,
       click: click,
       bounce: {
@@ -102,7 +102,8 @@ const Scroll = forwardRef((props, ref) => {
 
 // props 的默认参数
 Scroll.defaultProps = {
-  direction: "vertical",
+  scrollY: true,
+  scrollX: false,
   click: true,
   refresh: true,
   onScroll: null,
@@ -116,7 +117,8 @@ Scroll.defaultProps = {
 
 // 规定 prop 的 type 类型
 Scroll.propTypes = {
-  direction: PropTypes.oneOf(['vertical', 'horizental']),
+  scrollY: PropTypes.bool,
+  scrollX: PropTypes.bool,
   refresh: PropTypes.bool,
   onScroll: PropTypes.func,
   pullUp: PropTypes.func,
