@@ -73,6 +73,7 @@ const Scroll = forwardRef((props, ref) => {
   // BScroll 自刷新
   useEffect(() => {
     if (refresh && BScroll) {
+      console.log('222', 222)
       BScroll.refresh()
     }
   })
