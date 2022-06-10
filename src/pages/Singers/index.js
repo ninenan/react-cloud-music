@@ -1,7 +1,17 @@
-import Horizon from "../../baseUI/HorizonItem";
-import api from "../../api";
 import { useEffect, useState } from "react";
-import { NavContainer } from './style'
+import Scroll from "../../baseUI/Scroll";
+import SingerItem from './components/SingerItem';
+import { SingerContainer, NavContainer } from './style'
+import Horizon from "../../baseUI/Horizon";
+import api from "../../api";
+
+const singerList = (new Array(20)).fill(0).map((item, index) => {
+  return {
+    picUrl: 'https://p2.music.126.net/uTwOm8AEFFX_BYHvfvFcmQ==/109951164232057952.jpg',
+    name: '朴树',
+    accountId: 22 + index
+  }
+})
 
 export default function Home() {
   const [singerTypes, setSingerTypes] = useState([]);
@@ -23,9 +33,18 @@ export default function Home() {
   }, [])
 
   return (
-    <NavContainer>
-      <Horizon list={singerTypes} title="分类（热门）：" currentVal={currentSinger} handleClick={val => handleUpdateSinger(val)}/>
-      <Horizon list={alphabetTypes} title="首字母" currentVal={currentAlpnabet} handleClick={val => handleUpdateAlphabet(val)}/>
-    </NavContainer>
+    <SingerContainer>
+      <NavContainer>
+        <Horizon list={singerTypes} title="分类（热门）：" currentVal={currentSinger} handleClick={val => handleUpdateSinger(val)} />
+        <Horizon list={alphabetTypes} title="首字母" currentVal={currentAlpnabet} handleClick={val => handleUpdateAlphabet(val)} />
+      </NavContainer>
+      <Scroll>
+        <div>
+          {singerList.map(item => {
+            return <SingerItem {...item} />
+          })}
+        </div>
+      </Scroll>
+    </SingerContainer>
   )
 }

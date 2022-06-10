@@ -12,15 +12,15 @@ const ScrollContainer = styled.div`
 const Scroll = forwardRef((props, ref) => {
   const [BScroll, setBScroll] = useState();
   const scrollContainerRef = useRef();
-  const { scrollY, scrollX, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll } = props;
+  const { scrollY, scrollX, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll, probeType } = props;
 
   // 创建 scroll 实例
   useEffect(() => {
     const scroll = new BetterScroll(scrollContainerRef.current, {
       scrollX,
       scrollY,
-      probeType: 3,
-      click: click,
+      probeType,
+      click,
       bounce: {
         top: bounceTop,
         bounceBottom: bounceBottom
@@ -73,7 +73,6 @@ const Scroll = forwardRef((props, ref) => {
   // BScroll 自刷新
   useEffect(() => {
     if (refresh && BScroll) {
-      console.log('222', 222)
       BScroll.refresh()
     }
   })
@@ -113,7 +112,8 @@ Scroll.defaultProps = {
   pullUp: null,
   pullDown: null,
   bounceTop: true,
-  bounceBottom: true
+  bounceBottom: true,
+  probeType: 1
 }
 
 // 规定 prop 的 type 类型
@@ -126,8 +126,10 @@ Scroll.propTypes = {
   pullDown: PropTypes.func,
   pullUpLoading: PropTypes.bool,
   pullDownLoading: PropTypes.bool,
-  bounceTop: PropTypes.bool,// 是否支持向上吸顶
-  bounceBottom: PropTypes.bool// 是否支持向上吸顶
+  bounceTop: PropTypes.bool, // 是否支持向上吸顶
+  bounceBottom: PropTypes.bool, // 是否支持向上吸顶
+  probeType: PropTypes.number,
+
 }
 
 export default Scroll;
