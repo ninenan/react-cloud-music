@@ -129,7 +129,6 @@ Scroll.propTypes = {
   bounceTop: PropTypes.bool, // 是否支持向上吸顶
   bounceBottom: PropTypes.bool, // 是否支持向上吸顶
   probeType: PropTypes.number,
-
 }
 
 export default Scroll;

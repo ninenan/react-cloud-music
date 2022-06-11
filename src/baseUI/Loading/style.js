@@ -11,16 +11,21 @@ const loading = keyframes`
 `
 
 export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   >div {
-    position: fixed;
+    position: absolute;
     z-index: 1000;
     left: 0; 
     right: 0;  
     top: 0;
     bottom: 0;
     margin: auto;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     opacity: 0.6;
     border-radius: 50%;
     background-color: ${style["theme-color"]};

@@ -1,3 +1,4 @@
+import http from '../../help/http'
 const singers = {
   getSingerTypes: () => Promise.resolve(
     [{
@@ -166,6 +167,12 @@ const singers = {
       key: "Z",
       name: "Z"
     }]
-  )
+  ),
+  getHotSingerListRequest: (count) => http.get(`/top/artists?offset=${count}`),
+  getSingerListRequest: (category, alpha, count) => {
+    return http.get(`/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}`);
+  }
+
 }
+
 export default singers

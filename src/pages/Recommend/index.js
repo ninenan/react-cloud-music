@@ -67,7 +67,7 @@ export default () => {
   return (
     <Content>
       {loading ? <Loading /> :
-        <Scroll className="list" onScroll={forceCheck}>
+        <Scroll className="list" onScroll={forceCheck} probeType={3}>
           <div>
             <Slider bannerList={bannerList} />
             <RecommendList recommendList={recommendList} />
