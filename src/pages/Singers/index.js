@@ -17,31 +17,32 @@ export default function Home() {
 
   const handleUpdateSinger = val => {
     setCurrentSinger(val);
-    pullDownRefresh();
+    pullDownRefresh(val, currentAlpnabet);
   }
   const handleUpdateAlphabet = val => {
     setCurrentAlphabet(val);
-    pullDownRefresh();
+    pullDownRefresh(currentSinger, val);
   }
 
   // 下拉刷新
-  const pullDownRefresh = () => {
+  const pullDownRefresh = (currentSinger, currentAlpnabet) => {
     dispatch(action.changePageCount(0));
-  
+
     if (currentSinger || currentAlpnabet) {
-      dispatch(action.getSingerListByTypeOrAlphabet());
+      dispatch(action.getSingerListByTypeOrAlphabet(currentSinger, currentAlpnabet));
     } else {
-      dispatch(action.getMoreHotSingerList());
+      dispatch(action.getHotSingerList());
     }
   }
 
   // 上拉加载
   const pullUpLoad = () => {
-    dispatch(action.changePageCount(pageCount+1));
+    dispatch(action.changePageCount(pageCount + 1));
+
     if (currentSinger || currentAlpnabet) {
-      dispatch(action.getSingerListByTypeOrAlphabet());
+      dispatch(action.getSingerListByTypeOrAlphabet(currentSinger, currentAlpnabet));
     } else {
-      dispatch(action.getMoreHotSingerList());
+      dispatch(action.getHotSingerList());
     }
   }
 
@@ -69,13 +70,13 @@ export default function Home() {
         <Horizon list={alphabetTypes} title="首字母" currentVal={currentAlpnabet} handleClick={val => handleUpdateAlphabet(val)} />
       </NavContainer>
       <ListContainer>
-      <Scroll probeType={3}>
-        <div>
-          {singerList.map(item => {
-            return <SingerItem key={item.id} {...item} />
-          })}
-        </div>
-      </Scroll>
+        <Scroll probeType={3}>
+          <div>
+            {singerList.map(item => {
+              return <SingerItem key={item.id} {...item} />
+            })}
+          </div>
+        </Scroll>
       </ListContainer>
     </SingerContainer>
   )
