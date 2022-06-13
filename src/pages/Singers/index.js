@@ -1,7 +1,7 @@
-import { useDeferredValue, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Scroll from "../../baseUI/Scroll";
 import SingerItem from './components/SingerItem';
-import { SingerContainer, NavContainer } from './style'
+import { SingerContainer, NavContainer, ListContainer } from './style'
 import Horizon from "../../baseUI/Horizon";
 import api from "../../api";
 import * as action from "./store/actionCreators";
@@ -13,11 +13,37 @@ export default function Home() {
   const [currentSinger, setCurrentSinger] = useState('');
   const [currentAlpnabet, setCurrentAlphabet] = useState('');
   const { enterLoading, isHasMore, pageCount, singerList } = useSelector(state => state).toJS().singers;
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const handleUpdateSinger = val => setCurrentSinger(val)
-  const handleUpdateAlphabet = val => setCurrentAlphabet(val)
+  const handleUpdateSinger = val => {
+    setCurrentSinger(val);
+    pullDownRefresh();
+  }
+  const handleUpdateAlphabet = val => {
+    setCurrentAlphabet(val);
+    pullDownRefresh();
+  }
 
+  // 下拉刷新
+  const pullDownRefresh = () => {
+    dispatch(action.changePageCount(0));
+  
+    if (currentSinger || currentAlpnabet) {
+      dispatch(action.getSingerListByTypeOrAlphabet());
+    } else {
+      dispatch(action.getMoreHotSingerList());
+    }
+  }
+
+  // 上拉加载
+  const pullUpLoad = () => {
+    dispatch(action.changePageCount(pageCount+1));
+    if (currentSinger || currentAlpnabet) {
+      dispatch(action.getSingerListByTypeOrAlphabet());
+    } else {
+      dispatch(action.getMoreHotSingerList());
+    }
+  }
 
   useEffect(() => {
     (async () => {
@@ -33,6 +59,7 @@ export default function Home() {
     if (!singerList.length) {
       dispatch(action.getHotSingerList());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -41,6 +68,7 @@ export default function Home() {
         <Horizon list={singerTypes} title="分类（热门）：" currentVal={currentSinger} handleClick={val => handleUpdateSinger(val)} />
         <Horizon list={alphabetTypes} title="首字母" currentVal={currentAlpnabet} handleClick={val => handleUpdateAlphabet(val)} />
       </NavContainer>
+      <ListContainer>
       <Scroll probeType={3}>
         <div>
           {singerList.map(item => {
@@ -48,6 +76,7 @@ export default function Home() {
           })}
         </div>
       </Scroll>
+      </ListContainer>
     </SingerContainer>
   )
 }

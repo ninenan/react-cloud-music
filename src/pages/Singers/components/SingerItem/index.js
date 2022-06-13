@@ -10,7 +10,6 @@ export default function SingerItem(props) {
       <LazyLoadImg>
         <img src={imageUrl} width="100%" height="100%" alt="musicImg" />
       </LazyLoadImg>
-
       <span className="img-name">{name}</span>
     </ListItem>
   )

@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 
 export const SingerContainer = styled.div`
-  position: absolute;
+  position: fixed;
   top: 100px;
-  height: 100%;
+  bottom: 0;
   width: 100%;
+  overflow: hidden;
 `
 
 export const NavContainer = styled.div`
@@ -12,5 +13,15 @@ export const NavContainer = styled.div`
   width: 100%;
   padding: 5px;
   overflow: hidden;
+`;
+
+
+export const ListContainer = styled.div`
+  position: fixed;
+  top: 174px;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  width: 100%;
 `;
 
