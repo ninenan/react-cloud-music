@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import Scroll from "../../baseUI/Scroll";
 import SingerItem from './components/SingerItem';
 import { SingerContainer, NavContainer, ListContainer } from './style'
 import Horizon from "../../baseUI/Horizon";
 import api from "../../api";
 import * as action from "./store/actionCreators";
-import { useSelector, useDispatch } from 'react-redux';
 
 export default function Home() {
   const [singerTypes, setSingerTypes] = useState([]);

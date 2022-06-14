@@ -1,4 +1,4 @@
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import React, { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload'
 
