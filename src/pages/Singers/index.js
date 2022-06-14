@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { forceCheck } from 'react-lazyload';
 import Scroll from "../../baseUI/Scroll";
 import SingerItem from './components/SingerItem';
 import { SingerContainer, NavContainer, ListContainer } from './style'
@@ -70,7 +71,7 @@ export default function Home() {
         <Horizon list={alphabetTypes} title="首字母" currentVal={currentAlpnabet} handleClick={val => handleUpdateAlphabet(val)} />
       </NavContainer>
       <ListContainer>
-        <Scroll probeType={3}>
+        <Scroll onScroll={forceCheck} probeType={3}>
           <div>
             {singerList.map(item => {
               return <SingerItem key={item.id} {...item} />
