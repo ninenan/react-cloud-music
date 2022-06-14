@@ -13,16 +13,17 @@ export default function Home() {
   const [alphabetTypes, setAlphabetTypes] = useState([]);
   const [currentSinger, setCurrentSinger] = useState('');
   const [currentAlpnabet, setCurrentAlphabet] = useState('');
+  const [isShowPullDownLoading, setIsShowPullDownLoading] = useState(false);
   const { enterLoading, isHasMore, pageCount, singerList } = useSelector(state => state).toJS().singers;
   const dispatch = useDispatch();
 
   const handleUpdateSinger = val => {
     setCurrentSinger(val);
-    pullDownRefresh(val, currentAlpnabet);
+    if (currentSinger !== val) pullDownRefresh(val, currentAlpnabet);
   }
   const handleUpdateAlphabet = val => {
     setCurrentAlphabet(val);
-    pullDownRefresh(currentSinger, val);
+    if (val !== currentAlpnabet) pullDownRefresh(currentSinger, val);
   }
 
   // 下拉刷新
@@ -71,7 +72,7 @@ export default function Home() {
         <Horizon list={alphabetTypes} title="首字母" currentVal={currentAlpnabet} handleClick={val => handleUpdateAlphabet(val)} />
       </NavContainer>
       <ListContainer>
-        <Scroll onScroll={forceCheck} probeType={3}>
+        <Scroll onScroll={forceCheck} probeType={3} pullDown={pullDownRefresh} pullDownLoading={isShowPullDownLoading}>
           <div>
             {singerList.map(item => {
               return <SingerItem key={item.id} {...item} />

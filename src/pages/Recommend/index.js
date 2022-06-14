@@ -55,12 +55,12 @@ import * as action from "./store/actionCreators";
 // redux hooks 写法
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
-  const { recommendList, bannerList, loading } = useSelector(state => state).toJS().recommend
-  const dispatch = useDispatch()
+  const { recommendList, bannerList, loading } = useSelector(state => state).toJS().recommend;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!bannerList.length) dispatch(action.getBannerList())
-    if (!recommendList.length) dispatch(action.getRecommendList())
+    if (!bannerList.length) dispatch(action.getBannerList());
+    if (!recommendList.length) dispatch(action.getRecommendList());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

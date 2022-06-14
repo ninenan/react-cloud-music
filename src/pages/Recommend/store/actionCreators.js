@@ -1,5 +1,5 @@
 import * as actionTypes from "./constant";
-import { fromJS } from "immutable";
+import { fromJS, set } from "immutable";
 import api from "../../../api";
 
 export const changeBannerList = data => ({

@@ -4,15 +4,24 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const ScrollContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 `
 
+const PullDownLoading = styled.div`
+  height: 30px;
+  line-height: 30px;
+  margin: auto;
+  z-index: 100;
+  text-align: center;
+`;
+
 const Scroll = forwardRef((props, ref) => {
   const [BScroll, setBScroll] = useState();
   const scrollContainerRef = useRef();
-  const { scrollY, scrollX, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll, probeType } = props;
+  const { scrollY, scrollX, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll, probeType, pullUpLoading, pullDownLoading } = props;
 
   // 创建 scroll 实例
   useEffect(() => {
@@ -95,7 +104,10 @@ const Scroll = forwardRef((props, ref) => {
 
   return (
     <ScrollContainer ref={scrollContainerRef}>
-      {props.children}
+      <div>
+        <PullDownLoading style={pullDownLoading ? {display: "block"} : {display: "none"}}>玩命加载中...</PullDownLoading>
+        {props.children}
+      </div>
     </ScrollContainer>
   )
 })
@@ -121,11 +133,11 @@ Scroll.propTypes = {
   scrollY: PropTypes.bool,
   scrollX: PropTypes.bool,
   refresh: PropTypes.bool,
-  onScroll: PropTypes.func,
-  pullUp: PropTypes.func,
-  pullDown: PropTypes.func,
-  pullUpLoading: PropTypes.bool,
-  pullDownLoading: PropTypes.bool,
+  onScroll: PropTypes.func, // 滚动事件
+  pullUp: PropTypes.func, // 上拉事件
+  pullDown: PropTypes.func, // 下拉事件
+  pullUpLoading: PropTypes.bool, // 下拉刷新 loading
+  pullDownLoading: PropTypes.bool, // 上拉加载 loading
   bounceTop: PropTypes.bool, // 是否支持向上吸顶
   bounceBottom: PropTypes.bool, // 是否支持向上吸顶
   probeType: PropTypes.number,
