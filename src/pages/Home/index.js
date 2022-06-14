@@ -20,7 +20,7 @@ const linkList = [
 
 function Home() {
   return (
-    <>
+    <div style={{position: 'fixed', top: 0, left: 0, width: '100%'}}>
       <Top>
         <span className='iconfont menu'>&#xe65c;</span>
         <span className='title'>cloud-music</span>
@@ -39,7 +39,7 @@ function Home() {
         })}
       </Tab>
       <Outlet />
-    </>
+    </div>
   )
 }
 

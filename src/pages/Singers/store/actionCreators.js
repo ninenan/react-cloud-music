@@ -47,7 +47,7 @@ export const getHotSingerList = (type = '', alphabet = '') => {
       dispatch(changeIsHasMore(more));
       dispatch(changeIsShowPullDownLoading(false));
       dispatch(changeIsShowPullUpLoading(false));
-    })
+    });
   }
 };
 
@@ -59,10 +59,12 @@ export const getSingerListByTypeOrAlphabet = (type = '', alphabet = '') => {
     const { artists, more } = await api.singers.getSingerListByTypeOrAlphabetRequest(type, alphabet, pageCount);
     const data = !pageCount ? [...artists] : [...singerList, ...artists];
 
-    dispatch(changeSingerList(data));
-    dispatch(changeIsHasMore(more));
-    dispatch(changeIsShowPullDownLoading(false));
-    dispatch(changeIsShowPullUpLoading(false));
+    sleep(2000).then(() => {
+      dispatch(changeSingerList(data));
+      dispatch(changeIsHasMore(more));
+      dispatch(changeIsShowPullDownLoading(false));
+      dispatch(changeIsShowPullUpLoading(false));
+    });
   }
 }
 
