@@ -22,29 +22,47 @@ export const changeIsHasMore = data => ({
   data
 });
 
+export const changeIsShowPullDownLoading = data => ({
+  type: actionTypes.CHANGE_IS_SHOW_PULL_DOWN_LOADING,
+  data
+});
+
+export const changeIsShowPullUpLoading = data => ({
+  type: actionTypes.CHANGE_IS_SHOW_PULL_UP_LOADING,
+  data
+});
+
+const sleep = (timer) => new Promise(resolve => setTimeout(resolve, timer));
+
 // 获取热门歌手
 export const getHotSingerList = (type = '', alphabet = '') => {
   return async (dispatch, getState) => {
-    const {pageCount, singerList} = getState().toJS().singers;
+    const { pageCount, singerList } = getState().toJS().singers;
     const res = await api.singers.getHotSingerListRequest(type, alphabet, pageCount);
-    const { artists } = res;
+    const { artists, more } = res;
     const data = !pageCount ? artists : [...singerList, ...artists];
 
-    dispatch(changeSingerList(data));
-    // dispatch(changeEnterLoading(false));
-    // dispatch(changeIsHasMore(false));
+    sleep(2000).then(() => {
+      dispatch(changeSingerList(data));
+      dispatch(changeIsHasMore(more));
+      dispatch(changeIsShowPullDownLoading(false));
+      dispatch(changeIsShowPullUpLoading(false));
+    })
   }
 };
 
 // 根据类型和字母获取歌手列表
 export const getSingerListByTypeOrAlphabet = (type = '', alphabet = '') => {
   return async (dispatch, getState) => {
-    const {pageCount, singerList} = getState().toJS().singers;
+    const { pageCount, singerList } = getState().toJS().singers;
 
-    const { artists } = await api.singers.getSingerListByTypeOrAlphabetRequest(type, alphabet, pageCount);
+    const { artists, more } = await api.singers.getSingerListByTypeOrAlphabetRequest(type, alphabet, pageCount);
     const data = !pageCount ? [...artists] : [...singerList, ...artists];
 
     dispatch(changeSingerList(data));
+    dispatch(changeIsHasMore(more));
+    dispatch(changeIsShowPullDownLoading(false));
+    dispatch(changeIsShowPullUpLoading(false));
   }
 }
 

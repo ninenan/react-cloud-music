@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import BetterScroll from "better-scroll";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -18,10 +18,34 @@ const PullDownLoading = styled.div`
   text-align: center;
 `;
 
+const PullUpLoading = styled.div`
+  height: 30px;
+  line-height: 30px;
+  margin: auto;
+  z-index: 100;
+  text-align: center;
+`;
+
+
 const Scroll = forwardRef((props, ref) => {
   const [BScroll, setBScroll] = useState();
   const scrollContainerRef = useRef();
-  const { scrollY, scrollX, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll, probeType, pullUpLoading, pullDownLoading } = props;
+  const {
+    scrollY,
+    scrollX,
+    click,
+    refresh,
+    bounceTop,
+    bounceBottom,
+    pullUp,
+    pullDown,
+    onScroll,
+    probeType,
+    pullUpLoading,
+    pullDownLoading,
+    isHasMore
+  } = props;
+  const pullUpText = useMemo(() => isHasMore ? '拼命加载中...' : '我是有底线的', [isHasMore]);
 
   // 创建 scroll 实例
   useEffect(() => {
@@ -72,6 +96,7 @@ const Scroll = forwardRef((props, ref) => {
 
     BScroll.on('touchEnd', (position) => {
       if (position.y > 50) {
+        console.log(222);
         pullDown();
       }
     })
@@ -105,8 +130,9 @@ const Scroll = forwardRef((props, ref) => {
   return (
     <ScrollContainer ref={scrollContainerRef}>
       <div>
-        <PullDownLoading style={pullDownLoading ? {display: "block"} : {display: "none"}}>玩命加载中...</PullDownLoading>
+        <PullDownLoading style={pullDownLoading ? { display: "block" } : { display: "none" }}>刷新中...</PullDownLoading>
         {props.children}
+        <PullUpLoading style={{ display: pullUpLoading ? "block" : "none" }}>{pullUpText}</PullUpLoading>
       </div>
     </ScrollContainer>
   )
@@ -125,7 +151,8 @@ Scroll.defaultProps = {
   pullDown: null,
   bounceTop: true,
   bounceBottom: true,
-  probeType: 1
+  probeType: 1,
+  isHasMore: true
 }
 
 // 规定 prop 的 type 类型
@@ -141,6 +168,7 @@ Scroll.propTypes = {
   bounceTop: PropTypes.bool, // 是否支持向上吸顶
   bounceBottom: PropTypes.bool, // 是否支持向上吸顶
   probeType: PropTypes.number,
+  isHasMore: PropTypes.bool
 }
 
 export default Scroll;
