@@ -5,4 +5,4 @@ const recommend = {
   getRecommendListRequest: () => http.get('/personalized')
 }
 
-export default recommend
+export default recommend;
