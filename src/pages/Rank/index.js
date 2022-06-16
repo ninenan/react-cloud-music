@@ -9,11 +9,12 @@ import { Container, List, ListItem, SongList } from './style';
 export default function Home() {
   let { rankList } = useSelector(state => state).toJS().rank;
   const dispatch = useDispatch();
+  console.log(rankList);
   rankList = rankList.filter((item) => item.tracks.length);
   console.log(rankList);
 
   useEffect(() => {
-    dispatch(action.getRankList());
+    if (!rankList.length) dispatch(action.getRankList());
   }, [])
 
   return (
@@ -26,11 +27,14 @@ export default function Home() {
               rankList.map((item) => {
                 return (
                   <ListItem key={item.coverImgId} tracks={item.tracks}>
-                    <div className="img-wrapper">
-                      <img src={item.coverImgUrl} alt="music" />
-                      {/* <div className="decorate"></div> */}
-                      <span className="update-frequecy">{item.updateFrequency}</span>
-                    </div>
+                    <img src={item.coverImgUrl} alt="music" />
+                    <SongList>
+                      {item.tracks.map((track, index) => {
+                        return (
+                          <li key={index}>{index + 1}. {track.first}</li>
+                        )
+                      })}
+                    </SongList>
                   </ListItem>
                 )
               })

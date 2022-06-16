@@ -32,6 +32,7 @@ export default {
   'font-size-ll': '18px',
   "border-color": '#e4e4e4',
   'background-color': '#222',
+  'background-highlight-color': '#333',
   'background-color-shadow': 'rgba (0, 0, 0, 0.3)',
   "text-color": 'rgba(255, 255, 255, 0.5)',
   'highlight-background-color': '#333',

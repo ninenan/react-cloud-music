@@ -9,7 +9,6 @@ export const Container = styled.div`
   box-sizing: border-box;
   .title {
     padding: 10px 20px 0;
-    margin-bottom: 10px;
     font-weight: 700;
     font-size: ${style["font-size-l"]};
   }
@@ -17,30 +16,19 @@ export const Container = styled.div`
 `;
 export const List = styled.ul`
   margin-top: 10px;
-  flex-wrap: nowrap;
-  display: flex;
-  background: ${style["background-color"]};
   overflow: auto;
 `
 
 export const ListItem = styled.li`
-  width: 140px;
-  margin-right: 10px;
-  .img-wrapper {
-    border-radius: 5px;
-    position: relative;
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 5px;
-    }
-    .update-frequecy {
-      position: absolute;
-      left: 10px;
-      bottom: 10px;
-      font-size: ${style["font-size-ss"]};
-      color: ${style["font-color-light"]};
-    }
+  margin: 0 20px;
+  padding-top: 20px;
+  display: flex;
+  &:first-child { 
+    padding-top: 0;
+  }
+  img {
+    width: 100px;
+    height: 100px;
   }
 `;
 export const SongList = styled.ul`
@@ -49,8 +37,9 @@ export const SongList = styled.ul`
   flex-direction: column;
   justify-content: space-around;
   padding: 10px 10px;
+  background-color: ${style["background-highlight-color"]};
   >li {
     font-size: ${style["font-size-s"]};
-    color: grey;
+    color: #ffffff;
   }
 `;
