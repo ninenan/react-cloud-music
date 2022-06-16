@@ -43,3 +43,28 @@ export const SongList = styled.ul`
     color: #ffffff;
   }
 `;
+
+export const GlobalList = styled.ul`
+  margin: 10px 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+`
+
+export const GlobalListItem = styled.li`
+  width: 50%;
+  padding-bottom: 10px;
+  .item__container {
+    position: relative;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    .update-frequency {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: ${style["font-size-ss"]};
+    }
+  }
+  
+`
