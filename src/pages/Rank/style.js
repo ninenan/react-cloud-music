@@ -6,54 +6,42 @@ export const Container = styled.div`
   top: 90px;
   bottom: 0;
   width: 100%;
-  .offical,.global {
-    margin: 10px 5px;
-    padding-top: 15px;
+  box-sizing: border-box;
+  .title {
+    padding: 10px 20px 0;
+    margin-bottom: 10px;
     font-weight: 700;
-    font-size: ${style["font-size-m"]};
-    color: ${style["font-color-desc"]};
+    font-size: ${style["font-size-l"]};
   }
+
 `;
 export const List = styled.ul`
   margin-top: 10px;
-  padding: 0 5px;
-  display: ${props => props.globalRank ? "flex": "" };
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  display: flex;
   background: ${style["background-color"]};
-  &::after {
-    content:"";
-    display:block;
-    width: 32vw;
-  }
+  overflow: auto;
 `
+
 export const ListItem = styled.li`
-  display: ${props => props.tracks.length ? "flex": ""};
   padding: 3px 0;
-  border-bottom: 1px solid ${style["border-color"]};
-  .img_wrapper {
-    width:  ${props => props.tracks.length ? "27vw": "32vw"};
-    height: ${props => props.tracks.length ? "27vw": "32vw"};
-    border-radius: 3px;
+  width: 120px;
+  height: 120px;
+  margin-right: 10px;
+  .img-wrapper {
+    border-radius: 5px;
     position: relative;
-    .decorate {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 35px;
-      border-radius: 3px;
-      background: linear-gradient (hsla (0,0%,100%,0),hsla (0,0%,43%,.4));
-    }
+    width: 100%;
+    height: 100%;
     img {
       width: 100%;
       height: 100%;
       border-radius: 3px;
     }
-    .update_frequecy {
+    .update-frequecy {
       position: absolute;
-      left: 7px;
-      bottom: 7px;
+      left: 10px;
+      bottom: 10px;
       font-size: ${style["font-size-ss"]};
       color: ${style["font-color-light"]};
     }

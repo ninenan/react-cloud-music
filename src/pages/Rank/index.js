@@ -14,21 +14,22 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(action.getRankList());
-  }, [dispatch])
+  }, [])
 
   return (
     <Container>
-      <Scroll>
+      <Scroll scrollX={true}>
         <div>
+          <h2 className='title'>官方榜</h2>
           <List globalRank={rankList}>
             {
               rankList.map((item) => {
                 return (
                   <ListItem key={item.coverImgId} tracks={item.tracks}>
-                    <div className="img_wrapper">
+                    <div className="img-wrapper">
                       <img src={item.coverImgUrl} alt="music" />
-                      <div className="decorate"></div>
-                      <span className="update_frequecy">{item.updateFrequency}</span>
+                      {/* <div className="decorate"></div> */}
+                      <span className="update-frequecy">{item.updateFrequency}</span>
                     </div>
                   </ListItem>
                 )
