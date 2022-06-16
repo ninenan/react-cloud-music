@@ -24,19 +24,15 @@ export const List = styled.ul`
 `
 
 export const ListItem = styled.li`
-  padding: 3px 0;
-  width: 120px;
-  height: 120px;
+  width: 140px;
   margin-right: 10px;
   .img-wrapper {
     border-radius: 5px;
     position: relative;
-    width: 100%;
-    height: 100%;
     img {
       width: 100%;
       height: 100%;
-      border-radius: 3px;
+      border-radius: 5px;
     }
     .update-frequecy {
       position: absolute;
