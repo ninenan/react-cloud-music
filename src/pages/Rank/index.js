@@ -1,20 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload'
-
 import LazyLoadImg from '../../baseUI/LazyLoadImg';
 import Scroll from '../../baseUI/Scroll';
 import * as action from './store/actionCreators';
 import { Container, List, ListItem, SongList, GlobalList, GlobalListItem } from './style';
 
-
-export default function Home() {
+export default function Rank() {
   const { rankList } = useSelector(state => state).toJS().rank;
   const dispatch = useDispatch();
-  console.log(rankList);
   const officialList = rankList.filter((item) => item.tracks.length);
   const globalList = rankList.filter((item) => !item?.tracks.length);
-  console.log('globalList: ', globalList);
 
   useEffect(() => {
     if (!rankList.length) dispatch(action.getRankList());

@@ -1,9 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import { ListWrapper, List, ListItem } from "./style";
 import { getCount } from "../../help/utils";
 import LazyLoadImg from "../../baseUI/LazyLoadImg";
 
 export default function RecommendList(props) {
-  const { recommendList } = props
+  const navigate = useNavigate();
+  const { recommendList } = props;
+
+  const handleToDetail = (id) => {
+    navigate(`/recommend/${id}`);
+  }
 
   return (
     <ListWrapper>
@@ -11,7 +17,7 @@ export default function RecommendList(props) {
       <List>
         {recommendList.map(item => {
           return (
-            <ListItem key={item.id}>
+            <ListItem key={item.id} onClick={() => handleToDetail(item.id)}>
               <div className="img__wrapper">
                 <LazyLoadImg>
                   <img src={`${item.picUrl}?param=300*300`} width="100%" height="100%" alt="music-img" />
@@ -30,5 +36,4 @@ export default function RecommendList(props) {
       </List>
     </ListWrapper>
   )
-
 }

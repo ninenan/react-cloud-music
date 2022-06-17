@@ -4,6 +4,7 @@ import Home from '../pages/Home';
 import Recommend from '../pages/Recommend';
 import Singers from '../pages/Singers';
 import Rank from '../pages/Rank';
+import Album from '../pages/Album';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -17,7 +18,13 @@ export default [
       },
       {
         path: "/recommend",
-        element: <Recommend />
+        element: <Recommend />,
+        children: [
+          {
+            path: "/recommend/:id",
+            element: <Album />
+          }
+        ]
       },
       {
         path: "/singers",
