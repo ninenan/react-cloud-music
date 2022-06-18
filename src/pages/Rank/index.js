@@ -14,6 +14,7 @@ export default function Rank() {
 
   useEffect(() => {
     if (!rankList.length) dispatch(action.getRankList());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

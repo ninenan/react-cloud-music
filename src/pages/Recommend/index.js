@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector,  } from 'react-redux'
 import React, { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload'
-
+import { Outlet } from 'react-router';
 import Slider from "../../components/Slider";
 import RecommendList from "../../components/RecommendList";
 import Scroll from '../../baseUI/Scroll';
@@ -73,6 +73,7 @@ export default () => {
             <RecommendList recommendList={recommendList} />
           </div>
         </Scroll>}
+      <Outlet />
     </Content>
   )
 }
