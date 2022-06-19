@@ -22,7 +22,7 @@ export default function Rank() {
       <Scroll scrollY={true} probeType={3} onScroll={forceCheck}>
         <div>
           <h2 className='title'>官方榜</h2>
-          <List globalRank={rankList}>
+          <List>
             {
               officialList.map((item) => {
                 return (

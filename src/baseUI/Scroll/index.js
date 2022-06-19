@@ -26,7 +26,6 @@ const PullUpLoading = styled.div`
   text-align: center;
 `;
 
-
 const Scroll = forwardRef((props, ref) => {
   const [BScroll, setBScroll] = useState();
   const scrollContainerRef = useRef();
@@ -56,7 +55,7 @@ const Scroll = forwardRef((props, ref) => {
       click,
       bounce: {
         top: bounceTop,
-        bounceBottom: bounceBottom
+        bottom: bounceBottom
       }
     });
 
@@ -65,7 +64,6 @@ const Scroll = forwardRef((props, ref) => {
     return () => setBScroll(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   // 滚动事件
   useEffect(() => {
     if (!BScroll || !onScroll) return;
@@ -76,7 +74,6 @@ const Scroll = forwardRef((props, ref) => {
 
     return () => BScroll.off('scroll');
   }, [onScroll, BScroll]);
-
   // 上拉事件
   useEffect(() => {
     if (!BScroll || !pullUp) return;
@@ -89,28 +86,24 @@ const Scroll = forwardRef((props, ref) => {
 
     return () => BScroll.off('scrollEnd');
   }, [pullUp, BScroll]);
-
   // 下拉事件
   useEffect(() => {
     if (!BScroll || !pullDown) return;
 
     BScroll.on('touchEnd', (position) => {
       if (position.y > 50) {
-        console.log(222);
         pullDown();
       }
     })
 
     return () => BScroll.off('touchEnd');
   }, [pullDown, BScroll]);
-
   // BScroll 自刷新
   useEffect(() => {
     if (refresh && BScroll) {
       BScroll.refresh()
     }
   })
-
   // https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle
   // refresh 和 getScroll 方法 可以被父组件调用
   useImperativeHandle(ref, () => ({
@@ -160,13 +153,20 @@ Scroll.propTypes = {
   scrollY: PropTypes.bool,
   scrollX: PropTypes.bool,
   refresh: PropTypes.bool,
-  onScroll: PropTypes.func, // 滚动事件
-  pullUp: PropTypes.func, // 上拉事件
-  pullDown: PropTypes.func, // 下拉事件
-  pullUpLoading: PropTypes.bool, // 下拉刷新 loading
-  pullDownLoading: PropTypes.bool, // 上拉加载 loading
-  bounceTop: PropTypes.bool, // 是否支持向上吸顶
-  bounceBottom: PropTypes.bool, // 是否支持向上吸顶
+  // 滚动事件
+  onScroll: PropTypes.func, 
+  // 上拉事件
+  pullUp: PropTypes.func, 
+  // 下拉事件
+  pullDown: PropTypes.func,
+  // 下拉刷新 loading
+  pullUpLoading: PropTypes.bool,
+  // 上拉加载 loading
+  pullDownLoading: PropTypes.bool, 
+  // 是否支持向上吸顶动画
+  bounceTop: PropTypes.bool, 
+  // 是否开启向下吸顶动画
+  bounceBottom: PropTypes.bool, 
   probeType: PropTypes.number,
   isHasMore: PropTypes.bool
 }
