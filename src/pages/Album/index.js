@@ -5,7 +5,6 @@ import { memo } from 'react';
 
 function Album() {
   const [isShowStatus, setIsShowStatus] = useState(true);
-  const [showMessage, setShowMessage] = useState(false);
 
   return (
     <CSSTransition
@@ -17,12 +16,6 @@ function Album() {
     >
       <Container>
         album
-        <button
-          onClick={() => setShowMessage(true)}
-          size="lg"
-        >
-          Show Message
-        </button>
       </Container>
     </CSSTransition>
   )
