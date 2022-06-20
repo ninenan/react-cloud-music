@@ -14,7 +14,7 @@ const Horizon = (props) => {
           return (
             <ListItem
               key={item.key}
-              className={currentVal === item.key ? 'selected' : ''}
+              className={currentVal === item.key ? 'active' : ''}
               onClick={() => handleClick(item.key)}
             >
               {item.name}

@@ -25,11 +25,20 @@ export const Container = styled.div`
     transition: transform .3, opacity .3s;
     transform: translate3d(0, 0, 0);
   }
-  &.exit {
-    transform: rotateZ(0deg) translate3d(0, 0, 0);
+  &.fly-exit {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
-  &.exit-active {
-    transition: transform .3s;
-    transform: rotateZ(30deg) translate3d(100%, 0, 0);
+  &.fly-exit-active {
+    opacity: 0;
+    transition: transform .3s, opacity .3s;
+    transform: translate3d(100%, 0, 0);
   }
+  &.fly-exit-done {
+    opacity: 0;
+    transition: transform .3s, opacity .3s;
+    transform: translate3d(100%, 0, 0);
+  }
+
 `
+

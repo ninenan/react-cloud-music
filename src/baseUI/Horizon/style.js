@@ -4,8 +4,8 @@ import style from '../../style/common';
 export const List = styled.div`
   height: 30px;
   white-space: nowrap;
-  overflow: hidden;
   display: inline-block;
+  overflow: hidden;
   >span {
     display: inline-block;
   }
@@ -23,7 +23,7 @@ export const ListItem = styled.span`
   border-radius: 10px;
   flex: 0 0 auto;
   font-size: ${style["font-size-m"]};
-  &.selected {
+  &.active {
     border: 1px solid ${style["theme-color"]};
     color: ${style["theme-color"]};
     opacity: 0.8;
