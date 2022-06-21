@@ -7,6 +7,7 @@ export const Container = styled.div`
   bottom: 0;
   width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
   .title {
     padding: 10px 20px 0;
     font-weight: 700;

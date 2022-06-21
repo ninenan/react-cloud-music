@@ -5,4 +5,5 @@ export const Content = styled.div`
   top: 90px;
   bottom: 0px;
   width: 100%;
+  overflow: hidden;
 `

@@ -8,3 +8,15 @@ export const getCount = (count) => {
     return Math.floor (count / 10000000)/ 10 + "亿";
   }
 }
+
+export const getName = list => {
+  let str = '';
+
+  list.map((item, index) => {
+    str += index === 0 ? item.name : `/${item.name}`;
+
+    return item
+  })
+
+  return str
+}

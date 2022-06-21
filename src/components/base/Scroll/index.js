@@ -7,7 +7,6 @@ const ScrollContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 `
 
 const PullDownLoading = styled.div`
@@ -154,19 +153,19 @@ Scroll.propTypes = {
   scrollX: PropTypes.bool,
   refresh: PropTypes.bool,
   // 滚动事件
-  onScroll: PropTypes.func, 
+  onScroll: PropTypes.func,
   // 上拉事件
-  pullUp: PropTypes.func, 
+  pullUp: PropTypes.func,
   // 下拉事件
   pullDown: PropTypes.func,
   // 下拉刷新 loading
   pullUpLoading: PropTypes.bool,
   // 上拉加载 loading
-  pullDownLoading: PropTypes.bool, 
+  pullDownLoading: PropTypes.bool,
   // 是否支持向上吸顶动画
-  bounceTop: PropTypes.bool, 
+  bounceTop: PropTypes.bool,
   // 是否开启向下吸顶动画
-  bounceBottom: PropTypes.bool, 
+  bounceBottom: PropTypes.bool,
   probeType: PropTypes.number,
   isHasMore: PropTypes.bool
 }

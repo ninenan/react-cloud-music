@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { forceCheck } from 'react-lazyload';
-import Scroll from "../../baseUI/Scroll";
+import Scroll from "../../components/base/Scroll";
 import SingerItem from './components/SingerItem';
 import { SingerContainer, NavContainer, ListContainer } from './style'
 import Horizon from "../../baseUI/Horizon";

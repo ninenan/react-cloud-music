@@ -4,7 +4,7 @@ import { forceCheck } from 'react-lazyload'
 import { Outlet } from 'react-router';
 import Slider from "../../components/Slider";
 import RecommendList from "../../components/RecommendList";
-import Scroll from '../../baseUI/Scroll';
+import Scroll from '../../components/base/Scroll';
 import Loading from "../../baseUI/Loading";
 import { Content } from './style';
 import * as action from "./store/actionCreators";

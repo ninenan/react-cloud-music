@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload'
 import LazyLoadImg from '../../baseUI/LazyLoadImg';
-import Scroll from '../../baseUI/Scroll';
+import Scroll from '../../components/base/Scroll';
 import * as action from './store/actionCreators';
 import { Container, List, ListItem, SongList, GlobalList, GlobalListItem } from './style';
 
