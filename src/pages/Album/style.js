@@ -79,7 +79,6 @@ export const BgImage = styled.div`
 export const PlayBtnWrapper = styled.div`
   position: absolute;
   bottom: 20px;
-  z-index: 10;
   width: 100%;
 `
 
@@ -102,6 +101,7 @@ export const PlayBtn = styled.div`
   .text {
     display: inline-block;
     vertical-align: middle;
+    color: ${style['font-color']};
     font-size: ${style['font-size-s']};
   }
 `

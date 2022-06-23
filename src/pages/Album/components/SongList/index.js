@@ -4,7 +4,6 @@ import { getName } from '../../../../help/utils';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => {
   const { tracks } = props;
-  console.log('tracks: ', tracks);
 
   return (
     <SongList>

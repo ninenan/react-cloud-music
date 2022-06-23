@@ -91,7 +91,7 @@ const Scroll = forwardRef((props, ref) => {
 
     BScroll.on('touchEnd', (position) => {
       if (position.y > 50) {
-        pullDown();
+        pullDown(position);
       }
     })
 
