@@ -68,7 +68,7 @@ export const List = styled.div`
 
 export const BgImage = styled.div`
   position: relative;
-  height: 0px;
+  height: 0;
   width: 100%;
   transform-origin: top;
   background: url(${props => props.background}) no-repeat;
