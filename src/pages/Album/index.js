@@ -32,7 +32,7 @@ function Album() {
     if (y >= 0) {
       console.log(y)
       const scale = 1 + Math.abs(y / maxTranslateY);
-      setBgImgStyle({...bgImgStyle, transform: `scale(${scale}) translateZ(0px)`})
+      setBgImgStyle({ ...bgImgStyle, transform: `scale(${scale}) translateZ(0px)` })
     }
   }
 

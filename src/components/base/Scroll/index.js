@@ -122,11 +122,13 @@ const Scroll = forwardRef((props, ref) => {
 
   return (
     <ScrollContainer ref={scrollContainerRef}>
-      <div>
-        <PullDownLoading style={pullDownLoading ? { display: "block" } : { display: "none" }}>刷新中...</PullDownLoading>
-        {props.children}
-        <PullUpLoading style={{ display: pullUpLoading ? "block" : "none" }}>{pullUpText}</PullUpLoading>
-      </div>
+      {scrollX ? props.children :
+        <div>
+          <PullDownLoading style={pullDownLoading ? { display: "block" } : { display: "none" }}>刷新中...</PullDownLoading>
+          {props.children}
+          <PullUpLoading style={{ display: pullUpLoading ? "block" : "none" }}>{pullUpText}</PullUpLoading>
+        </div>
+      }
     </ScrollContainer>
   )
 })
