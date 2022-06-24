@@ -1,5 +1,5 @@
 import { useDispatch, useSelector,  } from 'react-redux'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { forceCheck } from 'react-lazyload'
 import { Outlet } from 'react-router';
 import Slider from "../../components/Slider";
@@ -57,6 +57,7 @@ import * as action from "./store/actionCreators";
 export default () => {
   const { recommendList, bannerList, loading } = useSelector(state => state).toJS().recommend;
   const dispatch = useDispatch();
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     if (!bannerList.length) dispatch(action.getBannerList());
@@ -64,10 +65,16 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      return scrollRef.current.refresh();
+    }
+  })
+
   return (
     <Content>
       {loading ? <Loading /> :
-        <Scroll className="list" onScroll={forceCheck} probeType={3}>
+        <Scroll className="list" onScroll={forceCheck} probeType={3} ref={scrollRef}>
           <div>
             <Slider bannerList={bannerList} />
             <RecommendList recommendList={recommendList} />

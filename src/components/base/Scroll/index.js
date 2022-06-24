@@ -99,18 +99,19 @@ const Scroll = forwardRef((props, ref) => {
     return () => BScroll.off('touchEnd');
   }, [pullDown, BScroll]);
   // BScroll 自刷新
-  useEffect(() => {
-    if (refresh && BScroll) {
-      BScroll.refresh()
-    }
-  })
+  // useEffect(() => {
+  //   if (refresh && BScroll) {
+  //     console.log('refresh: ', refresh);
+  //     BScroll.refresh()
+  //   }
+  // })
   // https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle
   // refresh 和 getScroll 方法 可以被父组件调用
   useImperativeHandle(ref, () => ({
     refresh() {
       if (BScroll) {
         BScroll.refresh();
-        BScroll.scrollTo(0, 0);
+        // BScroll.scrollTo(0, 0);
       }
     },
     getScroll() {

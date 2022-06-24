@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { forceCheck } from 'react-lazyload';
 import Scroll from "../../components/base/Scroll";
@@ -17,7 +17,7 @@ export default function Home() {
   // const [isShowPullUpLoading, setIsShowPullUpLoading] = useState(false);
   const { isHasMore, pageCount, singerList, isShowPullUpLoading, isShowPullDownLoading } = useSelector(state => state).toJS().singers;
   const dispatch = useDispatch();
-
+  const scrollRef = useRef(null);
   const handleUpdateSinger = val => setCurrentSinger(val);
   const handleUpdateAlphabet = val => setCurrentAlphabet(val);
 
@@ -66,6 +66,13 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      return scrollRef.current.refresh();
+    }
+  })
+
+
   return (
     <SingerContainer>
       <NavContainer>
@@ -81,6 +88,7 @@ export default function Home() {
           pullDown={pullDownRefresh}
           pullDownLoading={isShowPullDownLoading}
           isHasMore={isHasMore}
+          ref={scrollRef}
         >
           <div>
             {singerList.map((item, index) => {

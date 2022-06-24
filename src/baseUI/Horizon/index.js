@@ -1,13 +1,20 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import Scroll from "../../components/base/Scroll";
 import { List, ListItem } from "./style";
 
 const Horizon = (props) => {
   const { list, currentVal, title, handleClick } = props
+  const scrollRef = useRef(null)
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      return scrollRef.current.refresh();
+    }
+  })
 
   return (
-    <Scroll scrollY={false} scrollX={true}>
+    <Scroll scrollY={false} scrollX={true} ref={scrollRef}>
       <List>
         <span>{title}</span>
         {list.map((item) => {
