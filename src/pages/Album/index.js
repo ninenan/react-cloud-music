@@ -1,5 +1,5 @@
 import { CSSTransition } from 'react-transition-group';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/base/Header';
@@ -7,16 +7,17 @@ import SongList from './components/SongList';
 import Scroll from '../../components/base/Scroll';
 import { Container, BgImage, PlayBtn, PlayBtnWrapper, List } from './style';
 import { currentAlbum } from '../../mock/album';
-import { debuounce } from '../../help/utils';
 
 function Album() {
   const [isShowStatus, setIsShowStatus] = useState(true);
   const navigate = useNavigate();
   const maxTranslateY = 250;
-  const [scale, setScale] = useState(1);
   const [bgImgStyle, setBgImgStyle] = useState({
     filter: 'blur(0)',
-    transform: 'scale(1)'
+    transform: 'scale(1)translateZ(0px)',
+    zIndex: 0,
+    paddingTop: '70%',
+    height: '0',
   });
 
   const handleGoBack = () => {
@@ -29,14 +30,11 @@ function Album() {
 
   const handleScroll = ({ y }) => {
     if (y >= 0) {
+      console.log(y)
       const scale = 1 + Math.abs(y / maxTranslateY);
-      setBgImgStyle({
-        transform: `scale(${scale})`,
-      })
+      setBgImgStyle({...bgImgStyle, transform: `scale(${scale}) translateZ(0px)`})
     }
   }
-
-  console.log(bgImgStyle);
 
   return (
     <CSSTransition
