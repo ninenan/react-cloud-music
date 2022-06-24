@@ -20,3 +20,21 @@ export const getName = list => {
 
   return str
 }
+
+export const debuounce = (fn, delay) => {
+  let timer = null;
+
+  const debuounced = (...rest) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      return fn.apply(this, rest);
+    }, delay);
+  }
+
+  debuounced.cancel = () => {
+    if (timer) clearTimeout(timer);
+    timer = null;
+  }
+
+  return debuounced
+}

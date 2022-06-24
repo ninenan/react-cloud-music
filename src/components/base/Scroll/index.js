@@ -85,6 +85,7 @@ const Scroll = forwardRef((props, ref) => {
 
     return () => BScroll.off('scrollEnd');
   }, [pullUp, BScroll]);
+
   // 下拉事件
   useEffect(() => {
     if (!BScroll || !pullDown) return;

@@ -7,14 +7,17 @@ import SongList from './components/SongList';
 import Scroll from '../../components/base/Scroll';
 import { Container, BgImage, PlayBtn, PlayBtnWrapper, List } from './style';
 import { currentAlbum } from '../../mock/album';
-import Test from './components/Test';
+import { debuounce } from '../../help/utils';
 
 function Album() {
   const [isShowStatus, setIsShowStatus] = useState(true);
   const navigate = useNavigate();
-  const maxTranslateY = 233;
-  const [y, setY] = useState(0);
-  // const [bgStyle, setBgStyle] = useState({});
+  const maxTranslateY = 250;
+  const [scale, setScale] = useState(1);
+  const [bgImgStyle, setBgImgStyle] = useState({
+    filter: 'blur(0)',
+    transform: 'scale(1)'
+  });
 
   const handleGoBack = () => {
     setIsShowStatus(false);
@@ -24,16 +27,16 @@ function Album() {
     navigate(-1);
   }
 
-  const handleScroll = ({ x, y }) => {
-    console.log('y', y)
-    setY(() => y)
+  const handleScroll = ({ y }) => {
+    if (y >= 0) {
+      const scale = 1 + Math.abs(y / maxTranslateY);
+      setBgImgStyle({
+        transform: `scale(${scale})`,
+      })
+    }
   }
 
-  const yy = useMemo(() => {
-    return 33
-  }, [y])
-
-
+  console.log(bgImgStyle);
 
   return (
     <CSSTransition
@@ -46,7 +49,7 @@ function Album() {
     >
       <Container>
         <Header title="返回" handleClick={handleGoBack} />
-        <BgImage background={currentAlbum.coverImgUrl}>
+        <BgImage background={currentAlbum.coverImgUrl} style={bgImgStyle}>
           <PlayBtnWrapper>
             <PlayBtn>
               <i className="iconfont">&#xe6e3;</i>
@@ -54,14 +57,13 @@ function Album() {
             </PlayBtn>
           </PlayBtnWrapper>
         </BgImage>
-        <Test handleScroll={handleScroll} />
-        {/* <List top="273">
+        <List top="290">
           <Scroll probeType={3} onScroll={handleScroll}>
             <div className="song-list-wrapper">
               <SongList key="1fasdfsa" tracks={currentAlbum.tracks} />
             </div>
           </Scroll>
-        </List> */}
+        </List>
       </Container>
     </CSSTransition>
   )
