@@ -1,13 +1,15 @@
 import { CSSTransition } from 'react-transition-group';
-import { useState, useRef } from 'react';
-import { memo } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useState, useRef, memo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
 import Header from '../../components/base/Header';
 import SongList from './components/SongList';
 import WrapperScroll from '../../components/base/WrapperScroll';
 import { TopDesc, BgImage, PlayBtn, PlayBtnWrapper, List, Container } from './style';
-import { currentAlbum } from '../../mock/album';
-import { getCount } from '../../help/utils';
+// import { currentAlbum } from '../../mock/album';
+import { getCount, isEmptyObj } from '../../help/utils';
+import { useEffect } from 'react';
+import * as action from './store/actionCreators';
 
 const MAX_TRANSLATE_Y = 273;
 
@@ -22,6 +24,9 @@ function Album() {
     height: '0',
   });
   const headerRef = useRef(null);
+  const dispatch = useDispatch();
+  const { currentAlbum } = useSelector(state => state).toJS().album;
+  const { id } = useParams();
 
   const handleGoBack = () => {
     setIsShowStatus(false);
@@ -33,7 +38,7 @@ function Album() {
 
   const handleScroll = ({ y }) => {
     const headerEl = headerRef.current || null;
-    if (y >= 0) {
+    if (y > 0) {
       const scale = 1 + Math.abs(y / MAX_TRANSLATE_Y);
 
       setBgImgStyle({
@@ -42,7 +47,7 @@ function Album() {
         filter: 'blur(0)'
       })
     }
-    if (y <= 0) {
+    if (y < 0) {
       const blur = Math.min(Math.abs(y / MAX_TRANSLATE_Y), MAX_TRANSLATE_Y / 233) * 20;
 
       setBgImgStyle({
@@ -60,11 +65,25 @@ function Album() {
         headerEl.style.backgroundColor = ''
       }
     }
+    if (y === 0) {
+      setBgImgStyle({
+        filter: 'blur(0)',
+        transform: 'scale(1)translateZ(0px)',
+        zIndex: 0,
+        paddingTop: '70%',
+        height: '0',
+      })
+    }
   }
 
   const handlePlay = () => {
     console.log('handlePlay');
   }
+
+  useEffect(() => {
+    dispatch(action.getAlbumList(id));
+  }, [id, dispatch]);
+
   return (
     <CSSTransition
       in={isShowStatus}
@@ -74,7 +93,7 @@ function Album() {
       unmountOnExit
       onExited={handleToBack}
     >
-      <Container>
+      {isEmptyObj(currentAlbum) ? <div>loading...</div> : <Container>
         <Header title="返回" handleClick={handleGoBack} ref={headerRef} />
         <BgImage background={currentAlbum.coverImgUrl} style={bgImgStyle}>
           <TopDesc>
@@ -89,9 +108,9 @@ function Album() {
               <div className="title">{currentAlbum.name}</div>
               <div className="person">
                 <div className="avatar">
-                  <img src={currentAlbum.creator.avatarUrl} alt="" />
+                  <img src={currentAlbum.creator && currentAlbum.creator.avatarUrl} alt="" />
                 </div>
-                <div className="name">{currentAlbum.creator.nickname}</div>
+                <div className="name">{currentAlbum.creator && currentAlbum.creator.nickname}</div>
               </div>
             </div>
           </TopDesc>
@@ -110,7 +129,7 @@ function Album() {
             </div>
           </WrapperScroll>
         </List>
-      </Container>
+      </Container>}
     </CSSTransition>
   )
 }

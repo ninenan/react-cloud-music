@@ -1,0 +1,1 @@
+export const CHANGE_CURRENT_ALBUM = 'album/CHANGE_CURRENT_ALBUM';
