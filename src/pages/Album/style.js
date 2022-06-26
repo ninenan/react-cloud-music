@@ -8,6 +8,8 @@ export const Container = styled.div`
   right: 0;
   bottom: 0;
   z-index: 1000;
+  width: 100%;
+  height: 100%;
   background: ${style["background-color"]};
   transform: translate3d(100%, 0, 0);
   opacity: 0;
@@ -54,6 +56,72 @@ export const Container = styled.div`
   }
 `
 
+export const TopDesc = styled.div`
+  position: absolute;
+  top:50px;
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-size: 100%;
+  .img-wrapper{
+    width: 120px;
+    height: 120px;
+    position: relative;         
+    .play-count {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      font-size: ${style["font-size-s"]};
+      line-height: 15px;
+      color: ${style["font-color-light"]};
+      .play{
+        vertical-align: top;
+      }
+    }
+    img{
+      width: 120px;
+      height: 120px;
+      border-radius:3px;
+    }
+  }
+  .desc-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 120px;
+    padding: 0 10px;
+    .title{
+      max-height: 70px;
+      color: ${style["font-color-light"]};
+      font-weight: 700;
+      line-height: 1.5;
+      font-size: ${style["font-size-l"]};
+    }
+    .person{
+      display: flex;
+      .avatar{
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        img{
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+      .name {
+        line-height: 20px;
+        font-size: ${style["font-size-m"]};
+        color: ${style["theme-color-d"]};
+      }
+    }
+  }`
+
 export const List = styled.div`
   position: absolute;
   bottom: 0;
@@ -74,6 +142,15 @@ export const BgImage = styled.div`
   background: url(${props => props.background}) no-repeat;
   background-size: cover;
   padding-top: 70%;
+  .filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 17, 27, 0.4);
+    z-index: -1;
+  }
 `
 
 export const PlayBtnWrapper = styled.div`

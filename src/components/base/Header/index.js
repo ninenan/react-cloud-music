@@ -6,7 +6,7 @@ const Header = React.forwardRef((props, ref) => {
   const { handleClick, title } = props;
 
   return (
-    <HeaderContainer>
+    <HeaderContainer ref={ref}>
       <span onClick={handleClick}>
         <i className="iconfont back">&#xe655;</i>
         <h1>{title}</h1>

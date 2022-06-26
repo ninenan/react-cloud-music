@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { forceCheck } from 'react-lazyload'
 import LazyLoadImg from '../../baseUI/LazyLoadImg';
 import Scroll from '../../components/base/Scroll';

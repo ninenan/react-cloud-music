@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   'theme-color': '#40a9ff',
+  'theme-color-d': '#cccccc',
   'theme-color-shadow': 'rgba (212, 68, 57, .5)',
   'font-color-light': '#f1f1f1',
   'font-color': '#ffffff',

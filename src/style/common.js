@@ -19,9 +19,18 @@ const noWrap = () => {
   `
 }
 
+const flexCenterCenter = () => {
+  return `
+    display: flex;
+    justify-content: center;
+    align-items: center
+  `
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   ...variable,
   extendClick,
-  noWrap
+  noWrap,
+  flexCenterCenter
 }
