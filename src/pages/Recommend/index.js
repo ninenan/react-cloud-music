@@ -1,11 +1,11 @@
 import { useDispatch, useSelector,  } from 'react-redux'
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, startTransition } from 'react';
 import { forceCheck } from 'react-lazyload'
 import { Outlet } from 'react-router';
 import Slider from "../../components/Slider";
 import RecommendList from "../../components/RecommendList";
 import Scroll from '../../components/base/Scroll';
-import Loading from "../../baseUI/Loading";
+import Loading from "../../components/base/Loading";
 import { Content } from './style';
 import * as action from "./store/actionCreators";
 
@@ -69,7 +69,7 @@ export default () => {
     if (scrollRef.current) {
       return scrollRef.current.refresh();
     }
-  })
+  }, []);
 
   return (
     <Content>

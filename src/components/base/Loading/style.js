@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import style from "../../style/common";
+import style from "../../../style/common";
 
 const loading = keyframes`
   0%, 100% {

@@ -1,12 +1,12 @@
 import { fromJS } from 'immutable';
-import * as actionTypes from './constant';
+import { CHANGE_CURRENT_ALBUM } from './constant';
 
 const defaultState = fromJS({
   currentAlbum: {}
 })
 
 const actionMap = new Map([
-  [actionTypes.CHANGE_CURRENT_ALBUM, (state, action) => state.set('currentAlbum', action.data)],
+  [CHANGE_CURRENT_ALBUM, (state, action) => state.set('currentAlbum', action.data)],
   ['default', () => defaultState]
 ])
 

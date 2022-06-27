@@ -11,7 +11,6 @@ export const getAlbumList = id => {
   return async (dispatch) => {
     const { playlist } = await api.album.getAlbumDetailRequest(id);
 
-    console.log(playlist);
     dispatch(changeCurrentALbum(playlist));
   }
 }
