@@ -1,8 +1,7 @@
-import { GlobalStyle } from './style/reset'
-import { IconStyle } from './style/iconfont'
 import { HashRouter, useRoutes } from 'react-router-dom'
 import { Provider } from "react-redux";
-
+import { GlobalStyle } from './style/reset'
+import { IconStyle } from './style/iconfont'
 import store from "./store";
 import routes from "./routes";
 
