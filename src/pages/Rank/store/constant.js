@@ -1,1 +1,1 @@
-export const CHANGE_RANK_LIST = 'rank/CHANGE_RANK_LIST';
+export const CHANGE_RANK_LIST = 'RANK/CHANGE_RANK_LIST';
