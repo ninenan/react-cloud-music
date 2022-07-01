@@ -14,5 +14,5 @@ const actionMap = new Map([
 export default (state = defaultState, action) => {
   const { type } = action;
   if (actionMap.get(type)) return actionMap.get(type)(state, action);
-  return actionMap.get('default')();
+  return state;
 }

@@ -17,12 +17,11 @@ const actionMap = new Map([
   [actionTypes.CHANGE_IS_HAS_MORE, (state, action) => state.set('isHasMore', action.data)],
   [actionTypes.CHANGE_IS_SHOW_PULL_DOWN_LOADING, (state, action) => state.set('isShowPullDownLoading', action.data)],
   [actionTypes.CHANGE_IS_SHOW_PULL_UP_LOADING, (state, action) => state.set('isShowPullUpLoading', action.data)],
-  ['default', () => defaultState]
 ])
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = defaultState, action) => {
   const { type } = action;
   if (actionMap.get(type)) return actionMap.get(type)(state, action);
-  return actionMap.get('default')();
+  return state;
 }
