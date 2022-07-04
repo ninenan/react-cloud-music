@@ -3,13 +3,13 @@ import { getName } from '../../../../help/utils';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => {
-  const { tracks } = props;
+  const { tracks, onPlay } = props;
 
   return (
     <SongList>
       {tracks.map((item, index) => {
         return (
-          <li key={index} className="item">
+          <li key={index} className="item" onClick={() => onPlay(item)}>
             <div className='item-num'>{index + 1}</div>
             <div className='content'>
               <h2 className='name'>{item.name}</h2>

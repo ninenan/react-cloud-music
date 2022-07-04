@@ -78,8 +78,12 @@ function Album() {
     }
   }
 
-  const handlePlay = () => {
-    console.log('handlePlay');
+  const handlePlayAll = (currentAlbum) => {
+    console.log('currentAlbum: ', currentAlbum);
+  }
+
+  const handlePlay = (current) => {
+    console.log('current: ', current);
   }
 
   const renderTopDec = () => {
@@ -105,7 +109,7 @@ function Album() {
             </div>
           </TopDesc>
           <PlayBtnWrapper>
-            <PlayBtn onClick={handlePlay}>
+            <PlayBtn onClick={() => handlePlayAll(currentAlbum)}>
               <i className="iconfont">&#xe6e3;</i>
               <span className='text'>播放全部</span>
             </PlayBtn>
@@ -137,7 +141,7 @@ function Album() {
             <List top="273">
               <WrapperScroll probeType={3} onScroll={handleScroll}>
                 <div className="song-list-wrapper">
-                  <SongList key="1fasdfsa" tracks={currentAlbum.tracks} />
+                  <SongList tracks={currentAlbum.tracks} onPlay={handlePlay}/>
                 </div>
               </WrapperScroll>
             </List>
