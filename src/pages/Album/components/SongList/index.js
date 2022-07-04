@@ -10,7 +10,6 @@ export default (props) => {
       {tracks.map((item, index) => {
         return (
           <li key={index} className="item" onClick={() => onPlay(item)}>
-            <div className='item-num'>{index + 1}</div>
             <div className='content'>
               <h2 className='name'>{item.name}</h2>
               <p className='desc'>{getName(item.ar)} - {item.al.name}</p>
