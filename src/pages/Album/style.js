@@ -86,6 +86,7 @@ export const TopDesc = styled.div`
       width: 120px;
       height: 120px;
       border-radius:3px;
+      background-color: ${style['background-color']};
     }
   }
   .desc-wrapper {
@@ -148,7 +149,7 @@ export const BgImage = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(7, 17, 27, 0.5);
+    background: rgba(7, 17, 27, 0.8);
     z-index: -1;
   }
 `

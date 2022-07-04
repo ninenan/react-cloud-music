@@ -82,9 +82,43 @@ function Album() {
     console.log('handlePlay');
   }
 
+  const renderTopDec = () => {
+    return (
+      <>
+        <BgImage background={currentAlbum.coverImgUrl} style={bgImgStyle}>
+          <TopDesc>
+            <div className="img-wrapper">
+              <img src={currentAlbum.coverImgUrl} alt="" />
+              <div className="play-count">
+                <i className="iconfont play">&#xe885;</i>
+                <span className="count">{getCount(currentAlbum.subscribedCount)}</span>
+              </div>
+            </div>
+            <div className="desc-wrapper">
+              <div className="title">{currentAlbum.name}</div>
+              <div className="person">
+                <div className="avatar">
+                  <img src={currentAlbum.creator && currentAlbum.creator.avatarUrl} alt="" />
+                </div>
+                <div className="name">{currentAlbum.creator && currentAlbum.creator.nickname}</div>
+              </div>
+            </div>
+          </TopDesc>
+          <PlayBtnWrapper>
+            <PlayBtn onClick={handlePlay}>
+              <i className="iconfont">&#xe6e3;</i>
+              <span className='text'>播放全部</span>
+            </PlayBtn>
+          </PlayBtnWrapper>
+          <div className="filter"></div>
+        </BgImage>
+      </>
+    )
+  }
+
   useEffect(() => {
     dispatch(action.getAlbumList(id));
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <CSSTransition
@@ -99,33 +133,7 @@ function Album() {
         <Header title="返回" handleClick={handleGoBack} ref={headerRef} />
         {isEmptyObj(currentAlbum) ? <Loading /> :
           <>
-            <BgImage background={currentAlbum.coverImgUrl} style={bgImgStyle}>
-              <TopDesc>
-                <div className="img-wrapper">
-                  <img src={currentAlbum.coverImgUrl} alt="" />
-                  <div className="play-count">
-                    <i className="iconfont play">&#xe885;</i>
-                    <span className="count">{getCount(currentAlbum.subscribedCount)}</span>
-                  </div>
-                </div>
-                <div className="desc-wrapper">
-                  <div className="title">{currentAlbum.name}</div>
-                  <div className="person">
-                    <div className="avatar">
-                      <img src={currentAlbum.creator && currentAlbum.creator.avatarUrl} alt="" />
-                    </div>
-                    <div className="name">{currentAlbum.creator && currentAlbum.creator.nickname}</div>
-                  </div>
-                </div>
-              </TopDesc>
-              <PlayBtnWrapper>
-                <PlayBtn onClick={handlePlay}>
-                  <i className="iconfont">&#xe6e3;</i>
-                  <span className='text'>播放全部</span>
-                </PlayBtn>
-              </PlayBtnWrapper>
-              <div className="filter"></div>
-            </BgImage>
+            {renderTopDec()}
             <List top="273">
               <WrapperScroll probeType={3} onScroll={handleScroll}>
                 <div className="song-list-wrapper">

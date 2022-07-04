@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { forceCheck } from 'react-lazyload'
+import { useNavigate, Outlet, renderMatches } from 'react-router-dom'
 import LazyLoadImg from '../../baseUI/LazyLoadImg';
 import Scroll from '../../components/base/Scroll';
 import * as action from './store/actionCreators';
@@ -11,56 +12,77 @@ export default function Rank() {
   const dispatch = useDispatch();
   const officialList = rankList.filter((item) => item.tracks.length);
   const globalList = rankList.filter((item) => !item?.tracks.length);
+  const navigate = useNavigate()
+
+  const handleToDetails = ({ id }) => {
+    navigate(`/rank/${id}`);
+  }
 
   useEffect(() => {
     if (!rankList.length) dispatch(action.getRankList());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [rankList, dispatch]);
+
+  const renderList = () => {
+    return (
+      <>
+        <List>
+          {
+            officialList.map((item) => {
+              return (
+                <ListItem key={item.coverImgId} tracks={item.tracks} onClick={() => handleToDetails(item)}>
+                  <LazyLoadImg>
+                    <img src={item.coverImgUrl} alt="music" />
+                  </LazyLoadImg>
+                  <SongList>
+                    {item.tracks.map((track, index) => {
+                      return (
+                        <li key={index}>{index + 1}. {track.first}</li>
+                      )
+                    })}
+                  </SongList>
+                </ListItem>
+              )
+            })
+          }
+        </List>
+      </>
+    )
+  }
+
+  const renderGlobalList = () => {
+    return (
+      <>
+        <GlobalList>
+          {
+            globalList.map((item, index) => {
+              return (
+                <GlobalListItem key={index} onClick={() => handleToDetails(item)}>
+                  <div className='item__container'>
+                    <LazyLoadImg>
+                      <img src={item.coverImgUrl} alt='music' />
+                    </LazyLoadImg>
+                    <div className='update-frequency'>{item.updateFrequency}</div>
+                  </div>
+                </GlobalListItem>
+              )
+            })
+          }
+        </GlobalList>
+      </>
+    )
+  }
 
   return (
     <Container>
       <Scroll scrollY={true} probeType={3} onScroll={forceCheck}>
         <div>
           <h2 className='title'>官方榜</h2>
-          <List>
-            {
-              officialList.map((item) => {
-                return (
-                  <ListItem key={item.coverImgId} tracks={item.tracks}>
-                    <LazyLoadImg>
-                      <img src={item.coverImgUrl} alt="music" />
-                    </LazyLoadImg>
-                    <SongList>
-                      {item.tracks.map((track, index) => {
-                        return (
-                          <li key={index}>{index + 1}. {track.first}</li>
-                        )
-                      })}
-                    </SongList>
-                  </ListItem>
-                )
-              })
-            }
-          </List>
+          {renderList()}
           <h2 className='title'>全球榜</h2>
-          <GlobalList>
-            {
-              globalList.map((item, index) => {
-                return (
-                  <GlobalListItem key={index}>
-                    <div className='item__container'>
-                      <LazyLoadImg>
-                        <img src={item.coverImgUrl} alt='music' />
-                      </LazyLoadImg>
-                      <div className='update-frequency'>{item.updateFrequency}</div>
-                    </div>
-                  </GlobalListItem>
-                )
-              })
-            }
-          </GlobalList>
+          {renderGlobalList()}
         </div>
       </Scroll>
+      <Outlet />
     </Container>
   )
 }
