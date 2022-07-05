@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { forceCheck } from 'react-lazyload';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Scroll from "../../components/base/Scroll";
 import SingerItem from './components/SingerItem';
 import { SingerContainer, NavContainer, ListContainer } from './style'
@@ -17,6 +18,7 @@ export default function Home() {
   // const [isShowPullUpLoading, setIsShowPullUpLoading] = useState(false);
   const { isHasMore, pageCount, singerList, isShowPullUpLoading, isShowPullDownLoading } = useSelector(state => state).toJS().singers;
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const scrollRef = useRef(null);
   const handleUpdateSinger = val => setCurrentSinger(val);
   const handleUpdateAlphabet = val => setCurrentAlphabet(val);
@@ -45,6 +47,10 @@ export default function Home() {
     }
   }
 
+  const handleToDetail = ({ id }) => {
+    navigate(`/singers/${id}`)
+  }
+
   useEffect(() => {
     pullDownRefresh();
   }, [currentSinger, currentAlpnabet])
@@ -63,15 +69,13 @@ export default function Home() {
     if (!singerList.length) {
       dispatch(action.getHotSingerList());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [singerList, dispatch])
 
   useEffect(() => {
     if (scrollRef.current) {
       return scrollRef.current.refresh();
     }
-  })
-
+  }, [])
 
   return (
     <SingerContainer>
@@ -92,11 +96,12 @@ export default function Home() {
         >
           <div>
             {singerList.map((item, index) => {
-              return <SingerItem key={`${item.id}${index + ''}`} {...item} />
+              return <SingerItem onSelect={handleToDetail} key={`${item.id}${index + ''}`} {...item} />
             })}
           </div>
         </Scroll>
       </ListContainer>
+      <Outlet />
     </SingerContainer>
   )
 }

@@ -37,7 +37,7 @@ Horizon.defaultProps = {
   list: [], // 列表数据
   currentVal: '',
   title: '', // 标题
-  handleClick: null // 点击事件
+  handleClick: () => {} // 点击事件
 }
 
 Horizon.propTypes = {

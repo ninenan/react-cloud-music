@@ -1,4 +1,5 @@
 import variable from './variable';
+
 // 扩大可点击区域
 const extendClick = () => {
   return `
@@ -10,6 +11,7 @@ const extendClick = () => {
     };
   `
 }
+
 // 一行文字溢出部分用... 代替
 const noWrap = () => {
   return `
@@ -27,10 +29,25 @@ const flexCenterCenter = () => {
   `
 }
 
+const baseContainer = () => {
+  return `
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background: ${variable["background-color"]};
+  `
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   ...variable,
   extendClick,
   noWrap,
-  flexCenterCenter
+  flexCenterCenter,
+  baseContainer
 }
