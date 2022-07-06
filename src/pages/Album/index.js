@@ -23,7 +23,7 @@ function Album() {
     transform: 'scale(1)translateZ(0px)',
     zIndex: 0,
     paddingTop: '70%',
-    height: '0',
+    height: 0,
   });
   const headerRef = useRef(null);
   const dispatch = useDispatch();

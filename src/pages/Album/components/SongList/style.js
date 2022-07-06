@@ -10,7 +10,7 @@ export const SongList = styled.ul`
     font-size: ${style["font-size:m"]};
   }
   .item-num {
-    width: 40px;
+    width: 60px;
     line-height: 64px;
     text-align: center;
     color: ${style['theme-color']};

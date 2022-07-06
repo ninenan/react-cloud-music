@@ -51,6 +51,7 @@ export const TopDesc = styled.div`
     width: 120px;
     height: 120px;
     position: relative;         
+    background-color: ${style['background-color']};
     .play-count {
       position: absolute;
       right: 5px;
@@ -66,7 +67,6 @@ export const TopDesc = styled.div`
       width: 120px;
       height: 120px;
       border-radius:3px;
-      background-color: ${style['background-color']};
     }
   }
   .desc-wrapper {
