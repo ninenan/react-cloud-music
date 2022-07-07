@@ -3,6 +3,7 @@ import style from '../../style/common';
 
 export const Container = styled.div`
   ${style.baseContainer()};
+  background-color: ${style['background-color']};
   transform-origin: right bottom;
   &.fly-appear {
     transform-origin: right bottom;
@@ -27,14 +28,10 @@ export const Container = styled.div`
 `
 
 export const TopContainer = styled.div`
-  .topWrapper {
-    position: relative;
-    width: 100%;
-    background: url(${props => props.bgUrl});
-    background-size: cover;
-    /* paddint-top: 70%; */
-    height: 273px;
-  }
+  position: relative;
+  width: 100%;
+  background: url(${props => props.bgUrl});
+  background-size: cover;
   .filer {
     position: absolute;
     top: 0;
@@ -81,8 +78,7 @@ export const ListContainer = styled.div`
   top: 273px;
   bottom: 0;
   width: 100%;
-  z-index: 1;
-  background: ${style['background-color']};
+  z-index: 0;
   .list__wrapper {
     background: ${style['background-color']};
   }

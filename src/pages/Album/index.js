@@ -20,10 +20,9 @@ function Album() {
   const navigate = useNavigate();
   const [bgImgStyle, setBgImgStyle] = useState({
     filter: 'blur(0)',
-    transform: 'scale(1)translateZ(0px)',
+    transform: 'scale(1) translateZ(0px)',
     zIndex: 0,
     paddingTop: '70%',
-    height: 0,
   });
   const headerRef = useRef(null);
   const dispatch = useDispatch();
@@ -73,7 +72,6 @@ function Album() {
         transform: 'scale(1)translateZ(0px)',
         zIndex: 0,
         paddingTop: '70%',
-        height: '0',
       })
     }
   }
