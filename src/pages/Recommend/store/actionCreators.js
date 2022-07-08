@@ -18,18 +18,18 @@ export const changeLoading = data => ({
 })
 
 export const getBannerList = () => {
-  return (dispatch) => {
-    api.recommend.getBannerListRequest().then((data) => {
-      dispatch(changeBannerList(data.banners));
-    }).catch(() => console.log('getBannerList: err'))
+  return async (dispatch) => {
+    const data = await api.recommend.getBannerListRequest()
+
+    dispatch(changeBannerList(data.banners));
   }
 }
 
 export const getRecommendList = () => {
-  return (dispatch) => {
-    api.recommend.getRecommendListRequest().then((data) => {
-      dispatch(changeRecommendList(data.result));
-      dispatch(changeLoading(false));
-    }).catch(() => console.log('changeRecommendList: err'))
+  return async (dispatch) => {
+    const data = await api.recommend.getRecommendListRequest();
+
+    dispatch(changeRecommendList(data.result));
+    dispatch(changeLoading(false));
   }
 }

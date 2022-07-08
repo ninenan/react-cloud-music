@@ -78,7 +78,6 @@ export const ListContainer = styled.div`
   top: 273px;
   bottom: 0;
   width: 100%;
-  z-index: 0;
   .list__wrapper {
     background: ${style['background-color']};
   }

@@ -53,7 +53,7 @@ export default function Home() {
 
   useEffect(() => {
     pullDownRefresh();
-  }, [currentSinger, currentAlpnabet])
+  }, [currentSinger, currentAlpnabet]);
 
   useEffect(() => {
     (async () => {

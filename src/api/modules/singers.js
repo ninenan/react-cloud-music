@@ -173,7 +173,8 @@ const singers = {
   // 通过类型或者字母获取歌手信息
   getSingerListByTypeOrAlphabetRequest: (category, alpha, count) => {
     return http.get(`/artist/list?cat=${category}&initial=${alpha.toLowerCase()}&offset=${count}`);
-  }
+  },
+  getSingerDetails: (id) => http.get(`/artists?id=${id}`)
 }
 
 export default singers

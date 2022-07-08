@@ -1,11 +1,12 @@
-import { memo, useCallback, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Container, TopContainer, CollectBtn, CollectBtnWrapper, ListContainer } from './style';
 import Header from '../../components/base/Header';
 import WrapperScroll from '../../components/base/WrapperScroll';
 import SongList from '../Album/components/SongList';
-import singerList from '../../mock/singer';
+import { getSingerDetails } from './store/actionCreators';
 
 const HEIGHT = 270;
 
@@ -21,6 +22,9 @@ const Singer = () => {
     transform: 'translate3d(0, 0, 0)'
   })
   const navigate = useNavigate();
+  const { id } = useParams();
+  const disPatch = useDispatch();
+  const { artist, songsOfArtist } = useSelector(state => state).toJS().singer;
 
   const hanleExit = useCallback(() => {
     navigate(-1);
@@ -76,6 +80,10 @@ const Singer = () => {
     }
   }, [topContainerStyle]);
 
+  useEffect(() => {
+    disPatch(getSingerDetails(id));
+  }, [id, disPatch]);
+
   return (
     <CSSTransition
       in={isShow}
@@ -86,8 +94,8 @@ const Singer = () => {
       onExited={hanleExit}
     >
       <Container>
-        <Header title={singerList.name} handleClick={handleToBack} />
-        <TopContainer bgUrl={singerList.picUrl} style={topContainerStyle}>
+        <Header title={artist.name} handleClick={handleToBack} />
+        <TopContainer bgUrl={artist.picUrl} style={topContainerStyle}>
           <CollectBtnWrapper>
             <CollectBtn style={btnStyle}>
               <i className='iconfont'>&#xe62d;</i>
@@ -99,7 +107,7 @@ const Singer = () => {
         <ListContainer>
           <WrapperScroll probeType={3} onScroll={handleScroll}>
             <div className='list__wrapper'>
-              <SongList isShowIndex onPlay={handlePlay} tracks={singerList.hotSongs} />
+              <SongList isShowIndex onPlay={handlePlay} tracks={songsOfArtist} />
             </div>
           </WrapperScroll>
         </ListContainer>
