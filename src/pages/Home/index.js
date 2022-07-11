@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom'
 import { Top, Tab, TabItem } from './style'
 import MyNavLink from '../../components/MyNavLink'
+import Play from '../../components/Play';
 
 const linkList = [
   {
@@ -39,6 +40,7 @@ function Home() {
         })}
       </Tab>
       <Outlet />
+      <Play />
     </div>
   )
 }
