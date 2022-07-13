@@ -21,8 +21,8 @@ Header.defaultProps = {
 }
 
 Header.propTypes = {
-  handleClick: PropTypes.func,
-  title: PropTypes.string
+  handleClick: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 export default React.memo(Header);

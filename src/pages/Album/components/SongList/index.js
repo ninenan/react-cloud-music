@@ -30,9 +30,9 @@ SingerList.defaultProps = {
 };
 
 SingerList.propTypes = {
-  tracks: PropTypes.array,
-  onplay: PropTypes.func,
-  isShowIndex: PropTypes.bool
+  tracks: PropTypes.array.isRequired,
+  onplay: PropTypes.func.isRequired,
+  isShowIndex: PropTypes.bool.isRequired
 };
 
 export default memo(SingerList);

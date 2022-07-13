@@ -41,10 +41,10 @@ Horizon.defaultProps = {
 }
 
 Horizon.propTypes = {
-  list: PropTypes.array,
-  currentVal: PropTypes.string,
-  title: PropTypes.string,
-  handleClick: PropTypes.func
+  list: PropTypes.array.isRequired,
+  currentVal: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired
 }
 
 export default memo(Horizon)
