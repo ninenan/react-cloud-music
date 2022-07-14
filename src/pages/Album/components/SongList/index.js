@@ -31,7 +31,7 @@ SingerList.defaultProps = {
 
 SingerList.propTypes = {
   tracks: PropTypes.array.isRequired,
-  onplay: PropTypes.func.isRequired,
+  onPlay: PropTypes.func.isRequired,
   isShowIndex: PropTypes.bool.isRequired
 };
 

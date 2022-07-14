@@ -20,13 +20,13 @@ export const MiniPlayerContainer = styled.div`
   display: flex;
   align-items: center;
   background-color: ${style["background-highlight-color"]};
-  &.mini-center {
-    transform:translate3d(0, 0, 0);
-    transition: all .4s;
+  &.mini-player-center {
+    transform: translate3d(0, 0, 0);
+    transition: all .3s;
   }
-  &.mini-exit-active {
+  &.mini-player-exit-active {
     transform: translate3d(0, 100%, 0);
-    transition: all .4s;
+    transition: all .3s;
   }
   .icon {
     flex: 0 0 40px;
