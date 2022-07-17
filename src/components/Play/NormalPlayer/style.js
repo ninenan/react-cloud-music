@@ -26,12 +26,45 @@ export const NormalPlayerContainer = styled.div`
     height: 100%;
     z-index: -1;
     opacity: 0.6;
-    filter: blur (20px);
-    &.layer {
-      background: ${style["font-color-desc"]};
-      opacity: 0.3;
-      filter: none;
+    filter: blur(15px);
+  }
+  .layer {
+    background: ${style["background-color-shadow"]};
+    opacity: 0.3;
+    filter: none;
+  }
+  &.normal-appear {
+    .top {
+      transform: translate3d(0, -100px, 0);
     }
+    .bottom {
+      transform: translate3d(0, 100px, 0);
+    }
+  }
+  &.normal-appear-active, &.normal-appear-done {
+    .top, .bottom {
+      transform: translate3d(0, 0, 0);
+      transition: transform .3s linear;
+    }
+    opacity: 1;
+    transition: all .3s;
+  }
+  &.normal-exit {
+    .top, .bottom {
+      transform: translate3d(0, 0, 0);
+    }
+    opacity: 1;
+    transition: all .3s;
+  }
+  &.normal-exit-active {
+    .top {
+      transform: translate3d(0, -100px, 0);
+    }
+    .bottom {
+      transform: translate3d(0, 100px, 0);
+    }
+    opacity: 0;
+    transition: all .3s;
   }
 `;
 
@@ -58,14 +91,14 @@ export const Top = styled.div`
     text-align: center;
     font-size: ${style["font-size-l"]};
     color: ${style["font-color-desc"]};
-    ${style.noWrap ()};
+    ${style.noWrap()};
   }
   .subtitle {
     line-height: 20px;
     text-align: center;
     font-size: ${style["font-size-m"]};
     color: ${style["font-color-desc-v2"]};
-    ${style.noWrap ()};
+    ${style.noWrap()};
   }
 `;
 
