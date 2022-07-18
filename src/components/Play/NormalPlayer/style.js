@@ -33,30 +33,11 @@ export const NormalPlayerContainer = styled.div`
     opacity: 0.3;
     filter: none;
   }
-  &.normal-appear {
-    .top {
-      transform: translate3d(0, -100px, 0);
-    }
-    .bottom {
-      transform: translate3d(0, 100px, 0);
-    }
-  }
-  &.normal-appear-active, &.normal-appear-done {
+  &.normal-enter,
+  &.normal-exit-done {
     .top, .bottom {
-      transform: translate3d(0, 0, 0);
       transition: transform .3s linear;
     }
-    opacity: 1;
-    transition: all .3s;
-  }
-  &.normal-exit {
-    .top, .bottom {
-      transform: translate3d(0, 0, 0);
-    }
-    opacity: 1;
-    transition: all .3s;
-  }
-  &.normal-exit-active {
     .top {
       transform: translate3d(0, -100px, 0);
     }
@@ -64,7 +45,26 @@ export const NormalPlayerContainer = styled.div`
       transform: translate3d(0, 100px, 0);
     }
     opacity: 0;
-    transition: all .3s;
+    transition: transform .3s linear, opacity .3s;
+  }
+  &.normal-enter-active,
+  &.normal-exit-active {
+    .top,
+    .bottom {
+      transform: translate3d(0, 0, 0);
+      transition: transform .3s linear;
+    }
+    opacity: 1;
+    transition: opacity .3s linear;
+  }
+  &.normal-exit-active {
+    opacity: 0;
+    .top {
+      transform: translate3d(0, -100px, 0);
+    }
+    .bottom {
+      transform: translate3d(0, 100px, 0);
+    }
   }
 `;
 

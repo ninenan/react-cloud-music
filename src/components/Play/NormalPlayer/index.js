@@ -116,7 +116,6 @@ const NormalPlayer = (props) => {
       classNames='normal'
       in={isFullScreen}
       timeout={300}
-      appear={true}
       mountOnEnter
       onEnter={enter}
       onEntered={afterEnter}
