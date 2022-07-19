@@ -6,7 +6,7 @@ const defaultState = fromJS({
   // 是否全屏幕
   isFullScreen: false,
   // 是否正在播放
-  isPlaying: false,
+  isPlaying: true,
   // 顺序播放列表
   sequencePlaylist: [],
   // 播放列表
