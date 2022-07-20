@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
 import { getName } from '../../../help/utils';
-import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper } from './style';
+import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, ProgressWrapper } from './style';
+import ProgressBar from '../../base/ProgressBar';
 
 const operatorList = [
   {
@@ -142,6 +143,13 @@ const NormalPlayer = (props) => {
           </CDWrapper>
         </Middle>
         <Bottom className='bottom'>
+          <ProgressWrapper>
+            <span className='time time-l'>0:00</span>
+            <div className='progress-bar-wrapper'>
+              <ProgressBar percent={0.2}></ProgressBar>
+            </div>
+            <span className='time time-r'>4:22</span>
+          </ProgressWrapper>
           <Operators>
             {operatorList.map(item => {
               return (

@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import Scroll from "../../components/base/Scroll";
+import Scroll from "../Scroll";
 import { List, ListItem } from "./style";
 
 const Horizon = (props) => {

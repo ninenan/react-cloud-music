@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import style from '../../style/common';
+import style from '../../../style/common';
 
 export const List = styled.div`
   height: 30px;

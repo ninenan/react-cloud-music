@@ -165,11 +165,11 @@ export const ProgressWrapper = styled.div`
   margin: 0px auto;
   padding: 10px 0;
   .time {
-    color: ${style["font-color-desc"]};
-    font-size: ${style["font-size-s"]};
-    flex: 0 0 30px;
+    flex: 0 0 40px;
     line-height: 30px;
     width: 30px;
+    color: ${style["font-color-desc"]};
+    font-size: ${style["font-size-s"]};
     &.time-l {
       text-align: left;
     }

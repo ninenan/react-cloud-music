@@ -8,7 +8,7 @@ export default ({ children }) => {
         <img
           width="100%"
           height="100%"
-          src={require('../../assets/image/music.jpg')}
+          src={require('../../../assets/image/music.jpg')}
           alt="music"
         />
       }

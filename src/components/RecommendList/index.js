@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ListWrapper, List, ListItem } from "./style";
 import { getCount } from "../../help/utils";
-import LazyLoadImg from "../../baseUI/LazyLoadImg";
+import LazyLoadImg from "../../components/base/LazyLoadImg";
 
 export default function RecommendList(props) {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import Scroll from "../../components/base/Scroll";
 import SingerItem from './components/SingerItem';
 import { SingerContainer, NavContainer, ListContainer } from './style'
-import Horizon from "../../baseUI/Horizon";
+import Horizon from "../../components/base/Horizon";
 import api from "../../api";
 import * as action from "./store/actionCreators";
 

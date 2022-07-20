@@ -1,5 +1,5 @@
 import { ListItem } from './style';
-import LazyLoadImg from '../../../../baseUI/LazyLoadImg';
+import LazyLoadImg from '../../../../components/base/LazyLoadImg';
 
 export default function SingerItem(props) {
   const { picUrl, name, img1v1Url, onSelect } = props
