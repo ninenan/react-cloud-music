@@ -1,38 +1,66 @@
-import { memo, useRef } from 'react';
+import { memo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
 import { getName } from '../../../help/utils';
 import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, ProgressWrapper } from './style';
 import ProgressBar from '../../base/ProgressBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { changePlayingState, changeFullScreen } from '../../../store/player/actionCreator';
 
-const operatorList = [
-  {
-    name: 'i-left',
-    data: '&#xe625;'
-  },
-  {
-    name: 'i-left',
-    data: '&#xe6e1;'
-  },
-  {
-    name: 'i-center',
-    data: '&#xe723;'
-  },
-  {
-    name: 'i-right',
-    data: '&#xe718;'
-  },
-  {
-    name: 'i-right',
-    data: '&#xe640;'
-  }
-]
+// const operatorList = [
+//   {
+//     name: 'i-left',
+//     data: '&#xe625;'
+//   },
+//   {
+//     name: 'i-left',
+//     data: '&#xe6e1;'
+//   },
+//   {
+//     name: 'i-center',
+//     data: '&#xe723;'
+//   },
+//   {
+//     name: 'i-right',
+//     data: '&#xe718;'
+//   },
+//   {
+//     name: 'i-right',
+//     data: '&#xe640;'
+//   }
+// ]
 
 const NormalPlayer = (props) => {
-  const { song, isFullScreen, isPlaying, toggleFullScreen } = props;
+  // const { song, isFullScreen, isPlaying, toggleFullScreen } = props;
+  const dispatch = useDispatch();
+  const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
+  const [operatorList, setOperatorList] = useState(
+    [
+      {
+        name: 'i-left',
+        data: '&#xe625;'
+      },
+      {
+        name: 'i-left',
+        data: '&#xe6e1;'
+      },
+      {
+        name: 'i-center',
+        data: '&#xe731;'
+      },
+      {
+        name: 'i-right',
+        data: '&#xe718;'
+      },
+      {
+        name: 'i-right',
+        data: '&#xe640;'
+      }
+    ]
+  )
 
   const getPosAndScale = () => {
     const targetWidth = 40;
@@ -50,6 +78,27 @@ const NormalPlayer = (props) => {
       y,
       scale
     }
+  }
+
+  const handleChangeSong = (e, index) => {
+    e.stopPropagation();
+
+    if (index === 2) {
+      dispatch(changePlayingState(!isPlaying));
+      setOperatorList((prev) => {
+        prev[index].data = isPlaying ? "&#xe731;" : "&#xe723;"
+
+        return prev
+      })
+    }
+  }
+
+  const toggleFullScreen = (val) => {
+    dispatch(changeFullScreen(val));
+  }
+
+  const handleChangePlayingState = () => {
+    dispatch(changePlayingState(!isPlaying));
   }
 
   const enter = () => {
@@ -93,12 +142,12 @@ const NormalPlayer = (props) => {
     if (cdWrapperRef.current) {
       const cdWrapperEl = cdWrapperRef.current;
       cdWrapperEl.style.transition = 'all .3s';
-      const {x, y, scale} = getPosAndScale();
+      const { x, y, scale } = getPosAndScale();
       cdWrapperEl.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
     }
   }
 
-  const afterLeave = () => { 
+  const afterLeave = () => {
     if (!cdWrapperRef.current) {
       return
     }
@@ -125,20 +174,20 @@ const NormalPlayer = (props) => {
     >
       <NormalPlayerContainer ref={normalPlayerRef}>
         <div className='background'>
-          <img src={`${song.al.picUrl}?param=300*300`} width="100%" height="100%" alt='歌曲图片'></img>
+          <img src={`${currentSong.al.picUrl}?param=300*300`} width="100%" height="100%" alt='歌曲图片'></img>
         </div>
         <div className='background layer'></div>
         <Top className='top'>
           <div className='back' onClick={() => toggleFullScreen(false)}>
             <i className='iconfont icon-back'>&#xe662;</i>
           </div>
-          <h1 className='title'>{song.name}</h1>
-          <h1 className='subtitle'>{getName(song.ar)}</h1>
+          <h1 className='title'>{currentSong.name}</h1>
+          <h1 className='subtitle'>{getName(currentSong.ar)}</h1>
         </Top>
         <Middle ref={cdWrapperRef}>
           <CDWrapper>
             <div className='cd'>
-              <img className='image play' src={`${song.al.picUrl}?param=400*400`} alt='歌曲CD' />
+              <img className={`image ${isPlaying ? 'play' : 'pause'}`} src={`${currentSong.al.picUrl}?param=400*400`} alt='歌曲CD' />
             </div>
           </CDWrapper>
         </Middle>
@@ -151,10 +200,10 @@ const NormalPlayer = (props) => {
             <span className='time time-r'>4:22</span>
           </ProgressWrapper>
           <Operators>
-            {operatorList.map(item => {
+            {operatorList.map((item, index) => {
               return (
                 <div className={`icon ${item.name}`} key={item.data}>
-                  <i className="iconfont" dangerouslySetInnerHTML={{ __html: item.data }}></i>
+                  <i className="iconfont" dangerouslySetInnerHTML={{ __html: item.data }} onClick={e => handleChangeSong(e, index)}></i>
                 </div>
               )
             })}

@@ -6,7 +6,7 @@ const defaultState = fromJS({
   // 是否全屏幕
   isFullScreen: false,
   // 是否正在播放
-  isPlaying: true,
+  isPlaying: false,
   // 顺序播放列表
   sequencePlaylist: [],
   // 播放列表
@@ -18,7 +18,11 @@ const defaultState = fromJS({
   // 是否展示播放列表
   isShowPlaylist: false,
   // 当前播放的歌曲
-  currentSong: {}
+  currentSong: {
+    al: { picUrl: "https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg" },
+    name: "木偶人",
+    ar: [{ name: "薛之谦" }]
+  }
 })
 
 const actionMap = new Map([

@@ -31,7 +31,7 @@ export const changePlaylist = data => ({
 })
 
 export const changePlayingState = data => ({
-  tyep: SET_PLAYING_STATE,
+  type: SET_PLAYING_STATE,
   data
 })
 

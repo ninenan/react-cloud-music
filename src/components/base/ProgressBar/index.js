@@ -31,7 +31,8 @@ const ProgressBar = (props) => {
     if (!touch.initiated) return;
 
     const deltaX = e.touches[0].pageX - touch.startX;
-    const barWidth = progressBarRef.current.clientWidth - PROGRESS_BTN_WIDTH;
+    const barWidth = progressBarRef.current.clientWidth;
+    console.log('barWidth: ', barWidth );
     const offsetWidth = Math.min(Math.max(0, touch.left + deltaX), barWidth);
 
     setOffset(offsetWidth);
@@ -51,12 +52,11 @@ const ProgressBar = (props) => {
 
     if (pageX <= left) {
       offsetWidth = 0
-    } else if (pageX - left >= right - left) {
-      offsetWidth = right - left - PROGRESS_BTN_WIDTH;
     } else {
-      offsetWidth = pageX - left;
+      console.log(right);
+      offsetWidth = Math.min(right - left, pageX -left);
     }
-
+    
     setOffset(offsetWidth);
   }
 
