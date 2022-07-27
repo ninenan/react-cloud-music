@@ -1,27 +1,42 @@
-import { memo } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import MiniPlayer from './MiniPlayer';
 import NormalPlayer from './NormalPlayer';
-import { changeFullScreen } from '../../store/player/actionCreator';
-
-const currentSong = {
-  al: { picUrl: "https://p1.music.126.net/JL_id1CFwNJpzgrXwemh4Q==/109951164172892390.jpg" },
-  name: "木偶人",
-  ar: [{ name: "薛之谦" }]
-}
+import { changePlayingState ,changeFullScreen, changeCurrenIndex, changeCurrentSong } from '../../store/player/actionCreator';
+import { playList } from '../../mock/player';
+import { getSongUrl } from '../../help/utils';
 
 const Player = () => {
   const dispatch = useDispatch();
-  const { isFullScreen, isPlaying } = useSelector(state => state).toJS().player;
+  const { isFullScreen, isPlaying, currentIndex, currentSong } = useSelector(state => state).toJS().player;
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef();
+
+  let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
   const toggleFullScreen = (val) => {
     dispatch(changeFullScreen(val))
   }
 
+  useEffect(() => {
+    let current = playList[0];
+
+    dispatch(changeCurrenIndex(0));
+    dispatch(changeCurrentSong(current));
+    if (audioRef.current) {
+      audioRef.current.src = getSongUrl(current.id);
+    }
+    dispatch(changePlayingState(true));
+    setCurrentTime(0);
+    setDuration(current.dt / 1000 | 0);
+  }, [audioRef]);
+
   return (
     <>
-      <MiniPlayer song={currentSong} isFullScreen={isFullScreen} isPlaying={isPlaying} toggleFullScreen={toggleFullScreen} />
-      <NormalPlayer song={currentSong} isFullScreen={isFullScreen} isPlaying={isPlaying} toggleFullScreen={toggleFullScreen} />
+      <MiniPlayer audioRef={audioRef}/>
+      <NormalPlayer audioRef={audioRef}/>
+      <audio ref={audioRef}></audio>
     </>
   )
 }

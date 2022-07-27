@@ -40,3 +40,5 @@ export const debuounce = (fn, delay) => {
 }
 
 export const isEmptyObj = obj => !obj || Object.keys(obj).length === 0;
+
+export const getSongUrl = id => `https://music.163.com/song/media/outer/url?id=${id}.mp3`;

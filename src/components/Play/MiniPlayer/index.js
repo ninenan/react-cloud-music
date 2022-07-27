@@ -6,16 +6,20 @@ import { getName } from '../../../help/utils';
 import { MiniPlayerContainer } from './style';
 import ProgressCircle from '../../base/ProgressCircle';
 import { changePlayingState, changeFullScreen } from '../../../store/player/actionCreator';
+import usePlayer from '../../../hooks/usePlayer';
 
-const MiniPlayer = () => {
+const MiniPlayer = (props) => {
   const dispatch = useDispatch();
   const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
+  const {audioRef} = props;
   const miniPlayRef = useRef();
   const percent = 0.2;
+  const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
   const handleChangePlayingState = (e) => {
     e.stopPropagation();
     dispatch(changePlayingState(!isPlaying));
+    handleChangeAudioStatus(!isPlaying);
   }
 
   const toggleFullScreen = (val) => {
@@ -70,19 +74,5 @@ const MiniPlayer = () => {
     </CSSTransition>
   )
 }
-
-// MiniPlayer.defaultProps = {
-//   song: {},
-//   isPlaying: false,
-//   isFullScreen: false,
-//   toggleFullScreen: () => { }
-// }
-//
-// MiniPlayer.propTypes = {
-//   song: PropTypes.object.isRequired,
-//   isPlaying: PropTypes.bool.isRequired,
-//   isFullScreen: PropTypes.bool.isRequired,
-//   toggleFullScreen: PropTypes.func.isRequired
-// }
 
 export default memo(MiniPlayer);

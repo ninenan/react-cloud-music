@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from 'react';
+import { memo, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
@@ -8,37 +8,14 @@ import ProgressBar from '../../base/ProgressBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { changePlayingState, changeFullScreen } from '../../../store/player/actionCreator';
 
-// const operatorList = [
-//   {
-//     name: 'i-left',
-//     data: '&#xe625;'
-//   },
-//   {
-//     name: 'i-left',
-//     data: '&#xe6e1;'
-//   },
-//   {
-//     name: 'i-center',
-//     data: '&#xe723;'
-//   },
-//   {
-//     name: 'i-right',
-//     data: '&#xe718;'
-//   },
-//   {
-//     name: 'i-right',
-//     data: '&#xe640;'
-//   }
-// ]
-
 const NormalPlayer = (props) => {
-  // const { song, isFullScreen, isPlaying, toggleFullScreen } = props;
   const dispatch = useDispatch();
   const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
-  const [operatorList, setOperatorList] = useState(
-    [
+
+  const operatorList = useMemo(() => {
+    return [
       {
         name: 'i-left',
         data: '&#xe625;'
@@ -49,7 +26,7 @@ const NormalPlayer = (props) => {
       },
       {
         name: 'i-center',
-        data: '&#xe731;'
+        data: isPlaying ? "&#xe723;" : "&#xe731;",
       },
       {
         name: 'i-right',
@@ -60,7 +37,7 @@ const NormalPlayer = (props) => {
         data: '&#xe640;'
       }
     ]
-  )
+  }, [isPlaying])
 
   const getPosAndScale = () => {
     const targetWidth = 40;
@@ -85,20 +62,11 @@ const NormalPlayer = (props) => {
 
     if (index === 2) {
       dispatch(changePlayingState(!isPlaying));
-      setOperatorList((prev) => {
-        prev[index].data = isPlaying ? "&#xe731;" : "&#xe723;"
-
-        return prev
-      })
     }
   }
 
   const toggleFullScreen = (val) => {
     dispatch(changeFullScreen(val));
-  }
-
-  const handleChangePlayingState = () => {
-    dispatch(changePlayingState(!isPlaying));
   }
 
   const enter = () => {
