@@ -19,6 +19,10 @@ const Player = () => {
     dispatch(changeFullScreen(val))
   }
 
+  const handleTimeUpdate = (e) => {
+    setCurrentTime(e.target.currentTime);
+  }
+
   useEffect(() => {
     let current = playList[0];
 
@@ -34,9 +38,9 @@ const Player = () => {
 
   return (
     <>
-      <MiniPlayer audioRef={audioRef}/>
-      <NormalPlayer audioRef={audioRef}/>
-      <audio ref={audioRef}></audio>
+      <MiniPlayer audioRef={audioRef} />
+      <NormalPlayer audioRef={audioRef} />
+      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate}></audio>
     </>
   )
 }

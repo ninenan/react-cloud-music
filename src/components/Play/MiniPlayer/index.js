@@ -2,7 +2,7 @@ import { memo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import { useSelector, useDispatch } from 'react-redux';
-import { getName } from '../../../help/utils';
+import { getName, formatTime } from '../../../help/utils';
 import { MiniPlayerContainer } from './style';
 import ProgressCircle from '../../base/ProgressCircle';
 import { changePlayingState, changeFullScreen } from '../../../store/player/actionCreator';
@@ -11,7 +11,7 @@ import usePlayer from '../../../hooks/usePlayer';
 const MiniPlayer = (props) => {
   const dispatch = useDispatch();
   const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
-  const {audioRef} = props;
+  const { audioRef } = props;
   const miniPlayRef = useRef();
   const percent = 0.2;
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
@@ -73,6 +73,14 @@ const MiniPlayer = (props) => {
       </MiniPlayerContainer>
     </CSSTransition>
   )
+}
+
+MiniPlayer.defaultProps = {
+  audioRef: {}
+}
+
+MiniPlayer.propTypes = {
+  audioRef: PropTypes.object.isRequired
 }
 
 export default memo(MiniPlayer);

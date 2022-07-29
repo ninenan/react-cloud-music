@@ -7,12 +7,15 @@ import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, Progr
 import ProgressBar from '../../base/ProgressBar';
 import { useSelector, useDispatch } from 'react-redux';
 import { changePlayingState, changeFullScreen } from '../../../store/player/actionCreator';
+import usePlayer from '../../../hooks/usePlayer';
 
 const NormalPlayer = (props) => {
   const dispatch = useDispatch();
   const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
+  const { audioRef } = props
+  const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
   const operatorList = useMemo(() => {
     return [
@@ -62,6 +65,7 @@ const NormalPlayer = (props) => {
 
     if (index === 2) {
       dispatch(changePlayingState(!isPlaying));
+      handleChangeAudioStatus(!isPlaying);
     }
   }
 
@@ -183,17 +187,11 @@ const NormalPlayer = (props) => {
 }
 
 NormalPlayer.defaultProps = {
-  song: {},
-  isFullScreen: false,
-  isPlaying: false,
-  toggleFullScreen: () => { }
+  audioRef: null
 }
 
 NormalPlayer.propTypes = {
-  song: PropTypes.object.isRequired,
-  isFullScreen: PropTypes.bool.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
-  toggleFullScreen: PropTypes.func.isRequired
+  audioRef: PropTypes.object.isRequired
 }
 
 export default memo(NormalPlayer);

@@ -42,3 +42,13 @@ export const debuounce = (fn, delay) => {
 export const isEmptyObj = obj => !obj || Object.keys(obj).length === 0;
 
 export const getSongUrl = id => `https://music.163.com/song/media/outer/url?id=${id}.mp3`;
+
+export const formatTime = time => {
+  time = time | 0;
+
+  const minute = (((time / 60) | 0) + "").padStart(2, "0");
+  const second = (((time % 60) | 0) + "").padStart(2, "0");
+
+  return `${minute}:${second}`;
+}
+
