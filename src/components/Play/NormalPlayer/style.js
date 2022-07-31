@@ -165,7 +165,7 @@ export const ProgressWrapper = styled.div`
   margin: 0px auto;
   padding: 10px 0;
   .time {
-    flex: 0 0 40px;
+    flex: 0 0 48px;
     line-height: 30px;
     width: 30px;
     color: ${style["font-color-desc"]};

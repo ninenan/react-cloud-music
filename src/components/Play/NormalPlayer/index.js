@@ -2,7 +2,7 @@ import { memo, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
-import { getName } from '../../../help/utils';
+import { formatTime, getName } from '../../../help/utils';
 import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, ProgressWrapper } from './style';
 import ProgressBar from '../../base/ProgressBar';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,8 +14,10 @@ const NormalPlayer = (props) => {
   const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
-  const { audioRef } = props
+  const { audioRef, duration, currentTime, percent } = props
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
+
+  console.log(duration, currentTime, percent);
 
   const operatorList = useMemo(() => {
     return [
@@ -165,11 +167,11 @@ const NormalPlayer = (props) => {
         </Middle>
         <Bottom className='bottom'>
           <ProgressWrapper>
-            <span className='time time-l'>0:00</span>
+            <span className='time time-l'>{formatTime(currentTime)}</span>
             <div className='progress-bar-wrapper'>
               <ProgressBar percent={0.2}></ProgressBar>
             </div>
-            <span className='time time-r'>4:22</span>
+            <span className='time time-r'>{formatTime(duration)}</span>
           </ProgressWrapper>
           <Operators>
             {operatorList.map((item, index) => {
@@ -187,11 +189,21 @@ const NormalPlayer = (props) => {
 }
 
 NormalPlayer.defaultProps = {
-  audioRef: null
+  // audio dom
+  audioRef: {},
+  // 进度
+  percent: 0,
+  // 当前时间
+  currentTime: 0,
+  // 总时长
+  duration: 0
 }
 
 NormalPlayer.propTypes = {
-  audioRef: PropTypes.object.isRequired
+  audioRef: PropTypes.object.isRequired,
+  percent: PropTypes.number.isRequired,
+  currentTime: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
 }
 
 export default memo(NormalPlayer);
