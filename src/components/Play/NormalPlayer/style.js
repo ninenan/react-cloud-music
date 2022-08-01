@@ -188,7 +188,7 @@ export const Operators = styled.div`
   .icon {
     font-weight: 300;
     flex: 1;
-    color: ${style["font-color-desc"]};
+    color: ${style["theme-color"]};
     &.disable {
       color: ${style["theme-color-shadow"]};
     }

@@ -1,4 +1,5 @@
-import { memo, startTransition, useReducer, useRef, useState } from 'react';
+import { memo, startTransition, useEffect, useReducer, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { ProgressBarWrapper } from './style';
 
 const ProgressBar = (props) => {
@@ -7,12 +8,20 @@ const ProgressBar = (props) => {
   const progressBtnRef = useRef();
   const [touch, setTouch] = useState({});
   const PROGRESS_BTN_WIDTH = 8;
+  const { percent, onProgressChanged } = props;
 
   const setOffset = (offsetWidth) => {
     if (progressRef.current && progressBtnRef.current) {
       progressRef.current.style.width = `${offsetWidth}px`;
       progressBtnRef.current.style.transform = `translate3d(${offsetWidth}px, 0, 0)`;
     }
+  }
+
+  const changeProgress = () => {
+    const curPercent = progressRef.current.clientWidth / (progressBarRef.current.clientWidth - PROGRESS_BTN_WIDTH);
+    console.log('curPercent: ', curPercent);
+
+    onProgressChanged(curPercent);
   }
 
   const handleProgressTouchStart = (e) => {
@@ -32,7 +41,6 @@ const ProgressBar = (props) => {
 
     const deltaX = e.touches[0].pageX - touch.startX;
     const barWidth = progressBarRef.current.clientWidth;
-    console.log('barWidth: ', barWidth );
     const offsetWidth = Math.min(Math.max(0, touch.left + deltaX), barWidth);
 
     setOffset(offsetWidth);
@@ -43,6 +51,7 @@ const ProgressBar = (props) => {
     endTouch.initiated = false;
 
     setTouch(endTouch);
+    changeProgress();
   };
 
   const handleProgressBarClick = (e) => {
@@ -53,12 +62,21 @@ const ProgressBar = (props) => {
     if (pageX <= left) {
       offsetWidth = 0
     } else {
-      console.log(right);
       offsetWidth = Math.min(right - left, pageX -left);
     }
     
     setOffset(offsetWidth);
+    changeProgress();
   }
+
+  useEffect(() => {
+    if (percent >= 0 && percent <= 1 && !touch.initiated) {
+      const barWidth = progressBarRef.current.clientWidth - PROGRESS_BTN_WIDTH;
+      const offsetWidth = percent * barWidth;
+
+      setOffset(offsetWidth);
+    }
+  }, [percent])
 
   return (
     <ProgressBarWrapper>
@@ -75,6 +93,16 @@ const ProgressBar = (props) => {
       </div>
     </ProgressBarWrapper>
   )
+}
+
+ProgressBar.defaultProps = {
+  percent: 0,
+  onProgressChanged: () => {}
+}
+
+ProgressBar.propTypes = { 
+  percent: PropTypes.number.isRequired,
+  onProgressChanged: PropTypes.func.isRequired
 }
 
 export default memo(ProgressBar);

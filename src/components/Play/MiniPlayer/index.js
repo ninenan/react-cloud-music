@@ -11,9 +11,8 @@ import usePlayer from '../../../hooks/usePlayer';
 const MiniPlayer = (props) => {
   const dispatch = useDispatch();
   const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
-  const { audioRef } = props;
+  const { audioRef, percent } = props;
   const miniPlayRef = useRef();
-  const percent = 0.2;
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
   const handleChangePlayingState = (e) => {
@@ -76,11 +75,13 @@ const MiniPlayer = (props) => {
 }
 
 MiniPlayer.defaultProps = {
-  audioRef: {}
+  audioRef: {},
+  percent: 0
 }
 
 MiniPlayer.propTypes = {
-  audioRef: PropTypes.object.isRequired
+  audioRef: PropTypes.object.isRequired,
+  percent: PropTypes.number.isRequired
 }
 
 export default memo(MiniPlayer);

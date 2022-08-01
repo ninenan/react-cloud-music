@@ -6,18 +6,17 @@ import { formatTime, getName } from '../../../help/utils';
 import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, ProgressWrapper } from './style';
 import ProgressBar from '../../base/ProgressBar';
 import { useSelector, useDispatch } from 'react-redux';
-import { changePlayingState, changeFullScreen } from '../../../store/player/actionCreator';
+import { changePlayingState, changeFullScreen, changeCurrenIndex } from '../../../store/player/actionCreator';
 import usePlayer from '../../../hooks/usePlayer';
+import { List } from 'immutable';
 
 const NormalPlayer = (props) => {
   const dispatch = useDispatch();
-  const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
+  const { isPlaying, isFullScreen, currentSong, playlist, currentIndex } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
-  const { audioRef, duration, currentTime, percent } = props
+  const { audioRef, duration, currentTime, percent, onProgressChanged } = props
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
-
-  console.log(duration, currentTime, percent);
 
   const operatorList = useMemo(() => {
     return [
@@ -65,9 +64,60 @@ const NormalPlayer = (props) => {
   const handleChangeSong = (e, index) => {
     e.stopPropagation();
 
+    if (index === 1) {
+      handlePrevPlay();
+    }
     if (index === 2) {
       dispatch(changePlayingState(!isPlaying));
       handleChangeAudioStatus(!isPlaying);
+    }
+    if (index === 3) {
+      handleNextPlay();
+    }
+  }
+
+  /**
+   * 循环播放
+   */
+  const handleLoop = () => {
+    audioRef.current.currentTime = 0;
+    dispatch(changePlayingState(true));
+    audioRef.current.play()
+  }
+  
+  /**
+   * 上一首
+   */
+  const handlePrevPlay = () => {
+    if (playlist.length === 1) {
+      handleLoop();
+    } else {
+      let index = currentIndex - 1;
+
+      if (index === -1) {
+        index = playlist.lenth - 1
+      }
+      
+      dispatch(changeCurrenIndex(index));
+      dispatch(changePlayingState(true));
+    }
+  }
+
+  /**
+   * 下一首
+   */
+  const handleNextPlay = () => {
+    if (playlist.length === 1) {
+      handleLoop();
+    } else {
+      let index = currentIndex + 1;
+
+      if (index === playlist.lenth) {
+        index = 0;
+      }
+
+      dispatch(changeCurrenIndex(index));
+      dispatch(changePlayingState(true));
     }
   }
 
@@ -169,7 +219,10 @@ const NormalPlayer = (props) => {
           <ProgressWrapper>
             <span className='time time-l'>{formatTime(currentTime)}</span>
             <div className='progress-bar-wrapper'>
-              <ProgressBar percent={0.2}></ProgressBar>
+              <ProgressBar 
+                percent={percent} 
+                onProgressChanged={onProgressChanged}
+              />
             </div>
             <span className='time time-r'>{formatTime(duration)}</span>
           </ProgressWrapper>
@@ -196,7 +249,9 @@ NormalPlayer.defaultProps = {
   // 当前时间
   currentTime: 0,
   // 总时长
-  duration: 0
+  duration: 0,
+  // audio 进度改变事件
+  onProgressChanged: () => {}
 }
 
 NormalPlayer.propTypes = {
@@ -204,6 +259,7 @@ NormalPlayer.propTypes = {
   percent: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
+  onProgressChanged: PropTypes.func.isRequired
 }
 
 export default memo(NormalPlayer);

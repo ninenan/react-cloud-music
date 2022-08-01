@@ -1,4 +1,4 @@
-export const playList = [
+export const playlist = [
     {
       ftype: 0,
       djId: 0,

@@ -4,16 +4,16 @@ import MiniPlayer from './MiniPlayer';
 import NormalPlayer from './NormalPlayer';
 import { 
   changePlayingState, 
-  changeFullScreen, 
   changeCurrenIndex, 
-  changeCurrentSong
+  changeCurrentSong,
+  changePlaylist
 } from '../../store/player/actionCreator';
-import { playList } from '../../mock/player';
+import { playlist } from '../../mock/player';
 import { getSongUrl } from '../../help/utils';
-import { set } from "immutable";
 
 const Player = () => {
   const dispatch = useDispatch();
+  const { isPlaying } = useSelector(state => state).toJS().player;
   // 播放时间
   const [currentTime, setCurrentTime] = useState(0);
   // 歌曲总时长
@@ -26,12 +26,23 @@ const Player = () => {
     setCurrentTime(e.target.currentTime);
   }
 
+  const onProgressChanged = curPrecent => {
+    const time = curPrecent * duration;
+
+    setCurrentTime(time);
+    audioRef.current.currentTime = time;
+    if (!isPlaying) {
+      dispatch(changePlayingState(true));
+    }
+
+  }
+
   useEffect(() => {
-    let current = playList[0];
+    let current = playlist[0];
 
     dispatch(changeCurrenIndex(0));
     dispatch(changeCurrentSong(current));
-    dispatch(changePlayingState(true));
+    dispatch(changePlaylist(playlist));
     setCurrentTime(0);
     setDuration(current.dt / 1000 | 0);
     if (audioRef.current) {
@@ -41,12 +52,13 @@ const Player = () => {
 
   return (
     <>
-      <MiniPlayer audioRef={audioRef} />
+      <MiniPlayer audioRef={audioRef} percent={percent} />
       <NormalPlayer 
         audioRef={audioRef} 
         duration={duration} 
         currentTime={currentTime} 
         percent={percent}
+        onProgressChanged={onProgressChanged}
       />
       <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} />
     </>
