@@ -11,10 +11,11 @@ import {
 } from '../../store/player/actionCreator';
 import { playlist as mockPlaylist } from '../../mock/player';
 import { getSongUrl } from '../../help/utils';
+import { PLAY_MODE_MAP } from "../../help/config";
 
 const Player = () => {
   const dispatch = useDispatch();
-  const { isPlaying, currentIndex, playlist } = useSelector(state => state).toJS().player;
+  const { isPlaying, currentIndex, playlist, mode } = useSelector(state => state).toJS().player;
   // 播放时间
   const [currentTime, setCurrentTime] = useState(0);
   // 歌曲总时长
@@ -74,6 +75,7 @@ const Player = () => {
       handleLoop();
     } else {
       let index = currentIndex + 1;
+      console.log(index);
 
       if (index === playlist.lenth) {
         index = 0;
@@ -114,6 +116,14 @@ const Player = () => {
     handleAudioSatus(current);
   }, [audioRef]);
 
+  const handleEnd = () => {
+    console.log(mode);
+    if (mode === PLAY_MODE_MAP.loop) {
+      handleLoop();
+    } else {
+      handleNextPlay();
+    }
+  }
 
   return (
     <>
@@ -127,7 +137,7 @@ const Player = () => {
         onHandlePrevPlay={handlePrevPlay}
         onHandleNextPlay={handleNextPlay}
       />
-      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} />
+      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} onEnded={handleEnd} />
     </>
   )
 }
