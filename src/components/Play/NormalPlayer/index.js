@@ -2,7 +2,7 @@ import { memo, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
-import { formatTime, getName } from '../../../help/utils';
+import { formatTime, getName, findIndex, shuffle } from '../../../help/utils';
 import { 
   NormalPlayerContainer,
   Top,
@@ -17,17 +17,26 @@ import {
   changePlayingState,
   changeFullScreen,
   changeCurrenIndex,
-  changePlayMode
+  changePlayMode,
+  changePlaylist
 } from '../../../store/player/actionCreator';
 import usePlayer from '../../../hooks/usePlayer';
 import { ICON_MODE_MAP } from '../../../help/config';
 
 const NormalPlayer = (props) => {
   const dispatch = useDispatch();
-  const { isPlaying, isFullScreen, currentSong, playlist, currentIndex, mode } = useSelector(state => state).toJS().player;
+  const { 
+    isPlaying,
+    isFullScreen, 
+    currentSong,
+    playlist,
+    currentIndex,
+    mode,
+    sequencePlaylist
+  } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
-  const { audioRef, duration, currentTime, percent, onProgressChanged } = props
+  const { audioRef, duration, currentTime, percent, onProgressChanged, onHandlePrevPlay, onHandleNextPlay } = props
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
   const operatorList = useMemo(() => {
@@ -80,14 +89,14 @@ const NormalPlayer = (props) => {
       handleChangeMode();
     }
     if (index === 1) {
-      handlePrevPlay();
+      onHandlePrevPlay();
     }
     if (index === 2) {
       dispatch(changePlayingState(!isPlaying));
       handleChangeAudioStatus(!isPlaying);
     }
     if (index === 3) {
-      handleNextPlay();
+      onHandleNextPlay();
     }
   }
 
@@ -95,55 +104,29 @@ const NormalPlayer = (props) => {
   const handleChangeMode = () => {
     const nextMode = (mode + 1) % 3;
 
+    if (nextMode === 0) {
+      // 顺序播放
+      const index = findIndex(sequencePlaylist, currentSong);
+
+      dispatch(changePlaylist(sequencePlaylist));
+      dispatch(changeCurrenIndex(index));
+    }
+    if (nextMode === 1) {
+      // 单曲循环
+      dispatch(changePlaylist(sequencePlaylist));
+    }
+    if (nextMode === 2) {
+      // 随机播放
+      const nextPlayList = shuffle(sequencePlaylist);
+      const index = findIndex(nextPlayList, currentSong);
+
+      dispatch(changePlaylist(nextPlayList));
+      dispatch(changeCurrenIndex(index));
+    }
+
     dispatch(changePlayMode(nextMode));
-
-  }
-
-  /**
-   * 循环播放
-   */
-  const handleLoop = () => {
-    audioRef.current.currentTime = 0;
-    dispatch(changePlayingState(true));
-    audioRef.current.play()
   }
   
-  /**
-   * 上一首
-   */
-  const handlePrevPlay = () => {
-    if (playlist.length === 1) {
-      handleLoop();
-    } else {
-      let index = currentIndex - 1;
-
-      if (index === -1) {
-        index = playlist.lenth - 1
-      }
-      
-      dispatch(changeCurrenIndex(index));
-      dispatch(changePlayingState(true));
-    }
-  }
-
-  /**
-   * 下一首
-   */
-  const handleNextPlay = () => {
-    if (playlist.length === 1) {
-      handleLoop();
-    } else {
-      let index = currentIndex + 1;
-
-      if (index === playlist.lenth) {
-        index = 0;
-      }
-
-      dispatch(changeCurrenIndex(index));
-      dispatch(changePlayingState(true));
-    }
-  }
-
   const toggleFullScreen = (val) => {
     dispatch(changeFullScreen(val));
   }

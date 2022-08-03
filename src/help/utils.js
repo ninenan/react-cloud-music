@@ -52,3 +52,29 @@ export const formatTime = time => {
   return `${minute}:${second}`;
 }
 
+export const findIndex = (list, song) => list.findIndex((item) => item.id === song.id);
+
+/**
+ * 洗牌数组
+ * @param source any[]
+ * @returns any[] 
+ */
+export const shuffle = (source) => {
+  const arr = source.slice();
+  for (let index = 0; index < arr.length; index++) {
+    const j = getRandomInt(index);
+
+    swap(arr, index, j);
+  }
+
+  return arr;
+}
+
+const getRandomInt = (max) => Math.floor(Math.random() * (max + 1));
+
+const swap = (arr, index, j) => {
+  const temp = arr[index];
+
+  arr[index] = arr[j]; 
+  arr[j] = temp;
+}

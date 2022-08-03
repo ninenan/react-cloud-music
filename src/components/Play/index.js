@@ -6,14 +6,15 @@ import {
   changePlayingState, 
   changeCurrenIndex, 
   changeCurrentSong,
-  changePlaylist
+  changePlaylist,
+  changeSequencePlaylist
 } from '../../store/player/actionCreator';
-import { playlist } from '../../mock/player';
+import { playlist as mockPlaylist } from '../../mock/player';
 import { getSongUrl } from '../../help/utils';
 
 const Player = () => {
   const dispatch = useDispatch();
-  const { isPlaying } = useSelector(state => state).toJS().player;
+  const { isPlaying, currentIndex, playlist } = useSelector(state => state).toJS().player;
   // 播放时间
   const [currentTime, setCurrentTime] = useState(0);
   // 歌曲总时长
@@ -37,21 +38,82 @@ const Player = () => {
       audioRef.current.currentTime = time;
       audioRef.current.play();
     }
-
   }
 
-  useEffect(() => {
-    let current = playlist[0];
+  /**
+   * 循环播放
+   */
+  const handleLoop = () => {
+    audioRef.current.currentTime = 0;
+    dispatch(changePlayingState(true));
+    audioRef.current.play()
+  }
 
-    dispatch(changeCurrenIndex(0));
-    dispatch(changeCurrentSong(current));
-    dispatch(changePlaylist(playlist));
+  /**
+   * 上一首
+   */
+  const handlePrevPlay = () => {
+    if (playlist.length === 1) {
+      handleLoop();
+    } else {
+      let index = currentIndex - 1;
+
+      if (index === -1) {
+        index = playlist.lenth - 1
+      }
+      
+      handlePlay(index);
+    }
+  }
+
+  /**
+   * 下一首
+   */
+  const handleNextPlay = () => {
+    if (playlist.length === 1) {
+      handleLoop();
+    } else {
+      let index = currentIndex + 1;
+
+      if (index === playlist.lenth) {
+        index = 0;
+      }
+
+      handlePlay(index);
+    }
+  }
+
+  /**
+   * 播放
+   */
+  const handlePlay = (index) => {
+    dispatch(changeCurrenIndex(index));
+    dispatch(changePlayingState(true));
+    handleAudioSatus(playlist[index]);
+    audioRef.current.play();
+  }
+
+  /**
+   * 处理 audio 状态
+   */
+  const handleAudioSatus = (current) => {
     setCurrentTime(0);
     setDuration(current.dt / 1000 | 0);
     if (audioRef.current) {
       audioRef.current.src = getSongUrl(current.id);
     }
+  }
+
+  useEffect(() => {
+    let current = mockPlaylist[0];
+
+    dispatch(changeCurrenIndex(0));
+    dispatch(changeCurrentSong(current));
+    dispatch(changePlaylist(mockPlaylist));
+    dispatch(changeSequencePlaylist(mockPlaylist));
+    handleAudioSatus(current);
   }, [audioRef]);
+
 
   return (
     <>
@@ -62,6 +124,8 @@ const Player = () => {
         currentTime={currentTime} 
         percent={percent}
         onProgressChanged={onProgressChanged}
+        onHandlePrevPlay={handlePrevPlay}
+        onHandleNextPlay={handleNextPlay}
       />
       <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} />
     </>

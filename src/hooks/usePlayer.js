@@ -10,7 +10,6 @@ function usePlayer (audioRef) {
   }
 
   return {
-    // percent,
     handleChangeAudioStatus
   }
   
