@@ -19,7 +19,6 @@ const ProgressBar = (props) => {
 
   const changeProgress = () => {
     const curPercent = progressRef.current.clientWidth / (progressBarRef.current.clientWidth - PROGRESS_BTN_WIDTH);
-    console.log('curPercent: ', curPercent);
 
     onProgressChanged(curPercent);
   }

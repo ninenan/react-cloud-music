@@ -3,16 +3,28 @@ import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
 import { formatTime, getName } from '../../../help/utils';
-import { NormalPlayerContainer, Top, Middle, Bottom, Operators, CDWrapper, ProgressWrapper } from './style';
+import { 
+  NormalPlayerContainer,
+  Top,
+  Middle,
+  Bottom,
+  Operators,
+  CDWrapper,
+  ProgressWrapper } from './style';
 import ProgressBar from '../../base/ProgressBar';
 import { useSelector, useDispatch } from 'react-redux';
-import { changePlayingState, changeFullScreen, changeCurrenIndex } from '../../../store/player/actionCreator';
+import { 
+  changePlayingState,
+  changeFullScreen,
+  changeCurrenIndex,
+  changePlayMode
+} from '../../../store/player/actionCreator';
 import usePlayer from '../../../hooks/usePlayer';
-import { List } from 'immutable';
+import { ICON_MODE_MAP } from '../../../help/config';
 
 const NormalPlayer = (props) => {
   const dispatch = useDispatch();
-  const { isPlaying, isFullScreen, currentSong, playlist, currentIndex } = useSelector(state => state).toJS().player;
+  const { isPlaying, isFullScreen, currentSong, playlist, currentIndex, mode } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
   const { audioRef, duration, currentTime, percent, onProgressChanged } = props
@@ -22,7 +34,7 @@ const NormalPlayer = (props) => {
     return [
       {
         name: 'i-left',
-        data: '&#xe625;'
+        data: ICON_MODE_MAP.get(mode),
       },
       {
         name: 'i-left',
@@ -41,7 +53,7 @@ const NormalPlayer = (props) => {
         data: '&#xe640;'
       }
     ]
-  }, [isPlaying])
+  }, [isPlaying, mode])
 
   const getPosAndScale = () => {
     const targetWidth = 40;
@@ -64,6 +76,9 @@ const NormalPlayer = (props) => {
   const handleChangeSong = (e, index) => {
     e.stopPropagation();
 
+    if (index === 0) {
+      handleChangeMode();
+    }
     if (index === 1) {
       handlePrevPlay();
     }
@@ -74,6 +89,14 @@ const NormalPlayer = (props) => {
     if (index === 3) {
       handleNextPlay();
     }
+  }
+
+  // 切换播放模式
+  const handleChangeMode = () => {
+    const nextMode = (mode + 1) % 3;
+
+    dispatch(changePlayMode(nextMode));
+
   }
 
   /**

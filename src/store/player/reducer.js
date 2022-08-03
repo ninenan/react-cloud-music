@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import * as actionTypes from './constant';
-import { playMode } from '../../help/config';
+import { PLAY_MODE_MAP } from '../../help/config';
 
 const defaultState = fromJS({
   // 是否全屏幕
@@ -12,7 +12,7 @@ const defaultState = fromJS({
   // 播放列表
   playlist: [],
   // 播放模式
-  mode: playMode.seuqence,
+  mode: PLAY_MODE_MAP.seuqence,
   // 当前播放歌曲在播放列表中的下标
   currentIndex: -1,
   // 是否展示播放列表

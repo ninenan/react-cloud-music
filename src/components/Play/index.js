@@ -30,9 +30,12 @@ const Player = () => {
     const time = curPrecent * duration;
 
     setCurrentTime(time);
-    audioRef.current.currentTime = time;
     if (!isPlaying) {
       dispatch(changePlayingState(true));
+    }
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+      audioRef.current.play();
     }
 
   }
