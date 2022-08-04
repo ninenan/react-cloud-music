@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from "react"
+import { memo, useEffect, useReducer, useRef, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import MiniPlayer from './MiniPlayer';
 import NormalPlayer from './NormalPlayer';

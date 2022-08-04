@@ -12,6 +12,7 @@ import {
   CDWrapper,
   ProgressWrapper } from './style';
 import ProgressBar from '../../base/ProgressBar';
+import Toast from '../../base/Toast';
 import { useSelector, useDispatch } from 'react-redux';
 import { 
   changePlayingState,
@@ -29,13 +30,13 @@ const NormalPlayer = (props) => {
     isPlaying,
     isFullScreen, 
     currentSong,
-    playlist,
-    currentIndex,
     mode,
     sequencePlaylist
   } = useSelector(state => state).toJS().player;
   const normalPlayerRef = useRef(null);
   const cdWrapperRef = useRef(null);
+  const [toastText, setToastText] = useState('');
+  const toastRef = useRef(null);
   const { audioRef, duration, currentTime, percent, onProgressChanged, onHandlePrevPlay, onHandleNextPlay } = props
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
@@ -110,10 +111,12 @@ const NormalPlayer = (props) => {
 
       dispatch(changePlaylist(sequencePlaylist));
       dispatch(changeCurrenIndex(index));
+      setToastText('顺寻播放');
     }
     if (nextMode === 1) {
       // 单曲循环
       dispatch(changePlaylist(sequencePlaylist));
+      setToastText('单曲循环');
     }
     if (nextMode === 2) {
       // 随机播放
@@ -122,9 +125,11 @@ const NormalPlayer = (props) => {
 
       dispatch(changePlaylist(nextPlayList));
       dispatch(changeCurrenIndex(index));
+      setToastText('随机播放');
     }
 
     dispatch(changePlayMode(nextMode));
+    toastRef.current.show();
   }
   
   const toggleFullScreen = (val) => {
@@ -242,6 +247,7 @@ const NormalPlayer = (props) => {
             })}
           </Operators>
         </Bottom>
+        <Toast ref={toastRef} text={toastText} time={500}/>
       </NormalPlayerContainer>
     </CSSTransition>
   )
@@ -257,7 +263,11 @@ NormalPlayer.defaultProps = {
   // 总时长
   duration: 0,
   // audio 进度改变事件
-  onProgressChanged: () => {}
+  onProgressChanged: () => {},
+  // 上一首
+  onHandlePrevPlay: () => {},
+  // 下一首
+  onHandleNextPlay: () => {},
 }
 
 NormalPlayer.propTypes = {
@@ -265,7 +275,9 @@ NormalPlayer.propTypes = {
   percent: PropTypes.number.isRequired,
   currentTime: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
-  onProgressChanged: PropTypes.func.isRequired
+  onProgressChanged: PropTypes.func.isRequired,
+  onHandlePrevPlay: PropTypes.func.isRequired,
+  onHandleNextPlay: PropTypes.func.isRequired,
 }
 
 export default memo(NormalPlayer);
