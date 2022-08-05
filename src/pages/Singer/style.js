@@ -76,7 +76,7 @@ export const CollectBtn = styled.div`
 export const ListContainer = styled.div`
   position: absolute;
   top: 273px;
-  bottom: 0;
+  bottom: ${props => props.bottom};
   width: 100%;
   .list__wrapper {
     background: ${style['background-color']};

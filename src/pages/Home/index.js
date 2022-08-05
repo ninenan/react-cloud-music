@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { Top, Tab, TabItem } from './style'
 import MyNavLink from '../../components/MyNavLink'
 import Play from '../../components/Play';
+import { useSelector } from 'react-redux';
 
 const linkList = [
   {
@@ -20,6 +21,8 @@ const linkList = [
 ]
 
 function Home() {
+  const { playlist } = useSelector(state => state).toJS().player;
+
   return (
     <div style={{position: 'fixed', top: 0, left: 0, width: '100%'}}>
       <Top>
@@ -40,7 +43,9 @@ function Home() {
         })}
       </Tab>
       <Outlet />
-      <Play />
+      <div style={{display: playlist.length ? 'block' : 'none'}}>
+        <Play />
+      </div>
     </div>
   )
 }

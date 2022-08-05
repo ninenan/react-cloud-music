@@ -37,7 +37,15 @@ const NormalPlayer = (props) => {
   const cdWrapperRef = useRef(null);
   const [toastText, setToastText] = useState('');
   const toastRef = useRef(null);
-  const { audioRef, duration, currentTime, percent, onProgressChanged, onHandlePrevPlay, onHandleNextPlay } = props
+  const { 
+    audioRef,
+    duration,
+    currentTime,
+    percent,
+    onProgressChanged,
+    onHandlePrevPlay,
+    onHandleNextPlay
+  } = props
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
   const operatorList = useMemo(() => {
@@ -111,7 +119,7 @@ const NormalPlayer = (props) => {
 
       dispatch(changePlaylist(sequencePlaylist));
       dispatch(changeCurrenIndex(index));
-      setToastText('顺寻播放');
+      setToastText('顺序播放');
     }
     if (nextMode === 1) {
       // 单曲循环

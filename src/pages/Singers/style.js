@@ -20,7 +20,7 @@ export const ListContainer = styled.div`
   position: fixed;
   top: 170px;
   left: 0;
-  bottom: 0;
+  bottom: ${props => props.bottom};
   overflow: hidden;
   width: 100%;
 `;

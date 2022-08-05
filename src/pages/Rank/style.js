@@ -4,7 +4,7 @@ import style from "../../style/common";
 export const Container = styled.div`
   position: fixed;
   top: 90px;
-  bottom: 0;
+  bottom: ${props => props.bottom};
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;

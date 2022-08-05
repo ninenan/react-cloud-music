@@ -105,8 +105,8 @@ export const TopDesc = styled.div`
 
 export const List = styled.div`
   position: absolute;
-  bottom: 0;
   top: ${props => props.top}px;
+  bottom: ${props => props.bottom};
   z-index: 0;
   width: 100%;
   .song-list-wrapper {

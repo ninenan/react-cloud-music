@@ -25,6 +25,7 @@ const Singer = () => {
   const { id } = useParams();
   const disPatch = useDispatch();
   const { artist, songsOfArtist } = useSelector(state => state).toJS().singer;
+  const { playlist } = useSelector(state => state).toJS().player;
 
   const hanleExit = useCallback(() => {
     navigate(-1);
@@ -104,7 +105,7 @@ const Singer = () => {
           </CollectBtnWrapper>
           <div className='filer'></div>
         </TopContainer>
-        <ListContainer>
+        <ListContainer bottom={playlist.length ? '60px' : '0px'}>
           <WrapperScroll probeType={3} onScroll={handleScroll}>
             <div className='list__wrapper'>
               <SongList isShowIndex onPlay={handlePlay} tracks={songsOfArtist} />

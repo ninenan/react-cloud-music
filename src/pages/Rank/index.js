@@ -9,6 +9,7 @@ import { Container, List, ListItem, SongList, GlobalList, GlobalListItem } from 
 
 export default function Rank() {
   const { rankList } = useSelector(state => state).toJS().rank;
+  const { playlist } = useSelector(state => state).toJS().player;
   const dispatch = useDispatch();
   const officialList = rankList.filter((item) => item.tracks.length);
   const globalList = rankList.filter((item) => !item?.tracks.length);
@@ -73,7 +74,7 @@ export default function Rank() {
   }
 
   return (
-    <Container>
+    <Container bottom={playlist.length ? '60px' : '0px'}>
       <Scroll scrollY={true} probeType={3} onScroll={forceCheck}>
         <div>
           <h2 className='title'>官方榜</h2>

@@ -56,6 +56,7 @@ import * as action from "./store/actionCreators";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => {
   const { recommendList, bannerList, loading } = useSelector(state => state).toJS().recommend;
+  const { playlist } = useSelector(state => state).toJS().player;
   const dispatch = useDispatch();
   const scrollRef = useRef(null);
 
@@ -72,7 +73,7 @@ export default () => {
   }, []);
 
   return (
-    <Content>
+    <Content bottom={playlist.length ? '60px' : '0px'}>
       {loading ? <Loading /> :
         <Scroll className="list" onScroll={forceCheck} probeType={3} ref={scrollRef}>
           <div>

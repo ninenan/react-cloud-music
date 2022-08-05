@@ -6,10 +6,15 @@ import Header from '../../components/base/Header';
 import SongList from './components/SongList';
 import WrapperScroll from '../../components/base/WrapperScroll';
 import { TopDesc, BgImage, PlayBtn, PlayBtnWrapper, List, Container } from './style';
-// import { currentAlbum } from '../../mock/album';
 import { getCount, isEmptyObj } from '../../help/utils';
 import { useEffect } from 'react';
 import * as action from './store/actionCreators';
+import { 
+  changePlaylist, 
+  changeCurrenIndex,
+  changePlayingState,
+  changeCurrentSong
+} from '../../store/player/actionCreator';
 import Loading from '../../components/base/Loading';
 import { useCallback } from 'react';
 
@@ -27,6 +32,7 @@ function Album() {
   const headerRef = useRef(null);
   const dispatch = useDispatch();
   const { currentAlbum } = useSelector(state => state).toJS().album;
+  const { playlist } = useSelector(state => state).toJS().player;
   const { id } = useParams();
 
   const handleGoBack = useCallback(() => {
@@ -76,7 +82,16 @@ function Album() {
     }
   }
 
+  /**
+    * 播放全部
+    * */
   const handlePlayAll = (currentAlbum) => {
+    const { tracks } = currentAlbum;
+    dispatch(changePlayingState(true));
+    dispatch(changePlaylist(tracks));
+    dispatch(changeCurrenIndex(0));
+    dispatch(changeCurrentSong(tracks[0]));
+
     console.log('currentAlbum: ', currentAlbum);
   }
 
@@ -136,7 +151,7 @@ function Album() {
         {isEmptyObj(currentAlbum) ? <Loading /> :
           <>
             {renderTopDec()}
-            <List top="273">
+            <List top="273" bottom={playlist.length ? '60px' : '0px'}>
               <WrapperScroll probeType={3} onScroll={handleScroll}>
                 <div className="song-list-wrapper">
                   <SongList tracks={currentAlbum.tracks} onPlay={handlePlay}/>

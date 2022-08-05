@@ -17,6 +17,7 @@ export default function Home() {
   // const [isShowPullDownLoading, setIsShowPullDownLoading] = useState(false);
   // const [isShowPullUpLoading, setIsShowPullUpLoading] = useState(false);
   const { isHasMore, pageCount, singerList, isShowPullUpLoading, isShowPullDownLoading } = useSelector(state => state).toJS().singers;
+  const { playlist } = useSelector(state => state).toJS().player;
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const scrollRef = useRef(null);
@@ -83,7 +84,7 @@ export default function Home() {
         <Horizon list={singerTypes} title="分类（热门）：" currentVal={currentSinger} handleClick={val => handleUpdateSinger(val)} />
         <Horizon list={alphabetTypes} title="首字母" currentVal={currentAlpnabet} handleClick={val => handleUpdateAlphabet(val)} />
       </NavContainer>
-      <ListContainer>
+      <ListContainer bottom={playlist.length ? '60px' : '0px'}>
         <Scroll
           onScroll={forceCheck}
           probeType={3}
