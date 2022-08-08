@@ -129,9 +129,7 @@ const Player = () => {
   }
 
   const handleChangePopupstate = (state) => {
-    console.log('state: ', state);
     setIsShowPopup(state);
-    // setIsShowPopup(state);
   }
 
   useEffect(() => {
