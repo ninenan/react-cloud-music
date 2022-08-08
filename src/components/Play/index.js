@@ -1,7 +1,8 @@
-import { memo, useEffect, useReducer, useRef, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import MiniPlayer from './MiniPlayer';
 import NormalPlayer from './NormalPlayer';
+import Popup from '../base/Popup';
 import { 
   changePlayingState, 
   changeCurrenIndex, 
@@ -20,7 +21,8 @@ const Player = () => {
   const [currentTime, setCurrentTime] = useState(0);
   // 歌曲总时长
   const [duration, setDuration] = useState(0);
-  const [isSongReady, setIsSongReady] = useState(false);
+  const [isSongReady, setIsSongReady] = useState(true);
+  const [isShowPopup, setIsShowPopup] = useState(false);
   const audioRef = useRef();
 
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
@@ -46,8 +48,8 @@ const Player = () => {
    * 循环播放
    */
   const handleLoop = () => {
-    audioRef.current.currentTime = 0;
     dispatch(changePlayingState(true));
+    audioRef.current.currentTime = 0;
     audioRef.current.play()
   }
 
@@ -92,29 +94,20 @@ const Player = () => {
     dispatch(changeCurrenIndex(index));
     dispatch(changeCurrentSong(playlist[index]));
     dispatch(changePlayingState(true));
+    handleAudioPlay(playlist[index])
   }
 
   /**
-   * 处理 audio 状态
+   * audio 播放
    */
-  const handleAudioSatus = (current) => {
+  const handleAudioPlay = (current) => {
     setCurrentTime(0);
     setDuration(current.dt / 1000 | 0);
     if (audioRef.current) {
       audioRef.current.src = getSongUrl(current.id);
-      audioRef.current.play();
+      // audioRef.current.play();
     }
   }
-
-  useEffect(() => {
-    setCurrentTime(0);
-    setDuration(currentSong.dt / 1000 | 0);
-
-    if (audioRef.current) {
-      audioRef.current.src = getSongUrl(currentSong.id);
-      audioRef.current.play();
-    }
-  }, [currentIndex]);
 
   const handleEnd = () => {
     if (mode === PLAY_MODE_MAP.loop) {
@@ -128,7 +121,6 @@ const Player = () => {
     if (!isSongReady) {
       return;
     }
-    console.log(333);
     setIsSongReady(true);
   }
 
@@ -136,9 +128,25 @@ const Player = () => {
     setIsSongReady(true);
   }
 
+  const handleChangePopupstate = (state) => {
+    console.log('state: ', state);
+    setIsShowPopup(state);
+    // setIsShowPopup(state);
+  }
+
+  useEffect(() => {
+    if (playlist.length) {
+      handleAudioPlay(playlist[currentIndex]);
+    }
+  }, [currentIndex])
+
   return (
     <>
-      <MiniPlayer audioRef={audioRef} percent={percent} />
+      <MiniPlayer 
+        audioRef={audioRef} 
+        percent={percent} 
+        onChangePopupState={handleChangePopupstate}
+      />
       <NormalPlayer 
         audioRef={audioRef} 
         duration={duration} 
@@ -147,6 +155,7 @@ const Player = () => {
         onProgressChanged={onProgressChanged}
         onHandlePrevPlay={handlePrevPlay}
         onHandleNextPlay={handleNextPlay}
+        onChangePopupState={handleChangePopupstate}
       />
       <audio 
         ref={audioRef} 
@@ -159,4 +168,5 @@ const Player = () => {
   )
 }
 
+// <Popup></Popup>
 export default memo(Player);

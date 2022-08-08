@@ -11,7 +11,7 @@ import usePlayer from '../../../hooks/usePlayer';
 const MiniPlayer = (props) => {
   const dispatch = useDispatch();
   const { isPlaying, isFullScreen, currentSong } = useSelector(state => state).toJS().player;
-  const { audioRef, percent } = props;
+  const { audioRef, percent, onChangePopupState } = props;
   const miniPlayRef = useRef();
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
@@ -23,6 +23,11 @@ const MiniPlayer = (props) => {
 
   const toggleFullScreen = (val) => {
     dispatch(changeFullScreen(val));
+  }
+
+  const handleShowPopup = (e) => {
+    e.stopPropagation();
+    onChangePopupState(true);
   }
 
   return (
@@ -66,7 +71,7 @@ const MiniPlayer = (props) => {
             &#xe61e;
           </i>
         </div>
-        <div className="control">
+        <div className="control" onClick={handleShowPopup}>
           <i className="iconfont">&#xe640;</i>
         </div>
       </MiniPlayerContainer>
@@ -76,12 +81,14 @@ const MiniPlayer = (props) => {
 
 MiniPlayer.defaultProps = {
   audioRef: {},
-  percent: 0
+  percent: 0,
+  onChangePopupState: () => {}
 }
 
 MiniPlayer.propTypes = {
   audioRef: PropTypes.object.isRequired,
-  percent: PropTypes.number.isRequired
+  percent: PropTypes.number.isRequired,
+  onChangePopupState: PropTypes.func.isRequired,
 }
 
 export default memo(MiniPlayer);

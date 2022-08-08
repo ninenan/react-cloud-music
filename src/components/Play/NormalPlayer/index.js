@@ -44,7 +44,8 @@ const NormalPlayer = (props) => {
     percent,
     onProgressChanged,
     onHandlePrevPlay,
-    onHandleNextPlay
+    onHandleNextPlay,
+    onChangePopupState
   } = props
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
@@ -94,19 +95,18 @@ const NormalPlayer = (props) => {
   const handleChangeSong = (e, index) => {
     e.stopPropagation();
 
-    if (index === 0) {
-      handleChangeMode();
-    }
-    if (index === 1) {
-      onHandlePrevPlay();
-    }
-    if (index === 2) {
-      dispatch(changePlayingState(!isPlaying));
-      handleChangeAudioStatus(!isPlaying);
-    }
-    if (index === 3) {
-      onHandleNextPlay();
-    }
+    const handleMap = new Map([
+      [0, () => handleChangeMode()],
+      [1, () => onHandlePrevPlay()],
+      [2, () => {
+        dispatch(changePlayingState(!isPlaying));
+        handleChangeAudioStatus(!isPlaying);
+      }],
+      [3, () => onHandleNextPlay()],
+      [4, () => onChangePopupState(true)],
+    ])
+
+    return handleMap.get(index)();
   }
 
   // 切换播放模式
@@ -276,6 +276,7 @@ NormalPlayer.defaultProps = {
   onHandlePrevPlay: () => {},
   // 下一首
   onHandleNextPlay: () => {},
+  onChangePopupState: () => {}
 }
 
 NormalPlayer.propTypes = {
@@ -286,6 +287,7 @@ NormalPlayer.propTypes = {
   onProgressChanged: PropTypes.func.isRequired,
   onHandlePrevPlay: PropTypes.func.isRequired,
   onHandleNextPlay: PropTypes.func.isRequired,
+  onChangePopupState: PropTypes.func.isRequired,
 }
 
 export default memo(NormalPlayer);

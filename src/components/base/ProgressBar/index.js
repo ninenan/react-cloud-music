@@ -1,4 +1,4 @@
-import { memo, startTransition, useEffect, useReducer, useRef, useState } from 'react';
+import { memo, startTransition, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ProgressBarWrapper } from './style';
 
