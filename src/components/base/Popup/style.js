@@ -9,6 +9,32 @@ export const PopupWrapper = styled.div `
   bottom: 0;
   z-index: 1000;
   background-color: ${style["background-color-shadow"]};
+  &.popup-fade-enter {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  &.popup-fade-enter-done {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  &.popup-fade-enter-active,
+  &.popup-fade-exit-active {
+    opacity: 1;
+    transition: all .3s;
+    transform: translate3d(0, 0, 0);
+  }
+  &.popup-fade-exit {
+    opacity: 1;
+    transition: all .3s;
+    transform: translate3d(0, 0, 0);
+  }
+
+  &.popup-fade-exit-done,
+  &.popup-fade-exit-active {
+    transition: all .3s;
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
   .popup__container {
     position: absolute;
     left: 0;

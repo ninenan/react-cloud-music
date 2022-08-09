@@ -129,6 +129,7 @@ const Player = () => {
   }
 
   const handleChangePopupstate = (state) => {
+    console.log(state);
     setIsShowPopup(state);
   }
 
@@ -162,9 +163,9 @@ const Player = () => {
         onCanPlay={handleSongReady}
         onError={handleError}
       />
+      <Popup visable={isShowPopup} onClose={handleChangePopupstate}></Popup>
     </>
   )
 }
 
-// <Popup></Popup>
 export default memo(Player);

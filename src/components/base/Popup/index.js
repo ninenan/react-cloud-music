@@ -8,10 +8,36 @@ const Popup = (props) => {
   const popupWrapperRef = useRef(null);
   const popupContainerRef = useRef(null);
 
-  const handleOnEnter = () => {};
-  const handleOnEntering = () => {};
-  const handleOnExiting = () => {};
-  const handleOnexited = () => {};
+  const handleOnEnter = () => {
+    // if (popupContainerRef.current) {
+    //   popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
+    // }
+  };
+
+  const handleOnEntering = () => {
+    // if (popupContainerRef.current) {
+    //   popupContainerRef.current.style['transition'] = `all .3s`;
+    //   popupContainerRef.current.style['transform'] = `translate3d(0, 0, 0)`;
+    // }
+  };
+  const handleOnExiting = () => {
+    // if (popupWrapperRef.current) {
+    //   popupWrapperRef.current.style['transition'] = `all .3s`;
+    //   // popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
+    // }
+  };
+
+  const handleOnExited = () => {
+    if (popupWrapperRef.current) {
+      // popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
+    }
+    popupContainerRef.current.style['transition'] = `all .3s`;
+    popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
+  };
+
+  const handleTest = (e) => {
+    e.stopPropagation();
+  }
 
   return (
     <CSSTransition
@@ -21,14 +47,14 @@ const Popup = (props) => {
       onEnter={handleOnEnter}
       onEntering={handleOnEntering}
       onExiting={handleOnExiting}
-      onExited={handleOnexited}
+      onExited={handleOnExited}
     >
       <PopupWrapper 
         onClick={() => onClose(false)}
         ref={popupWrapperRef}
         style={visable ? {display: 'block'} : {display: 'none'}}
       >
-        <div className='popup__container' ref={popupContainerRef}>
+        <div className='popup__container' ref={popupContainerRef} onClick={handleTest}>
           <ScrollWrapper></ScrollWrapper>
         </div>
       </PopupWrapper>
