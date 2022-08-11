@@ -1,3 +1,4 @@
+import { ICON_MODE_MAP } from './config';
 export const getCount = (count) => {
   if (count < 0) return;
   if (count < 10000) {
@@ -78,3 +79,5 @@ const swap = (arr, index, j) => {
   arr[index] = arr[j]; 
   arr[j] = temp;
 }
+
+export const getPlayModeIcon = (mode) => ICON_MODE_MAP.get(mode);

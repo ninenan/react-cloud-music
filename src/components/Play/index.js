@@ -2,21 +2,18 @@ import { memo, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux';
 import MiniPlayer from './MiniPlayer';
 import NormalPlayer from './NormalPlayer';
-import Popup from '../base/Popup';
+import PlayPopup from './PlayPopup';
 import { 
   changePlayingState, 
   changeCurrenIndex, 
   changeCurrentSong,
-  changePlaylist,
-  changeSequencePlaylist
 } from '../../store/player/actionCreator';
-import { playlist as mockPlaylist } from '../../mock/player';
 import { getSongUrl } from '../../help/utils';
 import { PLAY_MODE_MAP } from "../../help/config";
 
 const Player = () => {
   const dispatch = useDispatch();
-  const { isPlaying, currentIndex, playlist, mode, currentSong } = useSelector(state => state).toJS().player;
+  const { isPlaying, currentIndex, playlist, mode } = useSelector(state => state).toJS().player;
   // 播放时间
   const [currentTime, setCurrentTime] = useState(0);
   // 歌曲总时长
@@ -129,7 +126,6 @@ const Player = () => {
   }
 
   const handleChangePopupstate = (state) => {
-    console.log(state);
     setIsShowPopup(state);
   }
 
@@ -163,7 +159,9 @@ const Player = () => {
         onCanPlay={handleSongReady}
         onError={handleError}
       />
-      <Popup visable={isShowPopup} onClose={handleChangePopupstate}></Popup>
+      <PlayPopup visable={isShowPopup} onClose={handleChangePopupstate}>
+        test container
+      </PlayPopup>
     </>
   )
 }

@@ -13,7 +13,8 @@ import {
   changePlaylist, 
   changeCurrenIndex,
   changePlayingState,
-  changeCurrentSong
+  changeCurrentSong,
+  changeSequencePlaylist
 } from '../../store/player/actionCreator';
 import Loading from '../../components/base/Loading';
 import { useCallback } from 'react';
@@ -91,8 +92,7 @@ function Album() {
     dispatch(changePlaylist(tracks));
     dispatch(changeCurrenIndex(0));
     dispatch(changeCurrentSong(tracks[0]));
-
-    console.log('currentAlbum: ', currentAlbum);
+    dispatch(changeSequencePlaylist(tracks));
   }
 
   const handlePlay = (current) => {

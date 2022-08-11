@@ -1,38 +1,36 @@
 import { PopupWrapper, ScrollWrapper } from './style';
 import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const Popup = (props) => {
-  const { visable, onClose } = props;
+  const { visable, onClose, children } = props;
   const popupWrapperRef = useRef(null);
   const popupContainerRef = useRef(null);
+  const [isShow, setIsShow] = useState(false);
 
   const handleOnEnter = () => {
-    // if (popupContainerRef.current) {
-    //   popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
-    // }
+    setIsShow(true);
+    if (popupContainerRef.current) {
+      popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
+    }
   };
 
   const handleOnEntering = () => {
-    // if (popupContainerRef.current) {
-    //   popupContainerRef.current.style['transition'] = `all .3s`;
-    //   popupContainerRef.current.style['transform'] = `translate3d(0, 0, 0)`;
-    // }
+    if (popupContainerRef.current) {
+      popupContainerRef.current.style['transition'] = `all .3s`;
+      popupContainerRef.current.style['transform'] = `translate3d(0, 0, 0)`;
+    }
   };
   const handleOnExiting = () => {
-    // if (popupWrapperRef.current) {
-    //   popupWrapperRef.current.style['transition'] = `all .3s`;
-    //   // popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
-    // }
+    if (popupContainerRef.current) {
+      popupContainerRef.current.style['transition'] = `all .3s`;
+      popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
+    }
   };
 
   const handleOnExited = () => {
-    if (popupWrapperRef.current) {
-      // popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
-    }
-    popupContainerRef.current.style['transition'] = `all .3s`;
-    popupContainerRef.current.style['transform'] = `translate3d(0, 100%, 0)`;
+    setIsShow(false);
   };
 
   const handleTest = (e) => {
@@ -52,10 +50,12 @@ const Popup = (props) => {
       <PopupWrapper 
         onClick={() => onClose(false)}
         ref={popupWrapperRef}
-        style={visable ? {display: 'block'} : {display: 'none'}}
+        style={isShow ? {display: 'block'} : {display: 'none'}}
       >
         <div className='popup__container' ref={popupContainerRef} onClick={handleTest}>
-          <ScrollWrapper></ScrollWrapper>
+          <ScrollWrapper>
+            {children}
+          </ScrollWrapper>
         </div>
       </PopupWrapper>
     </CSSTransition>

@@ -22,7 +22,7 @@ import {
   changePlaylist
 } from '../../../store/player/actionCreator';
 import usePlayer from '../../../hooks/usePlayer';
-import { ICON_MODE_MAP } from '../../../help/config';
+import { getPlayModeIcon } from '../../../help/utils';
 
 const NormalPlayer = (props) => {
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ const NormalPlayer = (props) => {
     return [
       {
         name: 'i-left',
-        data: ICON_MODE_MAP.get(mode),
+        data: getPlayModeIcon(mode),
       },
       {
         name: 'i-left',
