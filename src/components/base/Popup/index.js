@@ -53,9 +53,7 @@ const Popup = (props) => {
         style={isShow ? {display: 'block'} : {display: 'none'}}
       >
         <div className='popup__container' ref={popupContainerRef} onClick={handleTest}>
-          <ScrollWrapper>
-            {children}
-          </ScrollWrapper>
+          {children}
         </div>
       </PopupWrapper>
     </CSSTransition>

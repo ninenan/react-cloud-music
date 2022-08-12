@@ -22,7 +22,7 @@ export const getName = list => {
   return str
 }
 
-export const debuounce = (fn, delay) => {
+export const debounce = (fn, delay) => {
   let timer = null;
 
   const debuounced = (...rest) => {
@@ -81,3 +81,5 @@ const swap = (arr, index, j) => {
 }
 
 export const getPlayModeIcon = (mode) => ICON_MODE_MAP.get(mode);
+
+export const sleep = (time) => new Promise(resolve => setTimeout(resolve, time));

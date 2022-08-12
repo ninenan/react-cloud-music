@@ -1,16 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Popup from '../../base/Popup';
-import { getPlayModeIcon, getName } from '../../../help/utils';
+import { getPlayModeIcon, getName, sleep } from '../../../help/utils';
 import { ListHeader, ListContent } from './style';
 import { PLAY_MODE_MAP } from '../../../help/config';
 import { changePlayMode } from '../../../store/player/actionCreator';
 import WrapperScroll from '../../base/WrapperScroll';
+import { useEffect, useRef } from 'react';
 
 const PlayPopup = (props) => {
   const { visable, onClose } = props;
   const { mode, playlist, currentSong } = useSelector(state => state).toJS().player;
   const dispatch = useDispatch();
+  const wrapperScrollRef = useRef(null);
 
   const getPlayMode = () => {
     const icon = getPlayModeIcon(mode);
@@ -44,6 +46,17 @@ const PlayPopup = (props) => {
     )
   }
 
+  useEffect(() => {
+    // 或者使用 requestAnimationFrame
+    const initRefresh = async () => {
+      await sleep(300);
+      wrapperScrollRef.current.refresh();
+    }
+    if (wrapperScrollRef.current) {
+      initRefresh()
+    }
+  }, [visable]);
+
   return (
     <Popup onClose={onClose} visable={visable}>
       <ListHeader>
@@ -52,8 +65,9 @@ const PlayPopup = (props) => {
           <span className="iconfont clear" onClick={handleShowClear}>&#xe63d;</span>
         </div>
       </ListHeader>
-      <WrapperScroll>
-          <ListContent>
+      <ListContent>
+        <WrapperScroll ref={wrapperScrollRef}>
+          <ul>
             {
               playlist.map((item) => {
                 return (
@@ -70,15 +84,16 @@ const PlayPopup = (props) => {
                 )
               })
             }
-          </ListContent>
-      </WrapperScroll>
+          </ul>
+        </WrapperScroll>
+      </ListContent>
     </Popup>
   )
 }
 
 PlayPopup.defaultProps = {
   visable: false,
-  onClose: () => { }
+  onClose: () => {}
 }
 
 PlayPopup.prototypes = {

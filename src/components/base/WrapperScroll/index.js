@@ -1,7 +1,14 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { 
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from "react";
 import BetterScroll from "better-scroll";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { sleep } from '../../../help/utils';
 
 const ScrollContainer = styled.div`
   position: relative;
@@ -20,6 +27,7 @@ const Scroll = forwardRef((props, ref) => {
     bounceBottom,
     onScroll,
     probeType,
+    refresh
   } = props;
 
   // 创建 scroll 实例
@@ -50,6 +58,7 @@ const Scroll = forwardRef((props, ref) => {
 
     return () => BScroll.off('scroll');
   }, [onScroll, BScroll]);
+
   // https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle
   // refresh 和 getScroll 方法 可以被父组件调用
   useImperativeHandle(ref, () => ({

@@ -27,6 +27,8 @@ export const ListHeader = styled.div`
   }
 `
 export const ListContent = styled.div`
+  height: 400px;
+  overflow: hidden;
   .item {
     display: flex;
     align-items: center;

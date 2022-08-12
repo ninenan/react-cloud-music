@@ -44,6 +44,5 @@ export const PopupWrapper = styled.div `
 `;
 
 export const ScrollWrapper = styled.div`
-  height: 400px;
-  overflow: hidden;
+  /* height: auto; */
 `;
