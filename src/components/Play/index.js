@@ -5,7 +5,7 @@ import NormalPlayer from './NormalPlayer';
 import PlayPopup from './PlayPopup';
 import { 
   changePlayingState, 
-  changeCurrenIndex, 
+  changeCurrentIndex, 
   changeCurrentSong,
 } from '../../store/player/actionCreator';
 import { getSongUrl } from '../../help/utils';
@@ -88,7 +88,7 @@ const Player = () => {
    * 播放
    */
   const handlePlay = (index) => {
-    dispatch(changeCurrenIndex(index));
+    dispatch(changeCurrentIndex(index));
     dispatch(changeCurrentSong(playlist[index]));
     dispatch(changePlayingState(true));
     handleAudioPlay(playlist[index])
@@ -131,6 +131,8 @@ const Player = () => {
 
   useEffect(() => {
     if (playlist.length) {
+      dispatch(changeCurrentSong(playlist[currentIndex]));
+      dispatch(changePlayingState(true));
       handleAudioPlay(playlist[currentIndex]);
     }
   }, [currentIndex])

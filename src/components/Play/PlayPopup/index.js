@@ -4,7 +4,7 @@ import Popup from '../../base/Popup';
 import { getPlayModeIcon, getName, sleep } from '../../../help/utils';
 import { ListHeader, ListContent } from './style';
 import { PLAY_MODE_MAP } from '../../../help/config';
-import { changePlayMode } from '../../../store/player/actionCreator';
+import { changeCurrentIndex, changePlayMode, deleteSong } from '../../../store/player/actionCreator';
 import WrapperScroll from '../../base/WrapperScroll';
 import { useEffect, useRef } from 'react';
 
@@ -46,6 +46,11 @@ const PlayPopup = (props) => {
     )
   }
 
+  const handleChangeCurrenIndex = (index) => {
+    console.log(index);
+    dispatch(changeCurrentIndex(index));
+  }
+
   useEffect(() => {
     // 或者使用 requestAnimationFrame
     const initRefresh = async () => {
@@ -57,6 +62,10 @@ const PlayPopup = (props) => {
     }
   }, [visable]);
 
+  const handleDeleteSong = (e, song) => {
+    e.stopPropagation();
+    dispatch(deleteSong(song));
+  }
   return (
     <Popup onClose={onClose} visable={visable}>
       <ListHeader>
@@ -69,15 +78,15 @@ const PlayPopup = (props) => {
         <WrapperScroll ref={wrapperScrollRef}>
           <ul>
             {
-              playlist.map((item) => {
+              playlist.map((item, index) => {
                 return (
-                  <li className="item" key={item.id}>
+                  <li className="item" key={item.id} onClick={() => handleChangeCurrenIndex(index)}>
                     {getCurrentIcon(item)}
                     <span className="text">{item.name} - {getName(item.ar)}</span>
                     <span className="like">
                       <i className="iconfont">&#xe601;</i>
                     </span>
-                    <span className="delete">
+                    <span className="delete" onClick={(e) => handleDeleteSong(e, item)}>
                       <i className="iconfont">&#xe63d;</i>
                     </span>
                   </li>

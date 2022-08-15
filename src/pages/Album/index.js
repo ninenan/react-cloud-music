@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import * as action from './store/actionCreators';
 import { 
   changePlaylist, 
-  changeCurrenIndex,
+  changeCurrentIndex,
   changePlayingState,
   changeCurrentSong,
   changeSequencePlaylist
@@ -90,7 +90,7 @@ function Album() {
     const { tracks } = currentAlbum;
     dispatch(changePlayingState(true));
     dispatch(changePlaylist(tracks));
-    dispatch(changeCurrenIndex(0));
+    dispatch(changeCurrentIndex(0));
     dispatch(changeCurrentSong(tracks[0]));
     dispatch(changeSequencePlaylist(tracks));
   }

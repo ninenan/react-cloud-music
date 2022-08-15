@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import * as actionTypes from './constant';
 import { PLAY_MODE_MAP } from '../../help/config';
+import { findIndex } from '../../help/utils';
 
 const defaultState = fromJS({
   // 是否全屏幕
@@ -25,6 +26,27 @@ const defaultState = fromJS({
   }
 })
 
+const handleDeleteSong = (state, song) => {
+  const playlist = JSON.parse(JSON.stringify(state.get('playlist').toJS()));
+  const sequencePlaylist = JSON.parse(JSON.stringify(state.get('sequencePlaylist').toJS()));
+  let currentIndex = state.get('currentIndex');
+
+  const playIndex = findIndex(playlist, song);
+  playlist.splice(playIndex, 1);
+  if (playIndex < currentIndex) {
+    currentIndex --;
+  }
+
+  const sequenceIndex = findIndex(sequencePlaylist, song);
+  sequencePlaylist.splice(sequenceIndex, 1);
+
+  return state.merge({
+    'playlist': fromJS(playlist),
+    'sequencePlaylist': fromJS(sequencePlaylist),
+    'currentIndex': fromJS(currentIndex),
+  })
+}
+
 const actionMap = new Map([
   [actionTypes.SET_PLAY_MODE, (state, action) => state.set('mode', action.data)],
   [actionTypes.SET_FULL_SCREEN, (state, action) => state.set('isFullScreen', action.data)],
@@ -35,6 +57,7 @@ const actionMap = new Map([
   [actionTypes.SET_SHOW_PLAYLIST, (state, action) => state.set('isShowPlaylist', action.data)],
   [actionTypes.SET_CURRENT_INDEX, (state, action) => state.set('currentIndex', action.data)],
   [actionTypes.SET_SEQUENCE_PLAYLIST, (state, action) => state.set('sequencePlaylist', action.data)],
+  [actionTypes.DELETE_SONG, (state, action) => handleDeleteSong(state, action.data)]
 ])
 
 // eslint-disable-next-line import/no-anonymous-default-export

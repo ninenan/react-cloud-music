@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { 
   changePlayingState,
   changeFullScreen,
-  changeCurrenIndex,
+  changeCurrentIndex,
   changePlayMode,
   changePlaylist
 } from '../../../store/player/actionCreator';
@@ -118,7 +118,7 @@ const NormalPlayer = (props) => {
       const index = findIndex(sequencePlaylist, currentSong);
 
       dispatch(changePlaylist(sequencePlaylist));
-      dispatch(changeCurrenIndex(index));
+      dispatch(changeCurrentIndex(index));
       setToastText('顺序播放');
     }
     if (nextMode === 1) {
@@ -132,7 +132,7 @@ const NormalPlayer = (props) => {
       const index = findIndex(nextPlayList, currentSong);
 
       dispatch(changePlaylist(nextPlayList));
-      dispatch(changeCurrenIndex(index));
+      dispatch(changeCurrentIndex(index));
       setToastText('随机播放');
     }
 
