@@ -27,10 +27,11 @@ const Confirm = forwardRef((props, ref) => {
     <CSSTransition
       appear={visable}
       timeout={300}
-      classNames="confirm-fade"
+      classNames="confirm"
       in={visable}
+      unmountOnExit
     >
-      <ConfirmWrapper style={{ display: visable ? 'flex' : 'none' }} onClick={e => e.stopPropagation()}>
+      <ConfirmWrapper onClick={e => e.stopPropagation()}>
         <div className='confirm__container'>
           <p className='text'>{text}</p>
           <div className='operate'>

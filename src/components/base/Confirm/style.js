@@ -35,7 +35,7 @@ const confirmZoomOut = keyframes`
     transform: scale(1);
   }
   50% {
-    transform: scale(0,5);
+    transform: scale(0.5);
   }
   100% {
     transform: scale(0);
@@ -51,15 +51,16 @@ export const ConfirmWrapper = styled.div`
   z-index: 10010;
   background: ${style['background-color-shadow']};
   ${style.flexCenterCenter()};
-  &.confirm-fade-enter-active {
+  &.confirm-enter-active {
     animation: ${confirmFadeIn} .3s;
     .confirm__container {
       animation: ${confirmZoomIn} .3s;
     }
   }
-  &.confirm-fade-exit-active {
-    animation: ${confirmFadeOut} .3s;
-    .confirm__contaienr {
+  &.confirm-exit-active {
+    opacity: 0;
+    transition: opacity .3s;
+    .confirm__container {
       animation: ${confirmZoomOut} .3s;
     }
   }
