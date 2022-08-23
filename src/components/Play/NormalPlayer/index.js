@@ -230,7 +230,11 @@ const NormalPlayer = (props) => {
         <Middle ref={cdWrapperRef}>
           <CDWrapper>
             <div className='cd'>
-              <img className={`image ${isPlaying ? 'play' : 'pause'}`} src={`${currentSong.al.picUrl}?param=400*400`} alt='歌曲CD' />
+              <img 
+                className={`image ${isPlaying ? 'play' : 'pause'}`} 
+                src={`${currentSong.al.picUrl}?param=400*400`} 
+                alt='歌曲CD' 
+              />
             </div>
           </CDWrapper>
         </Middle>
@@ -249,7 +253,12 @@ const NormalPlayer = (props) => {
             {operatorList.map((item, index) => {
               return (
                 <div className={`icon ${item.name}`} key={item.data}>
-                  <i className="iconfont" dangerouslySetInnerHTML={{ __html: item.data }} onClick={e => handleChangeSong(e, index)}></i>
+                  <i 
+                    className="iconfont" 
+                    dangerouslySetInnerHTML={{ __html: item.data }} 
+                    onClick={e => handleChangeSong(e, index)}
+                  >
+                  </i>
                 </div>
               )
             })}

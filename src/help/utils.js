@@ -83,3 +83,5 @@ const swap = (arr, index, j) => {
 export const getPlayModeIcon = (mode) => ICON_MODE_MAP.get(mode);
 
 export const sleep = (time) => new Promise(resolve => setTimeout(resolve, time));
+
+export const isPromise = (p) => p && typeof p.then === 'function';

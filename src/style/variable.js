@@ -5,6 +5,7 @@ export default {
   'theme-color-shadow': 'rgba (212, 68, 57, .5)',
   'font-color-light': '#f1f1f1',
   'font-color': '#ffffff',
+  'font-color-disabled': '#404040',
   'font-color-desc': 'rgba(255, 255, 255, 0.3)',
   'font-color-desc-v2': '#bba8a8',// 略淡
   'font-size-ss': '10px',

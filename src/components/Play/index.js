@@ -129,11 +129,17 @@ const Player = () => {
     setIsShowPopup(state);
   }
 
+  const getLyric = (id) => {
+    console.log('id: ', id);
+  }
+
   useEffect(() => {
     if (playlist.length) {
-      dispatch(changeCurrentSong(playlist[currentIndex]));
+      const currentSong = playlist[currentIndex]
+      dispatch(changeCurrentSong(currentSong));
       dispatch(changePlayingState(true));
-      handleAudioPlay(playlist[currentIndex]);
+      handleAudioPlay(currentSong);
+      getLyric(currentSong.id);
     }
   }, [currentIndex])
 

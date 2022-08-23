@@ -4,7 +4,16 @@ import Popup from '../../base/Popup';
 import { getPlayModeIcon, getName, sleep } from '../../../help/utils';
 import { ListHeader, ListContent } from './style';
 import { PLAY_MODE_MAP } from '../../../help/config';
-import { changeCurrentIndex, changePlayMode, deleteSong } from '../../../store/player/actionCreator';
+import { 
+  changeCurrentIndex,
+  changeFullScreen,
+  changePlaylist,
+  changePlayMode,
+  changeSequencePlaylist,
+  changeShowPlaylist,
+  deleteSong,
+  changePlayingState,
+} from '../../../store/player/actionCreator';
 import WrapperScroll from '../../base/WrapperScroll';
 import Confirm from '../../base/Confirm';
 import { useEffect, useRef } from 'react';
@@ -45,7 +54,6 @@ const PlayPopup = (props) => {
   }
 
   const handleChangeCurrenIndex = (index) => {
-    console.log(index);
     dispatch(changeCurrentIndex(index));
   }
 
@@ -61,14 +69,25 @@ const PlayPopup = (props) => {
   }
 
   const handleConfirmClear = () => {
+    dispatch(changePlaylist([]));
+    dispatch(changeSequencePlaylist([]));
+    dispatch(changeCurrentIndex(-1));
+    dispatch(changeShowPlaylist(false));
+    dispatch(changeFullScreen(false));
+    dispatch(changePlayingState(false));
+    dispatch(changePlayMode(PLAY_MODE_MAP.seuqence));
   }
 
   useEffect(() => {
-    // 或者使用 requestAnimationFrame
-    const initRefresh = async () => {
-      await sleep(300);
-      wrapperScrollRef.current.refresh();
-    }
+    // promise
+    // const initRefresh = async () => {
+    //   await sleep(300);
+    //   wrapperScrollRef.current.refresh();
+    // }
+
+    // 使用 requestAnimationFrame
+    const initRefresh = () => requestAnimationFrame(() => wrapperScrollRef.current.refresh());
+
     if (wrapperScrollRef.current) {
       initRefresh()
     }

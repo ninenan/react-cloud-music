@@ -15,7 +15,7 @@ export const confirmZoomIn = keyframes`
 
 const confirmZoomOut = keyframes`
   0% {
-    transform: scale(1);
+    transform: scale(1.1);
   }
   50% {
     transform: scale(0.5);
@@ -77,6 +77,9 @@ export const ConfirmWrapper = styled.div`
         &.left {
           border-right: 1px solid ${style['background-color-d']};
         }
+      }
+      .btn--disabled {
+        color: ${style['font-color-disabled']};
       }
     }
   }
