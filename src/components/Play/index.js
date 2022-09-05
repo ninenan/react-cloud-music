@@ -10,6 +10,7 @@ import {
 } from '../../store/player/actionCreator';
 import { getSongUrl } from '../../help/utils';
 import { PLAY_MODE_MAP } from "../../help/config";
+import api from '../../api';
 
 const Player = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Player = () => {
   const [isSongReady, setIsSongReady] = useState(true);
   const [isShowPopup, setIsShowPopup] = useState(false);
   const audioRef = useRef();
+  const currentLyricRef = useRef(null);
 
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
@@ -129,8 +131,20 @@ const Player = () => {
     setIsShowPopup(state);
   }
 
-  const getLyric = (id) => {
-    console.log('id: ', id);
+  /**
+   * 获取歌词
+   */
+  const getLyric = async (id) => {
+    const res = await api.song.getLyricRequest(id);
+    currentLyricRef.current = null || res.lrc.lyric;
+
+    if (!currentLyricRef.current) {
+      return;
+    }
+    console.log(res.lrc.lyric);
+
+    // setIsSongReady(true);
+    // audioRef.current.play();
   }
 
   useEffect(() => {

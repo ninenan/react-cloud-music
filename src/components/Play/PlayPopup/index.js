@@ -1,7 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Popup from '../../base/Popup';
-import { getPlayModeIcon, getName, sleep } from '../../../help/utils';
+import { 
+  getPlayModeIcon,
+  getName,
+  sleep
+} from '../../../help/utils';
 import { ListHeader, ListContent } from './style';
 import { PLAY_MODE_MAP } from '../../../help/config';
 import { 

@@ -33,8 +33,13 @@ const handleDeleteSong = (state, song) => {
 
   const playIndex = findIndex(playlist, song);
   playlist.splice(playIndex, 1);
+  
+
   if (playIndex < currentIndex) {
     currentIndex --;
+  }
+  if (!playIndex && !currentIndex) {
+    currentIndex = playlist.length - 1;
   }
 
   const sequenceIndex = findIndex(sequencePlaylist, song);
