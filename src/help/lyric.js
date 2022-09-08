@@ -1,7 +1,7 @@
 const timeRE = /\[(\d{2,}):(\d{2})(?:\.(\d{2,3}))?]/g;
 const LYRIC_STATE = {
-  pause: 0,
-  playing: 1,
+  PAUSE: 0,
+  PLAYING: 1,
 }
 
 export default class Lyric {
@@ -12,7 +12,7 @@ export default class Lyric {
     // 回调函数
     this.hanlder = hanlder;
     // 歌词播放状态
-    this.state = LYRIC_STATE.pause;
+    this.state = LYRIC_STATE.PAUSE;
     // 当前播放歌词行数
     this.currentLineIndex = 0;
     // 歌曲开始的时间戳
@@ -42,6 +42,7 @@ export default class Lyric {
       }
     }
     this.lines.sort((a, b) => a.time - b.time);
+    console.log('this.lines', this.lines)
   }
 
   /**
@@ -53,7 +54,7 @@ export default class Lyric {
       return;
     }
 
-    this.state = LYRIC_STATE.playing;
+    this.state = LYRIC_STATE.PLAYING;
     // 找到当前所在行
     this.currentLineIndex = this._findCurrentLineIndex(offset);
     // 当前正处于第 currentLineIndex - 1 行
@@ -74,8 +75,8 @@ export default class Lyric {
       if (time <= this.lines[index].time) {
         return index;
       }
-      return this.lines.length - 1;
     }
+    return this.lines.length - 1;
   }
 
   _callHandler(index) {
@@ -104,8 +105,8 @@ export default class Lyric {
     }
 
     this.timer = setTimeout(() => {
-      this._callHandler(this.currentLineIndex ++);
-      if (this.currentLineIndex < this.lines.length && this.state === LYRIC_STATE.playing) {
+      this._callHandler(this.currentLineIndex++);
+      if (this.currentLineIndex < this.lines.length && this.state === LYRIC_STATE.PLAYING) {
         this._playRest()
       }
     }, delay)
@@ -115,16 +116,16 @@ export default class Lyric {
     * 暂停/播放 歌曲
     */
   togglePlay(offset) {
-    if (this.state === LYRIC_STATE.playing) {
+    if (this.state === LYRIC_STATE.PLAYING) {
       this.stop();
     } else {
-      this.state = LYRIC_STATE.playing;
+      this.state = LYRIC_STATE.PLAYING;
       this.play(offset, true);
     }
   }
 
   stop() {
-    this.state = LYRIC_STATE.pause;
+    this.state = LYRIC_STATE.PAUSE;
     clearTimeout(this.timer);
   }
 

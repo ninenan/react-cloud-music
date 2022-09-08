@@ -142,13 +142,13 @@ export const CDWrapper = styled.div`
       }
     }
   }
-  .playing_lyric {
+  .playing-lyric {
     margin-top: 20px;
     font-size: 14px;
     line-height: 20px;
     white-space: normal;
     text-align: center;
-    color: rgba (255, 255, 255, 0.5);
+    color: ${style["font-color"]};
   }
 `;
 

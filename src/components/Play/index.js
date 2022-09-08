@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import MiniPlayer from './MiniPlayer';
 import NormalPlayer from './NormalPlayer';
 import PlayPopup from './PlayPopup';
-import { 
-  changePlayingState, 
-  changeCurrentIndex, 
+import {
+  changePlayingState,
+  changeCurrentIndex,
   changeCurrentSong,
 } from '../../store/player/actionCreator';
 import { getSongUrl } from '../../help/utils';
 import { PLAY_MODE_MAP } from "../../help/config";
 import api from '../../api';
+import Lyric from '../../help/lyric';
 
 const Player = () => {
   const dispatch = useDispatch();
@@ -21,8 +22,10 @@ const Player = () => {
   const [duration, setDuration] = useState(0);
   const [isSongReady, setIsSongReady] = useState(true);
   const [isShowPopup, setIsShowPopup] = useState(false);
+  const [currentPlayingLyric, setCurrentPlayingLyric] = useState('');
   const audioRef = useRef();
   const currentLyricRef = useRef(null);
+  const currentLineNum = useRef(null);
 
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
@@ -40,6 +43,9 @@ const Player = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = time;
       audioRef.current.play();
+    }
+    if (currentLyricRef.current) {
+      currentLyricRef.current.seek(time * 1000);
     }
   }
 
@@ -138,13 +144,28 @@ const Player = () => {
     const res = await api.song.getLyricRequest(id);
     currentLyricRef.current = null || res.lrc.lyric;
 
+    if (res) {
+      if (!currentLyricRef.current) {
+        return;
+      }
+      currentLyricRef.current = new Lyric(res.lrc.lyric, handleLyric);
+      currentLyricRef.current.play();
+      currentLineNum.current = 0;
+      currentLyricRef.current.seek(0);
+    } else {
+      console.log('getLyric-else');
+      setIsSongReady(true);
+      audioRef.current.play();
+    }
+  }
+
+  const handleLyric = ({ lineNum, txt }) => {
     if (!currentLyricRef.current) {
       return;
     }
-    console.log(res.lrc.lyric);
 
-    // setIsSongReady(true);
-    // audioRef.current.play();
+    currentLineNum.current = lineNum;
+    setCurrentPlayingLyric(txt);
   }
 
   useEffect(() => {
@@ -157,26 +178,35 @@ const Player = () => {
     }
   }, [currentIndex])
 
+  useEffect(() => {
+    if (currentLyricRef.current) {
+      currentLyricRef.current.togglePlay(currentTime * 1000);
+    }
+  }, [isPlaying])
+
   return (
     <>
-      <MiniPlayer 
-        audioRef={audioRef} 
-        percent={percent} 
+      <MiniPlayer
+        audioRef={audioRef}
+        percent={percent}
         onChangePopupState={handleChangePopupstate}
       />
-      <NormalPlayer 
-        audioRef={audioRef} 
-        duration={duration} 
-        currentTime={currentTime} 
+      <NormalPlayer
+        audioRef={audioRef}
+        duration={duration}
+        currentTime={currentTime}
         percent={percent}
+        currentLyricRef={currentLyricRef}
+        currentLineNum={currentLineNum}
+        currentPlayingLyric={currentPlayingLyric}
         onProgressChanged={onProgressChanged}
         onHandlePrevPlay={handlePrevPlay}
         onHandleNextPlay={handleNextPlay}
         onChangePopupState={handleChangePopupstate}
       />
-      <audio 
-        ref={audioRef} 
-        onTimeUpdate={handleTimeUpdate} 
+      <audio
+        ref={audioRef}
+        onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnd}
         onCanPlay={handleSongReady}
         onError={handleError}

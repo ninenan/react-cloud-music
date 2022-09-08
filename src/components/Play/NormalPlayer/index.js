@@ -45,7 +45,11 @@ const NormalPlayer = (props) => {
     onProgressChanged,
     onHandlePrevPlay,
     onHandleNextPlay,
-    onChangePopupState
+    onChangePopupState,
+    // 歌词相关
+    currentLyricRef,
+    currentLineNum,
+    currentPlayingLyric
   } = props
   const handleChangeAudioStatus = usePlayer(audioRef).handleChangeAudioStatus;
 
@@ -235,6 +239,9 @@ const NormalPlayer = (props) => {
                 src={`${currentSong.al.picUrl}?param=400*400`} 
                 alt='歌曲CD' 
               />
+            </div>
+            <div className='playing-lyric'>
+              {currentPlayingLyric}
             </div>
           </CDWrapper>
         </Middle>
