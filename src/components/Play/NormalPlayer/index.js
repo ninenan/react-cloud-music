@@ -1,20 +1,23 @@
-import { memo, useMemo, useRef, useState } from 'react';
+import React, { memo, useMemo, useReducer, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
+import { useSelector, useDispatch } from 'react-redux';
 import { formatTime, getName, findIndex, shuffle } from '../../../help/utils';
-import { 
+import {
   NormalPlayerContainer,
   Top,
   Middle,
   Bottom,
   Operators,
   CDWrapper,
-  ProgressWrapper } from './style';
+  ProgressWrapper,
+  LyricContainer,
+  LyricWrapper
+} from './style';
 import ProgressBar from '../../base/ProgressBar';
 import Toast from '../../base/Toast';
-import { useSelector, useDispatch } from 'react-redux';
-import { 
+import {
   changePlayingState,
   changeFullScreen,
   changeCurrentIndex,
@@ -23,12 +26,13 @@ import {
 } from '../../../store/player/actionCreator';
 import usePlayer from '../../../hooks/usePlayer';
 import { getPlayModeIcon } from '../../../help/utils';
+import WrapperScroll from '../../base/WrapperScroll';
 
 const NormalPlayer = (props) => {
   const dispatch = useDispatch();
-  const { 
+  const {
     isPlaying,
-    isFullScreen, 
+    isFullScreen,
     currentSong,
     mode,
     sequencePlaylist
@@ -37,7 +41,8 @@ const NormalPlayer = (props) => {
   const cdWrapperRef = useRef(null);
   const [toastText, setToastText] = useState('');
   const toastRef = useRef(null);
-  const { 
+  const lyricLineRef = useRef([]);
+  const {
     audioRef,
     duration,
     currentTime,
@@ -143,7 +148,7 @@ const NormalPlayer = (props) => {
     dispatch(changePlayMode(nextMode));
     toastRef.current.show();
   }
-  
+
   const toggleFullScreen = (val) => {
     dispatch(changeFullScreen(val));
   }
@@ -234,23 +239,43 @@ const NormalPlayer = (props) => {
         <Middle ref={cdWrapperRef}>
           <CDWrapper>
             <div className='cd'>
-              <img 
-                className={`image ${isPlaying ? 'play' : 'pause'}`} 
-                src={`${currentSong.al.picUrl}?param=400*400`} 
-                alt='歌曲CD' 
+              <img
+                className={`image ${isPlaying ? 'play' : 'pause'}`}
+                src={`${currentSong.al.picUrl}?param=400*400`}
+                alt='歌曲CD'
               />
             </div>
             <div className='playing-lyric'>
               {currentPlayingLyric}
             </div>
           </CDWrapper>
+          <LyricContainer>
+            <WrapperScroll probeType={3}>
+              <LyricWrapper className="lyric-wrapper">
+                {
+                  currentLyricRef.current ? currentLyricRef.current.lines.map((item, index) => {
+                    lyricLineRef.current[index] = React.createRef();
+                    return (
+                      <p
+                        className={`text ${currentLineNum === index ? "current" : ""}`}
+                        key={item + index}
+                        ref={lyricLineRef.current[index]}
+                      >
+                        {item.txt}
+                      </p>
+                    )
+                  }) : <p className='text pure'>纯音乐，请欣赏</p>
+                }
+              </LyricWrapper>
+            </WrapperScroll>
+          </LyricContainer>
         </Middle>
         <Bottom className='bottom'>
           <ProgressWrapper>
             <span className='time time-l'>{formatTime(currentTime)}</span>
             <div className='progress-bar-wrapper'>
-              <ProgressBar 
-                percent={percent} 
+              <ProgressBar
+                percent={percent}
                 onProgressChanged={onProgressChanged}
               />
             </div>
@@ -260,9 +285,9 @@ const NormalPlayer = (props) => {
             {operatorList.map((item, index) => {
               return (
                 <div className={`icon ${item.name}`} key={item.data}>
-                  <i 
-                    className="iconfont" 
-                    dangerouslySetInnerHTML={{ __html: item.data }} 
+                  <i
+                    className="iconfont"
+                    dangerouslySetInnerHTML={{ __html: item.data }}
                     onClick={e => handleChangeSong(e, index)}
                   >
                   </i>
@@ -271,7 +296,7 @@ const NormalPlayer = (props) => {
             })}
           </Operators>
         </Bottom>
-        <Toast ref={toastRef} text={toastText} time={500}/>
+        <Toast ref={toastRef} text={toastText} time={500} />
       </NormalPlayerContainer>
     </CSSTransition>
   )
@@ -287,12 +312,12 @@ NormalPlayer.defaultProps = {
   // 总时长
   duration: 0,
   // audio 进度改变事件
-  onProgressChanged: () => {},
+  onProgressChanged: () => { },
   // 上一首
-  onHandlePrevPlay: () => {},
+  onHandlePrevPlay: () => { },
   // 下一首
-  onHandleNextPlay: () => {},
-  onChangePopupState: () => {}
+  onHandleNextPlay: () => { },
+  onChangePopupState: () => { }
 }
 
 NormalPlayer.propTypes = {

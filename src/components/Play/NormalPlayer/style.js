@@ -214,3 +214,34 @@ export const Operators = styled.div`
     color: ${style["theme-color"]};
   }
 `;
+
+
+export const LyricContainer = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+`
+
+export const LyricWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  p {
+    line-height: 32px;
+    color: ${style["text-color"]};
+    white-space: normal;
+    font-size: ${style["font-size-l"]};
+    &.current {
+      color: ${style["font-color"]};
+    }
+    &.pure {
+      position: relative;
+      top: 30vh;
+    }
+  }
+`
