@@ -44,6 +44,8 @@ const NormalPlayer = (props) => {
   const lyricLineRef = useRef([]);
   const [isShowLyric, setIsShowLyric] = useState(false);
   const lyricScrollRef = useRef(null);
+  const cdImgRef = useRef(null);
+  const cdRef = useRef(null);
   const {
     audioRef,
     duration,
@@ -217,6 +219,7 @@ const NormalPlayer = (props) => {
     if (normalPlayerRef.current) {
       normalPlayerRef.current.style.display = 'none';
     }
+    setIsShowLyric(false);
   }
 
   useEffect(() => {
@@ -225,11 +228,25 @@ const NormalPlayer = (props) => {
     const BScroll = lyricScrollRef.current.getScroll();
     if (currentLineNum.current > 5) {
       let lineEl = lyricLineRef.current[currentLineNum.current - 5].current;
-      BScroll.scrollToElement(lineEl, 1000);
+      BScroll.scrollToElement(lineEl, 300);
     } else {
-      BScroll.scrollTo(0, 0, 1000);
+      BScroll.scrollTo(0, 0, 300);
     }
   }, [currentLineNum.current])
+
+  useEffect(() => {
+    if (isPlaying) {
+      if (cdRef.current && cdImgRef.current) {
+        // syncTransform(cdRef.current, cdImgRef.current);
+      }
+    }
+  }, [isPlaying])
+
+  const syncTransform = (wrapper, inner) => {
+    const wrapperTransform = getComputedStyle(wrapper).transform;
+    const innerTransform = getComputedStyle(inner).transform;
+    wrapper.style.transform = wrapperTransform === 'none' ? innerTransform : innerTransform.concat("", wrapperTransform);
+  }
 
   return (
     <CSSTransition
@@ -255,10 +272,11 @@ const NormalPlayer = (props) => {
           <h1 className='subtitle'>{getName(currentSong.ar)}</h1>
         </Top>
         <Middle ref={cdWrapperRef} onClick={handleChangeIsShowLyric}>
-          <CDWrapper style={{visibility: isShowLyric ? 'hidden' : 'visible'}}>
-            <div className='cd'>
+          <CDWrapper style={{ visibility: isShowLyric ? 'hidden' : 'visible' }}>
+            <div className='cd' ref={cdRef}>
               <img
-                className={`image ${isPlaying ? 'play' : 'pause'}`}
+                ref={cdImgRef}
+                className={`image play ${isPlaying ? "" : "pause"}`}
                 src={`${currentSong.al.picUrl}?param=400*400`}
                 alt='歌曲CD'
               />
@@ -267,7 +285,7 @@ const NormalPlayer = (props) => {
               {currentPlayingLyric}
             </div>
           </CDWrapper>
-          <LyricContainer style={{visibility: isShowLyric ? 'visible' : 'hidden'}}>
+          <LyricContainer style={{ visibility: isShowLyric ? 'visible' : 'hidden' }}>
             <WrapperScroll probeType={3} ref={lyricScrollRef}>
               <LyricWrapper className="lyric-wrapper">
                 {
