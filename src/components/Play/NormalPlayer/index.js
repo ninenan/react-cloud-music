@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useReducer, useRef, useState } from 'react';
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import animations from 'create-keyframe-animation';
 import { CSSTransition } from 'react-transition-group';
@@ -42,6 +42,8 @@ const NormalPlayer = (props) => {
   const [toastText, setToastText] = useState('');
   const toastRef = useRef(null);
   const lyricLineRef = useRef([]);
+  const [isShowLyric, setIsShowLyric] = useState(false);
+  const lyricScrollRef = useRef(null);
   const {
     audioRef,
     duration,
@@ -153,6 +155,10 @@ const NormalPlayer = (props) => {
     dispatch(changeFullScreen(val));
   }
 
+  const handleChangeIsShowLyric = () => {
+    setIsShowLyric(state => !state);
+  }
+
   const enter = () => {
     if (normalPlayerRef.current) {
       const { x, y, scale } = getPosAndScale();
@@ -213,6 +219,18 @@ const NormalPlayer = (props) => {
     }
   }
 
+  useEffect(() => {
+    if (!lyricScrollRef.current) return
+
+    const BScroll = lyricScrollRef.current.getScroll();
+    if (currentLineNum.current > 5) {
+      let lineEl = lyricLineRef.current[currentLineNum.current - 5].current;
+      BScroll.scrollToElement(lineEl, 1000);
+    } else {
+      BScroll.scrollTo(0, 0, 1000);
+    }
+  }, [currentLineNum.current])
+
   return (
     <CSSTransition
       classNames='normal'
@@ -236,8 +254,8 @@ const NormalPlayer = (props) => {
           <h1 className='title'>{currentSong.name}</h1>
           <h1 className='subtitle'>{getName(currentSong.ar)}</h1>
         </Top>
-        <Middle ref={cdWrapperRef}>
-          <CDWrapper>
+        <Middle ref={cdWrapperRef} onClick={handleChangeIsShowLyric}>
+          <CDWrapper style={{visibility: isShowLyric ? 'hidden' : 'visible'}}>
             <div className='cd'>
               <img
                 className={`image ${isPlaying ? 'play' : 'pause'}`}
@@ -249,15 +267,15 @@ const NormalPlayer = (props) => {
               {currentPlayingLyric}
             </div>
           </CDWrapper>
-          <LyricContainer>
-            <WrapperScroll probeType={3}>
+          <LyricContainer style={{visibility: isShowLyric ? 'visible' : 'hidden'}}>
+            <WrapperScroll probeType={3} ref={lyricScrollRef}>
               <LyricWrapper className="lyric-wrapper">
                 {
                   currentLyricRef.current ? currentLyricRef.current.lines.map((item, index) => {
                     lyricLineRef.current[index] = React.createRef();
                     return (
                       <p
-                        className={`text ${currentLineNum === index ? "current" : ""}`}
+                        className={`text ${currentLineNum.current === index ? "current" : ""}`}
                         key={item + index}
                         ref={lyricLineRef.current[index]}
                       >
@@ -317,7 +335,11 @@ NormalPlayer.defaultProps = {
   onHandlePrevPlay: () => { },
   // 下一首
   onHandleNextPlay: () => { },
-  onChangePopupState: () => { }
+  onChangePopupState: () => { },
+  // 歌词相关
+  currentLineNum: {},
+  currentPlayingLyric: '',
+  currentLyricRef: {},
 }
 
 NormalPlayer.propTypes = {
@@ -329,6 +351,10 @@ NormalPlayer.propTypes = {
   onHandlePrevPlay: PropTypes.func.isRequired,
   onHandleNextPlay: PropTypes.func.isRequired,
   onChangePopupState: PropTypes.func.isRequired,
+  currentLineNum: PropTypes.object,
+  currentLyricRef: PropTypes.object,
+  // 当前播放歌词
+  currentPlayingLyric: PropTypes.string
 }
 
 export default memo(NormalPlayer);
