@@ -1,11 +1,12 @@
 import { ICON_MODE_MAP } from './config';
 export const getCount = (count) => {
-  if (count < 0) return;
+  if (count < 0) return "";
+
   if (count < 10000) {
-    return count;
+    return count + "";
   } else if (Math.floor (count / 10000) < 10000) {
     return Math.floor (count/1000)/10 + "万";
-  } else  {
+  } else {
     return Math.floor (count / 10000000)/ 10 + "亿";
   }
 }
@@ -22,14 +23,26 @@ export const getName = list => {
   return str
 }
 
-export const debounce = (fn, delay) => {
+export const debounce = (fn, delay, immediate = false) => {
   let timer = null;
 
   const debuounced = (...rest) => {
     if (timer) clearTimeout(timer);
-    timer = setTimeout(() => {
-      return fn.apply(this, rest);
-    }, delay);
+
+    if (immediate) {
+      let callNow = !timer;
+      timer = setTimeout(() => {
+        timer = null
+      }, delay);
+
+      if (callNow) {
+        return fn.apply(this, rest);
+      }
+    } else {
+      timer = setTimeout(() => {
+        return fn.apply(this, rest);
+      }, delay);
+    }
   }
 
   debuounced.cancel = () => {
