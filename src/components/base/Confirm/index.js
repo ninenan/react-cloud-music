@@ -2,7 +2,6 @@ import { ConfirmWrapper } from './style'
 import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 import { forwardRef, memo, useState, useImperativeHandle } from 'react';
-import { isPromise } from '../../../help/utils';
 
 const Confirm = forwardRef((props, ref) => {
   const [visable, setVisable] = useState(false);
