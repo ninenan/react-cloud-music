@@ -1,44 +1,47 @@
-import api from '../../../api';
-import * as actionTypes from './constant';
+import { singers } from "../../../api";
+import * as actionTypes from "./constant";
 import { fromJS } from "immutable";
+import { sleep } from "../../../help/utils";
 
-const changeSingerList = data => ({
+const changeSingerList = (data) => ({
   type: actionTypes.CHANGE_SINGER_LIST,
-  data: fromJS(data)
+  data: fromJS(data),
 });
 
-export const changePageCount = data => ({
+export const changePageCount = (data) => ({
   type: actionTypes.CHANGE_PAGE_COUNT,
-  data
+  data,
 });
 
-export const changeEnterLoading = data => ({
+export const changeEnterLoading = (data) => ({
   type: actionTypes.CHANGE_ENTER_LOADING,
-  data
+  data,
 });
 
-export const changeIsHasMore = data => ({
+export const changeIsHasMore = (data) => ({
   type: actionTypes.CHANGE_IS_HAS_MORE,
-  data
+  data,
 });
 
-export const changeIsShowPullDownLoading = data => ({
+export const changeIsShowPullDownLoading = (data) => ({
   type: actionTypes.CHANGE_IS_SHOW_PULL_DOWN_LOADING,
-  data
+  data,
 });
 
-export const changeIsShowPullUpLoading = data => ({
+export const changeIsShowPullUpLoading = (data) => ({
   type: actionTypes.CHANGE_IS_SHOW_PULL_UP_LOADING,
-  data
+  data,
 });
-
-const sleep = (timer) => new Promise(resolve => setTimeout(resolve, timer));
 
 // 获取热门歌手
-export const getHotSingerList = (type = '', alphabet = '') => {
+export const getHotSingerList = (type = "", alphabet = "") => {
   return async (dispatch, getState) => {
     const { pageCount, singerList } = getState().toJS().singers;
-    const res = await api.singers.getHotSingerListRequest(type, alphabet, pageCount);
+    const res = await singers.getHotSingerListRequest(
+      type,
+      alphabet,
+      pageCount
+    );
     const { artists, more } = res;
     const data = !pageCount ? artists : [...singerList, ...artists];
 
@@ -48,15 +51,20 @@ export const getHotSingerList = (type = '', alphabet = '') => {
       dispatch(changeIsShowPullDownLoading(false));
       dispatch(changeIsShowPullUpLoading(false));
     });
-  }
+  };
 };
 
 // 根据类型和字母获取歌手列表
-export const getSingerListByTypeOrAlphabet = (type = '', alphabet = '') => {
+export const getSingerListByTypeOrAlphabet = (type = "", alphabet = "") => {
   return async (dispatch, getState) => {
     const { pageCount, singerList } = getState().toJS().singers;
 
-    const { artists, more } = await api.singers.getSingerListByTypeOrAlphabetRequest(type, alphabet, pageCount);
+    const { artists, more } =
+      await singers.getSingerListByTypeOrAlphabetRequest(
+        type,
+        alphabet,
+        pageCount
+      );
     const data = !pageCount ? [...artists] : [...singerList, ...artists];
 
     sleep(2000).then(() => {
@@ -65,7 +73,5 @@ export const getSingerListByTypeOrAlphabet = (type = '', alphabet = '') => {
       dispatch(changeIsShowPullDownLoading(false));
       dispatch(changeIsShowPullUpLoading(false));
     });
-  }
-}
-
-
+  };
+};
